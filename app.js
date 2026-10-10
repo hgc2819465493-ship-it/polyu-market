@@ -7,9 +7,32 @@ const SITE_CONFIG = {
 };
 /* ==================================================================== */
 
+/* ===== Data layer =====
+ * All persistence goes through Store. UI code never touches localStorage for data.
+ * To move to Supabase later, re-implement these four async methods, e.g.
+ *   list:   (c) => supabase.from(c).select('*').order('t', { ascending: false }).then(r => r.data)
+ *   create: (c, d) => supabase.from(c).insert(d).select().single().then(r => r.data)
+ *   update: (c, id, p) => supabase.from(c).update(p).eq('id', id).select().single().then(r => r.data)
+ *   remove: (c, id) => supabase.from(c).delete().eq('id', id).then(() => true)
+ * Collections: listings, daigou, errands, reports.
+ */
 const STORE_VER = 'v2';
-const LS_L = 'pm_listings_' + STORE_VER, LS_R = 'pm_requests_' + STORE_VER, LS_LANG = 'pm_lang';
-['pm_listings_v1', 'pm_requests_v1'].forEach(k => localStorage.removeItem(k)); // drop old seeded demo data
+const Store = (() => {
+  const KEYS = { listings: 'pm_listings_', daigou: 'pm_requests_', errands: 'pm_errands_', reports: 'pm_reports_' };
+  ['pm_listings_v1', 'pm_requests_v1'].forEach(k => localStorage.removeItem(k)); // drop old seeded demo data
+  const key = c => { if (!KEYS[c]) throw new Error('Unknown collection: ' + c); return KEYS[c] + STORE_VER; };
+  const read = c => { try { const v = JSON.parse(localStorage.getItem(key(c))); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+  const write = (c, arr) => localStorage.setItem(key(c), JSON.stringify(arr));
+  const uid = c => c[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  return {
+    async list(c) { return read(c).sort((a, b) => b.t - a.t); },
+    async create(c, data) { const item = { ...data, id: uid(c), t: Date.now() }; write(c, [item, ...read(c)]); return item; },
+    async update(c, id, patch) { let out = null; write(c, read(c).map(x => x.id === id ? (out = { ...x, ...patch, id }) : x)); return out; },
+    async remove(c, id) { write(c, read(c).filter(x => x.id !== id)); return true; },
+  };
+})();
+/* ====================== */
+const LS_LANG = 'pm_lang', LS_HALL = 'pm_hall';
 
 const I18N = {
   zh: {
@@ -205,9 +228,13 @@ const DAY = 864e5;
 let lang = localStorage.getItem(LS_LANG) === 'en' ? 'en' : 'zh';
 const t = (k, v = {}) => (I18N[lang][k] ?? I18N.zh[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
 
-const load = k => { try { const v = JSON.parse(localStorage.getItem(k)); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
-let listings = load(LS_L), requests = load(LS_R);
-const save = () => { localStorage.setItem(LS_L, JSON.stringify(listings)); localStorage.setItem(LS_R, JSON.stringify(requests)); };
+let listings = [], requests = [], errands = [];
+const COL = { l: 'listings', r: 'daigou', e: 'errands' };
+async function refresh(...cols) {
+  const want = cols.length ? cols : ['listings', 'daigou', 'errands'];
+  const got = await Promise.all(want.map(c => Store.list(c)));
+  want.forEach((c, i) => { if (c === 'listings') listings = got[i]; else if (c === 'daigou') requests = got[i]; else errands = got[i]; });
+}
 const state = { cat: 'all', q: '', sort: 'new', dg: 'all' };
 const ymd = d => { const x = new Date(d); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; };
 const ago = ts => { const m = (Date.now() - ts) / 6e4; return m < 60 ? t('ago_m', { n: Math.max(1, m | 0) }) : m < 1440 ? t('ago_h', { n: m / 60 | 0 }) : t('ago_d', { n: m / 1440 | 0 }); };
@@ -328,9 +355,8 @@ function renderDg() {
 }
 
 /* ---------- hall errands ---------- */
-const LS_E = 'pm_errands_' + STORE_VER;
 const ER_TYPES = ['parcel', 'food'];
-const HALLS = ['hh', 'hmt', 'other'];
+const HALLS = ['hh', 'hmt'];
 Object.assign(I18N.zh, {
   fabReq: '發佈需求', fabErr: '發佈跑腳', navErrands: '宿舍跑腳', erKicker: '宿舍跑腳 · 互助', erTitle: '快遞外賣，', erTag: '順路同學幫你攞上 hall',
   erSub: '順豐櫃、郵件室嘅包裹，或者喺門口等緊嘅外賣，搵順路同學幫你帶上宿舍。跑腳費由你自訂，雙方直接交收，網站分文不收。',
@@ -338,11 +364,11 @@ Object.assign(I18N.zh, {
   eFee: '跑腳費 (HKD，選填)', ePickup: '取件地點', ePickupPh: '例如：Core S 順豐智能櫃、校園郵件室、正門外賣員',
   eHall: '送到宿舍', eFloor: '座數 / 樓層（選填）', eFloorPh: '例如：B 座 12 樓', eRoomHint: '為保障私隱，毋須填寫完整房號，接單後再私下確認。',
   eDate: '日期', eFrom: '由', eTo: '至', eNotePh: '件數、大概大小、外賣平台……（切勿在此公開取件碼）', submitErr: '發佈跑腳單',
-  hall_all: '全部宿舍', hall_hh: '紅磡學生宿舍', hall_hmt: '何文田學生宿舍', hall_other: '其他 / 校外宿舍',
+  hall_hh: '紅磡學生宿舍', hall_hmt: '何文田學生宿舍', openCount: '張待接單', totalCount: '張總數',
   pickup: '取件', dropoff: '送到', window: '時間', fee: '跑腳費', feeNone: '未定 / 面議',
   er_open: '等待接單', er_taken: '已接單', er_done: '已完成', markDone: '標記完成',
   erTakeText: '接單後會顯示對方聯絡方法。請先私下確認取件碼及交收細節。', tErr: '跑腳單已發佈！', tDone: '已標記完成',
-  erEmptyTitle: '暫時未有跑腳單', erEmptyText: '有快遞或者外賣想人幫手攞上 hall？發佈第一張跑腳單啦。', erEmptyBtn: '發佈第一張跑腳單', erNoMatch: '呢個篩選暫時未有跑腳單。',
+  erEmptyTitle: '{hall}暫時未有跑腳單', erEmptyText: '住喺{hall}？有快遞或者外賣想人幫手攞上 hall，發佈第一張跑腳單啦。', erEmptyBtn: '發佈第一張跑腳單', erNoMatch: '呢個宿舍暫時未有呢類跑腳單。',
   erSafeTitle: '安全提示', erSafeBody: '交收時當面核對物品；取件碼請私訊傳送，切勿公開張貼；跑腳費由雙方直接交收，網站不收取任何費用。',
 });
 Object.assign(I18N.en, {
@@ -352,28 +378,33 @@ Object.assign(I18N.en, {
   eFee: 'Runner fee (HKD, optional)', ePickup: 'Pick-up location', ePickupPh: 'e.g. SF locker at Core S, campus mailroom, rider at main gate',
   eHall: 'Deliver to hall', eFloor: 'Block / floor (optional)', eFloorPh: 'e.g. Block B, 12/F', eRoomHint: 'For privacy, no full room number needed — confirm it privately once someone takes the errand.',
   eDate: 'Date', eFrom: 'From', eTo: 'To', eNotePh: 'Number of items, size, delivery app… (never post pickup codes here)', submitErr: 'Post errand',
-  hall_all: 'All halls', hall_hh: 'Hung Hom Halls', hall_hmt: 'Homantin Halls', hall_other: 'Other / off-campus',
+  hall_hh: 'Hung Hom Halls', hall_hmt: 'Homantin Halls', openCount: 'open', totalCount: 'total',
   pickup: 'Pick up', dropoff: 'Deliver to', window: 'Time', fee: 'Runner fee', feeNone: 'Not set / negotiable',
   er_open: 'Open', er_taken: 'Taken', er_done: 'Completed', markDone: 'Mark completed',
   erTakeText: 'Once you take it, the poster\u2019s contact will be shown. Get the pickup code and details privately.', tErr: 'Errand posted!', tDone: 'Marked as completed',
-  erEmptyTitle: 'No errands yet', erEmptyText: 'Got a parcel or takeaway you\u2019d like brought up to your hall? Post the first errand.', erEmptyBtn: 'Post the first errand', erNoMatch: 'No errands match this filter yet.',
+  erEmptyTitle: 'No errands at {hall} yet', erEmptyText: 'Live at {hall}? Got a parcel or takeaway you\u2019d like brought up? Post the first errand.', erEmptyBtn: 'Post the first errand', erNoMatch: 'No errands of this type at this hall yet.',
   erSafeTitle: 'Stay safe', erSafeBody: 'Check the item together at hand-over; send pickup codes privately, never post them publicly; runner fees are settled directly between you — the site takes nothing.',
 });
-let errands = [];
-try { const v = JSON.parse(localStorage.getItem(LS_E)); if (Array.isArray(v)) errands = v; } catch (e) {}
-const saveE = () => localStorage.setItem(LS_E, JSON.stringify(errands));
-const erState = { type: 'all', hall: 'all' };
+const erState = { type: 'all', hall: HALLS.includes(localStorage.getItem(LS_HALL)) ? localStorage.getItem(LS_HALL) : 'hh' };
+function setHall(h) { erState.hall = h; localStorage.setItem(LS_HALL, h); renderErrands(); }
 const safetyHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('erSafeTitle')}</b>${lang === 'zh' ? '：' : ': '}${t('erSafeBody')}</p></div>`;
 const ER_ICON = { parcel: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>', food: '<path d="M5 11h14a7 7 0 0 1-14 0z"/><path d="M3 11h18M9 7c0-1.5 1-2 1-3M13 7c0-1.5 1-2 1-3"/>' };
 function renderErrands() {
   $('#erSafety').innerHTML = safetyHtml();
   $('#erTypes').innerHTML = ['all', ...ER_TYPES].map(x => `<button class="chip ${erState.type === x ? 'active' : ''}" data-ertype="${x}">${t('type_' + x)}</button>`).join('');
-  $('#erHallFilter').innerHTML = ['all', ...HALLS].map(h => `<option value="${h}">${t('hall_' + h)}</option>`).join(''); $('#erHallFilter').value = erState.hall;
+  $('#hallSwitch').innerHTML = HALLS.map(h => {
+    const all = errands.filter(x => x.hall === h), open = all.filter(x => x.status === 'open').length;
+    return `<button class="hall-card ${erState.hall === h ? 'active' : ''}" data-hall="${h}" role="tab" aria-selected="${erState.hall === h}">
+      <span class="hall-name">${t('hall_' + h)}</span><span class="hall-alt">${I18N[lang === 'zh' ? 'en' : 'zh']['hall_' + h]}</span>
+      <span class="hall-count"><b>${open}</b> ${t('openCount')}${all.length > open ? ` · ${all.length} ${t('totalCount')}` : ''}</span></button>`;
+  }).join('');
   const order = { open: 0, taken: 1, done: 2 };
-  const arr = errands.filter(x => (erState.type === 'all' || x.type === erState.type) && (erState.hall === 'all' || x.hall === erState.hall))
+  const inHall = errands.filter(x => x.hall === erState.hall);
+  const arr = inHall.filter(x => erState.type === 'all' || x.type === erState.type)
     .sort((a, b) => order[a.status] - order[b.status] || b.t - a.t);
   if (!arr.length) {
-    $('#errList').innerHTML = errands.length ? `<div class="empty-card">${EMPTY_ART}<p>${t('erNoMatch')}</p></div>` : emptyBlock(t('erEmptyTitle'), t('erEmptyText'), t('erEmptyBtn'), 'err');
+    const hn = t('hall_' + erState.hall);
+    $('#errList').innerHTML = inHall.length ? `<div class="empty-card">${EMPTY_ART}<p>${t('erNoMatch')}</p></div>` : emptyBlock(t('erEmptyTitle', { hall: hn }), t('erEmptyText', { hall: hn }), t('erEmptyBtn'), 'err');
     return;
   }
   $('#errList').innerHTML = arr.map(x => {
@@ -382,7 +413,7 @@ function renderErrands() {
       : `<button class="btn btn-ghost" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button>`;
     return `<div class="req ${x.status === 'open' ? 'open' : 'taken'}">
       <div class="req-top"><div class="flag er-${x.type}"><svg viewBox="0 0 24 24" aria-hidden="true">${ER_ICON[x.type]}</svg></div>
-        <div class="req-h"><h4>${t('type_' + x.type)} · ${t('hall_' + x.hall)}${x.floor ? ` <span class="muted">${esc(x.floor)}</span>` : ''}</h4>
+        <div class="req-h"><h4>${t('type_' + x.type)}${x.floor ? ` <span class="muted">${esc(x.floor)}</span>` : ''}</h4>
         <div class="req-info"><span>${esc(x.who === '__me' ? t('me') : x.who)} · ${ago(x.t)}</span></div></div></div>
       <div class="er-grid">
         <span>${t('pickup')}</span><b>${esc(x.pickup)}</b>
@@ -401,7 +432,7 @@ function renderErrands() {
 
 /* ---------- helpers ---------- */
 function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); }
-function show(sel) { $$('.modal').forEach(m => m.hidden = true); $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
+function show(sel) { $$('.modal').forEach(m => m.hidden = true); if (sel === '#errModal') $('#errHall').value = erState.hall; $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
 function closeModal(m) { if (!m) return; m.hidden = true; if (m.id === 'docModal') curDoc = null; if ($$('.modal').every(x => x.hidden)) document.body.style.overflow = ''; }
 function hideAll() { $$('.modal').forEach(m => m.hidden = true); document.body.style.overflow = ''; }
 let tt; function toast(msg) { const el = $('#toast'); el.textContent = msg; el.hidden = false; clearTimeout(tt); tt = setTimeout(() => el.hidden = true, 2400); }
@@ -414,17 +445,18 @@ function go(view) {
 let pendingTake = null;
 
 /* ---------- events ---------- */
-document.addEventListener('click', e => {
+document.addEventListener('click', async e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-ertake],[data-erdone],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-ertake],[data-erdone],[data-hall],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
   else if (d.cat) { state.cat = d.cat; renderCats(); renderGrid(); }
   else if (d.dg) { state.dg = d.dg; renderDg(); }
   else if (d.ertype) { erState.type = d.ertype; renderErrands(); }
+  else if (d.hall) setHall(d.hall);
   else if (d.ertake) { const x = errands.find(y => y.id === d.ertake); if (!x) return; pendingTake = { kind: 'e', id: x.id }; $('#confirmText').textContent = t('erTakeText'); show('#confirmModal'); }
-  else if (d.erdone) { const x = errands.find(y => y.id === d.erdone); if (x) { x.status = 'done'; saveE(); renderErrands(); toast(t('tDone')); } }
+  else if (d.erdone) { await Store.update('errands', d.erdone, { status: 'done' }); await refresh('errands'); renderErrands(); toast(t('tDone')); }
   else if (d.nav) { e.preventDefault(); go(d.nav); }
   else if (el.hasAttribute('data-close')) closeModal(el.closest('.modal'));
   else if (d.doc) { e.preventDefault(); openDoc(d.doc); }
@@ -432,8 +464,7 @@ document.addEventListener('click', e => {
   else if (d.del) {
     const [k, id] = d.del.split(':');
     if (!confirm(t('delConfirm'))) return;
-    if (k === 'l') listings = listings.filter(x => x.id !== id); else if (k === 'e') errands = errands.filter(x => x.id !== id); else requests = requests.filter(x => x.id !== id);
-    save(); saveE(); hideAll(); renderAll(); toast(t('tDeleted'));
+    await Store.remove(COL[k], id); await refresh(COL[k]); hideAll(); renderAll(); toast(t('tDeleted'));
   }
   else if (d.copy) { navigator.clipboard?.writeText(d.copy).catch(() => {}); toast(t('tCopied') + d.copy); }
   else if (d.action) show({ post: '#postModal', req: '#reqModal', err: '#errModal' }[d.action]);
@@ -443,17 +474,14 @@ document.addEventListener('click', e => {
   }
   else if (el.classList.contains('card')) openDetail(d.id);
 });
-$('#reportForm').addEventListener('submit', e => {
+$('#reportForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  const reps = JSON.parse(localStorage.getItem('pm_reports_' + STORE_VER) || '[]');
-  reps.push({ ...reportTarget, reason: f.reason, note: f.note, t: Date.now() });
-  localStorage.setItem('pm_reports_' + STORE_VER, JSON.stringify(reps));
+  await Store.create('reports', { target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note });
   e.target.reset(); closeModal($('#reportModal')); toast(t('tReported'));
 });
-$('#confirmOk').onclick = () => {
+$('#confirmOk').onclick = async () => {
   const pt = pendingTake || {};
-  const r = (pt.kind === 'e' ? errands : requests).find(x => x.id === pt.id);
-  if (r) { r.status = 'taken'; save(); saveE(); renderDg(); renderErrands(); toast(t('tTaken')); }
+  if (pt.id && await Store.update(COL[pt.kind], pt.id, { status: 'taken' })) { await refresh(COL[pt.kind]); renderDg(); renderErrands(); toast(t('tTaken')); }
   hideAll();
 };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const top = ['#docModal', '#reportModal'].map(x => $(x)).find(m => !m.hidden); top ? closeModal(top) : hideAll(); } if (e.key === 'Enter' && e.target.classList?.contains('card')) openDetail(e.target.dataset.id); });
@@ -462,23 +490,25 @@ $('#q').addEventListener('input', e => { state.q = e.target.value; renderGrid();
 $('#sort').addEventListener('change', e => { state.sort = e.target.value; renderGrid(); });
 $('#openPost').onclick = () => show(!$('#view-daigou').hidden ? '#reqModal' : !$('#view-errands').hidden ? '#errModal' : '#postModal');
 $('#openErr').onclick = () => show('#errModal');
-$('#erHallFilter').addEventListener('change', e => { erState.hall = e.target.value; renderErrands(); });
-$('#errForm').addEventListener('submit', e => {
+$('#errForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  errands.unshift({ id: 'e' + Date.now(), type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open', t: Date.now() });
-  saveE(); e.target.reset(); applyLang(); hideAll(); erState.type = 'all'; erState.hall = 'all'; renderErrands(); toast(t('tErr'));
+  await Store.create('errands', { type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' });
+  await refresh('errands'); e.target.reset(); applyLang(); hideAll(); erState.type = 'all'; setHall(f.hall); toast(t('tErr'));
 });
 $('#openReq').onclick = () => show('#reqModal');
-$('#postForm').addEventListener('submit', e => {
+$('#postForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  listings.unshift({ id: 'l' + Date.now(), title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), ctype: f.ctype, contact: f.contact.trim(), spot: f.spot, seller: '__me', t: Date.now() });
-  save(); e.target.reset(); applyLang(); hideAll(); state.cat = 'all'; state.q = ''; $('#q').value = ''; go('market'); renderAll(); toast(t('tPosted'));
+  await Store.create('listings', { title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), ctype: f.ctype, contact: f.contact.trim(), spot: f.spot, seller: '__me' });
+  await refresh('listings'); e.target.reset(); applyLang(); hideAll(); state.cat = 'all'; state.q = ''; $('#q').value = ''; go('market'); renderAll(); toast(t('tPosted'));
 });
-$('#reqForm').addEventListener('submit', e => {
+$('#reqForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  requests.unshift({ id: 'r' + Date.now(), item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open', t: Date.now() });
-  save(); e.target.reset(); applyLang(); hideAll(); state.dg = 'all'; renderDg(); toast(t('tReq'));
+  await Store.create('daigou', { item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' });
+  await refresh('daigou'); e.target.reset(); applyLang(); hideAll(); state.dg = 'all'; renderDg(); toast(t('tReq'));
 });
 
-applyLang();
-if (['#daigou', '#errands'].includes(location.hash)) go(location.hash.slice(1));
+(async () => {
+  await refresh();
+  applyLang();
+  if (['#daigou', '#errands'].includes(location.hash)) go(location.hash.slice(1));
+})();
