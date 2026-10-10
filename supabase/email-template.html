@@ -1,0 +1,7 @@
+<!-- Paste into Supabase Auth > Email Templates (Magic Link + Confirm signup) once custom SMTP is configured. -->
+<div style="font-family:-apple-system,'PingFang HK','Noto Sans TC',sans-serif;max-width:480px;margin:auto;padding:24px;color:#1b1b1f">
+<h2 style="color:#8C1D2F;margin:0 0 12px">理大二手網 · PolyU Marketplace</h2>
+<p>你的登入驗證碼 / Your sign-in code:</p>
+<p style="font-size:32px;letter-spacing:8px;font-weight:700;margin:16px 0;color:#8C1D2F">{{ .Token }}</p>
+<p>或直接按此登入 / Or sign in with this link: <a href="{{ .ConfirmationURL }}">登入 Sign in</a></p>
+<p style="color:#6e6a70;font-size:12px">驗證碼 10 分鐘內有效。如你沒有要求登入，請忽略此電郵。<br>The code expires in 10 minutes. If you didn't request this, ignore this email.<br>本網站為學生個人項目，與香港理工大學無關。</p></div>

@@ -20,6 +20,7 @@
     <div class="lang" role="group" aria-label="Language">
       <button data-lang="zh">繁</button><button data-lang="en">EN</button>
     </div>
+    <button class="me-btn" id="meBtn" type="button"></button>
     <button class="btn btn-primary btn-post" id="openPost"><span class="plus">＋</span><span data-i18n="post"></span></button>
   </div>
 </header>
@@ -88,6 +89,12 @@
     <div class="req-list" id="errList"></div>
   </div>
 </section>
+<section id="view-me" class="view" hidden>
+  <div class="wrap me-wrap">
+    <h1 class="me-h" data-i18n="myTitle"></h1>
+    <div id="meBody"></div>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
@@ -108,7 +115,7 @@
 <div class="modal" id="postModal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-close aria-label="close">&times;</button>
-    <h3 data-i18n="postTitle"></h3>
+    <h3 class="modal-title" data-i18n="postTitle"></h3>
     <form id="postForm" class="form">
       <label><span data-i18n="fTitle"></span><input name="title" required maxlength="60" data-i18n-ph="fTitlePh"></label>
       <div class="row">
@@ -122,6 +129,7 @@
         <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
       </div>
       <label><span data-i18n="fSpot"></span><select name="spot" id="postSpot"></select></label>
+      <div class="photos" data-photos><span class="pf-label" data-i18n="photos"></span><div class="pf-grid"></div></div>
       <div class="consent">
         <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
         <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
@@ -134,7 +142,7 @@
 <div class="modal" id="reqModal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-close aria-label="close">&times;</button>
-    <h3 data-i18n="reqTitle"></h3>
+    <h3 class="modal-title" data-i18n="reqTitle"></h3>
     <form id="reqForm" class="form">
       <label><span data-i18n="rItem"></span><input name="item" required maxlength="60" data-i18n-ph="rItemPh"></label>
       <div class="row">
@@ -146,6 +154,7 @@
         <label><span data-i18n="rTip"></span><input name="tip" type="number" min="0" placeholder="30"></label>
       </div>
       <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="300" data-i18n-ph="rNotePh"></textarea></label>
+      <div class="photos" data-photos><span class="pf-label" data-i18n="photosOpt"></span><div class="pf-grid"></div></div>
       <div class="row">
         <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
         <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
@@ -162,7 +171,7 @@
 <div class="modal" id="errModal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-close aria-label="close">&times;</button>
-    <h3 data-i18n="errFormTitle"></h3>
+    <h3 class="modal-title" data-i18n="errFormTitle"></h3>
     <form id="errForm" class="form">
       <div class="row">
         <label><span data-i18n="eType"></span><select name="type" id="errType"></select></label>
@@ -180,6 +189,7 @@
         <label><span data-i18n="eTo"></span><input name="to" type="time" required></label>
       </div>
       <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="200" data-i18n-ph="eNotePh"></textarea></label>
+      <div class="photos" data-photos><span class="pf-label" data-i18n="photosOpt"></span><div class="pf-grid"></div></div>
       <div class="row">
         <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
         <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
@@ -193,11 +203,43 @@
   </div>
 </div>
 
-<div class="modal" id="confirmModal" hidden>
+<div class="modal" id="takeModal" hidden>
   <div class="modal-card modal-sm" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
     <h3 data-i18n="takeTitle"></h3>
-    <p id="confirmText" class="muted"></p>
-    <div class="row-btns"><button class="btn btn-ghost" data-close data-i18n="cancel"></button><button class="btn btn-primary" id="confirmOk" data-i18n="takeOk"></button></div>
+    <p id="takeText" class="muted"></p>
+    <form id="takeForm" class="form">
+      <div class="row">
+        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
+        <label><span data-i18n="fContact"></span><input name="contact" required maxlength="60" data-i18n-ph="fContactPh"></label>
+      </div>
+      <div class="row-btns"><button class="btn btn-ghost" type="button" data-close data-i18n="cancel"></button><button class="btn btn-primary" type="submit" data-i18n="takeOk"></button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="loginModal" hidden>
+  <div class="modal-card modal-sm login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <div class="login-mark">理</div>
+    <h3 id="loginTitle" data-i18n="loginTitle"></h3>
+    <div id="loginStep1">
+      <p class="muted" data-i18n="loginIntro"></p>
+      <form id="loginForm1" class="form">
+        <label><span data-i18n="email"></span><input id="loginEmail" type="email" required autocomplete="email" inputmode="email" maxlength="254" data-i18n-ph="emailPh"></label>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="sendCode"></button>
+      </form>
+      <p class="hint" data-i18n="loginHint"></p>
+    </div>
+    <div id="loginStep2" hidden>
+      <p class="muted" id="codeSentText"></p>
+      <form id="loginForm2" class="form">
+        <label><span data-i18n="code"></span><input id="loginCode" class="code-input" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="••••••"></label>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="verify"></button>
+      </form>
+      <button class="link-btn" type="button" data-action="resend" data-i18n="changeEmail"></button>
+    </div>
+    <p class="hint login-legal"><a href="#" data-doc="terms" data-i18n="docTerms"></a> · <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
   </div>
 </div>
 
