@@ -371,3 +371,13 @@ button:disabled{opacity:.6;cursor:wait}
   body.in-chat .btn-post,body.in-chat .footer{display:none}
 }
 @media (max-width:560px){.msg-label{display:none}.msg-btn{padding:6px 9px}}
+/* mobile header: two rows (brand + actions / full-width tabs) */
+@media (max-width:560px){
+  .topbar-in{flex-wrap:wrap;height:auto;padding-top:8px;padding-bottom:8px;row-gap:8px}
+  .logo{margin-right:auto}
+  .logo-text{display:flex}
+  .nav{order:10;width:100%;margin-left:0}
+  .nav-btn{flex:1;padding:7px 4px}
+  .chat-shell{height:calc(100vh - 101px);height:calc(100dvh - 101px)}
+}
+@media (max-width:340px){.logo-text{display:none}}
