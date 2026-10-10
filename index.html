@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>理大二手網 · PolyU Marketplace</title>
+<meta name="description" content="理大同學專屬的二手交易及代購平台 · Second-hand & purchase-on-behalf marketplace for PolyU students">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%238C1D2F'/><text x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'>理</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="logo" href="#" data-nav="market"><span class="logo-mark">理</span><span class="logo-text"><span data-i18n="brand"></span><small data-i18n="brandSub"></small></span></a>
+    <nav class="nav">
+      <button class="nav-btn active" data-nav="market" data-i18n="navMarket"></button>
+      <button class="nav-btn" data-nav="daigou" data-i18n="navDaigou"></button>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="zh">繁</button><button data-lang="en">EN</button>
+    </div>
+    <button class="btn btn-primary btn-post" id="openPost"><span class="plus">＋</span><span data-i18n="post"></span></button>
+  </div>
+</header>
+
+<main>
+<section id="view-market" class="view">
+  <div class="hero">
+    <div class="wrap hero-in">
+      <p class="hero-kicker" data-i18n="heroKicker"></p>
+      <h1><span data-i18n="brand"></span><em data-i18n="heroTag"></em></h1>
+      <p class="hero-sub" data-i18n="heroSub"></p>
+      <form class="search" id="searchForm">
+        <svg class="search-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" data-i18n-ph="searchPh" autocomplete="off">
+        <button class="btn btn-primary" type="submit" data-i18n="search"></button>
+      </form>
+      <ul class="hero-points">
+        <li data-i18n="pt1"></li><li data-i18n="pt2"></li><li data-i18n="pt3"></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cats" id="cats"></div>
+    <div class="toolbar">
+      <h2 id="listTitle"></h2>
+      <select id="sort" aria-label="sort">
+        <option value="new" data-i18n="sortNew"></option>
+        <option value="low" data-i18n="sortLow"></option>
+        <option value="high" data-i18n="sortHigh"></option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden></div>
+  </div>
+</section>
+
+<section id="view-daigou" class="view" hidden>
+  <div class="hero hero-dg">
+    <div class="wrap hero-in">
+      <p class="hero-kicker" data-i18n="dgKicker"></p>
+      <h1><span data-i18n="dgTitle"></span><em data-i18n="dgTag"></em></h1>
+      <p class="hero-sub" data-i18n="dgSub"></p>
+      <button class="btn btn-light" id="openReq"><span class="plus">＋</span><span data-i18n="postReq"></span></button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="scam-tip" id="dgScam"></div>
+    <div class="cats" id="dgFilters"></div>
+    <div class="req-list" id="reqList"></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <nav class="foot-links"><a href="#" data-doc="about" data-i18n="docAbout"></a><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><a href="#" data-doc="terms" data-i18n="docTerms"></a><a href="#" data-doc="privacy" data-i18n="docPrivacy"></a><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a></nav>
+    <p><b data-i18n="brand"></b> · <span data-i18n="foot1"></span></p>
+    <p class="muted" data-i18n="foot2"></p>
+  </div>
+</footer>
+
+<div class="modal" id="detailModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="postModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <h3 data-i18n="postTitle"></h3>
+    <form id="postForm" class="form">
+      <label><span data-i18n="fTitle"></span><input name="title" required maxlength="60" data-i18n-ph="fTitlePh"></label>
+      <div class="row">
+        <label><span data-i18n="fCat"></span><select name="cat" id="postCat"></select></label>
+        <label><span data-i18n="fPrice"></span><input name="price" type="number" min="0" required placeholder="80"></label>
+      </div>
+      <label><span data-i18n="fCond"></span><select name="cond" id="postCond"></select></label>
+      <label><span data-i18n="fDesc"></span><textarea name="desc" rows="3" maxlength="400" data-i18n-ph="fDescPh"></textarea></label>
+      <div class="row">
+        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
+        <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
+      </div>
+      <label><span data-i18n="fSpot"></span><select name="spot" id="postSpot"></select></label>
+      <div class="consent">
+        <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
+        <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" data-i18n="submitPost"></button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="reqModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <h3 data-i18n="reqTitle"></h3>
+    <form id="reqForm" class="form">
+      <label><span data-i18n="rItem"></span><input name="item" required maxlength="60" data-i18n-ph="rItemPh"></label>
+      <div class="row">
+        <label><span data-i18n="rFrom"></span><select name="from" id="reqFrom"></select></label>
+        <label><span data-i18n="rBudget"></span><input name="budget" type="number" min="0" required placeholder="300"></label>
+      </div>
+      <div class="row">
+        <label><span data-i18n="rDeadline"></span><input name="deadline" type="date" required></label>
+        <label><span data-i18n="rTip"></span><input name="tip" type="number" min="0" placeholder="30"></label>
+      </div>
+      <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="300" data-i18n-ph="rNotePh"></textarea></label>
+      <div class="row">
+        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
+        <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
+      </div>
+      <div class="consent">
+        <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
+        <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" data-i18n="submitReq"></button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="confirmModal" hidden>
+  <div class="modal-card modal-sm" role="dialog" aria-modal="true">
+    <h3 data-i18n="takeTitle"></h3>
+    <p id="confirmText" class="muted"></p>
+    <div class="row-btns"><button class="btn btn-ghost" data-close data-i18n="cancel"></button><button class="btn btn-primary" id="confirmOk" data-i18n="takeOk"></button></div>
+  </div>
+</div>
+
+<div class="modal" id="docModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <div id="docBody" class="doc"></div>
+  </div>
+</div>
+
+<div class="modal" id="reportModal" hidden>
+  <div class="modal-card modal-sm" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <h3 data-i18n="reportTitle"></h3>
+    <form id="reportForm" class="form">
+      <p class="muted small" id="reportTarget"></p>
+      <label><span data-i18n="reportReason"></span><select name="reason" id="reportReason"></select></label>
+      <label><span data-i18n="reportNote"></span><textarea name="note" rows="2" maxlength="300"></textarea></label>
+      <p class="muted small" id="reportContact"></p>
+      <button class="btn btn-primary btn-block" type="submit" data-i18n="reportSubmit"></button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

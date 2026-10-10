@@ -1,0 +1,7 @@
+shots/
+*.zip
+aired-result.json
+publish/
+*.token
+.env
+.DS_Store
