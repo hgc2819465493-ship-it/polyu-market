@@ -36,5 +36,14 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 - v1 tables were renamed `legacy_*_v1` (no grants) and kept for reference.
 - `supabase/schema.sql` is the superseded v1 (owner-token) schema.
 
+## 管理 / Moderation (`supabase/schema_admin.sql`, applied)
+- 管理員名單只存在資料庫：`public.admins`（user id），由 `public.is_admin()` 檢查；前端「管理」按鈕只是介面，所有權限由 RLS / RPC 執行。
+  Admin rights live only in the DB (`public.admins`, checked by `public.is_admin()`); the UI button is cosmetic.
+- 種子：`public.admin_emails`（現為 2819465493@qq.com）。新註冊而電郵在名單上的帳戶會自動成為管理員（只限註冊時；之後改電郵不會獲得權限）。
+- 新增管理員 / Add an admin (SQL editor): `insert into public.admins (user_id) select id from auth.users where email = '...';`
+- 權力 / Powers (RPCs): `pm_admin_hide`, `pm_admin_delete` (returns photo paths, client removes them), `pm_admin_report` (handled / reopen), `pm_admin_ban` (cannot ban admins).
+  Admins can read `reports`, `bans`, `mod_log` and all posts (incl. hidden / removed). Every action is written to `mod_log`.
+- 封鎖 / Bans (`public.bans`): DB triggers block posting and 接單, storage policy blocks photo uploads.
+
 ## 部署 / Deploy
 GitHub Pages from `main` (root). Push → Pages rebuilds automatically.

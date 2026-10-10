@@ -7,4 +7,5 @@ select cron.schedule('pm_retention', '30 19 * * *', $$
   delete from public.errands  where date < current_date - 30 or (status = 'cancelled' and updated_at < now() - interval '30 days');
   delete from public.listings where created_at < now() - interval '180 days' or (status in ('sold','removed') and updated_at < now() - interval '60 days');
   delete from public.reports  where created_at < now() - interval '365 days';
+  delete from public.mod_log  where created_at < now() - interval '365 days';
 $$);

@@ -20,6 +20,7 @@
     <div class="lang" role="group" aria-label="Language">
       <button data-lang="zh">繁</button><button data-lang="en">EN</button>
     </div>
+    <button class="admin-btn" id="adminBtn" type="button" data-nav="admin" hidden>🛡 <span data-i18n="navAdmin"></span></button>
     <button class="me-btn" id="meBtn" type="button"></button>
     <button class="btn btn-primary btn-post" id="openPost"><span class="plus">＋</span><span data-i18n="post"></span></button>
   </div>
@@ -87,6 +88,12 @@
     <div class="scam-tip" id="erSafety"></div>
     <div class="cats" id="erTypes"></div>
     <div class="req-list" id="errList"></div>
+  </div>
+</section>
+<section id="view-admin" class="view" hidden>
+  <div class="wrap me-wrap">
+    <h1 class="me-h" data-i18n="adminTitle"></h1>
+    <div id="adminBody"></div>
   </div>
 </section>
 <section id="view-me" class="view" hidden>

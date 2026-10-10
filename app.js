@@ -128,9 +128,9 @@ const DOCS = {
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
       <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式。請勿提供不必要的個人資料。</p>
       <h4>收集目的</h4><p>用作登入及管理你的帳戶與內容、在網站上顯示你的放售或需求、讓買賣或接單雙方聯絡，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
-      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。除法律要求外，我們不會向第三方披露你的資料。</p>
+      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。網站管理員為處理舉報及維護秩序，可查閱舉報紀錄及所有帖子（包括已隱藏者），並可隱藏或刪除違規內容及封鎖帳戶；所有管理操作均會記錄。除法律要求外，我們不會向第三方披露你的資料。</p>
       <h4>儲存地點</h4><p>資料及相片儲存於 Supabase 雲端服務，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。本網站不會向你發送任何電郵，亦不會驗證你的電郵地址。</p>
-      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；舉報紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
+      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；舉報及管理操作紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
       <h4>查閱、更正及刪除</h4><p>你可隨時於「我的」頁面修改顯示名稱、編輯或刪除自己的內容（相片會一併刪除），更改密碼，或按「刪除帳戶」永久刪除帳戶及所有內容。忘記密碼的話，請用你註冊的電郵地址電郵至 ${mail('contactEmail')} 求助。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>免責聲明</h3><p class="muted small">在香港法律容許的最大範圍內適用。</p><ol>
       <li><b>只提供資訊平台。</b>理大二手網（「本網站」）只供使用者發佈及瀏覽二手物品及代購資訊，並非任何交易的一方，不參與、促成、代收或保證任何交易或付款。</li>
@@ -173,9 +173,9 @@ const DOCS = {
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
       <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order. Please don\u2019t share more personal data than needed.</p>
       <h4>Purpose</h4><p>To sign you in and let you manage your account and posts, show your listings and requests, let the two sides of a deal contact each other, and handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
-      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. We do not disclose your data to third parties except as required by law.</p>
+      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. To handle reports, site moderators can see reports and all posts (including hidden ones), and may hide or delete content and ban accounts; every moderation action is logged. We do not disclose your data to third parties except as required by law.</p>
       <h4>Storage location</h4><p>Data and photos are stored with Supabase, with servers in Tokyo, Japan, i.e. transferred outside Hong Kong. The site never sends you emails and does not verify your email address.</p>
-      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; reports are kept for 365 days. Account data is kept until you delete your account.</p>
+      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; reports and the moderation log are kept for 365 days. Account data is kept until you delete your account.</p>
       <h4>Access, correction & deletion</h4><p>On the “Me” page you can change your display name, edit or delete your posts (photos are deleted with them), change your password, or tap “Delete account” to permanently delete your account and all your content. If you forget your password, email ${mail('contactEmail')} from your registered email address for help. For access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>Disclaimer</h3><p class="muted small">Applies to the fullest extent permitted by the laws of Hong Kong.</p><ol>
       <li><b>Information platform only.</b> PolyU Marketplace (the “Site”) only allows users to post and browse second-hand and purchase-on-behalf information. It is not a party to any transaction and does not take part in, arrange, collect payment for or guarantee any transaction.</li>
@@ -321,12 +321,32 @@ Object.assign(I18N.en, {
   tOffline: 'Can\u2019t reach the server — please try again later.', tBadTransition: 'That status change isn\u2019t allowed right now.', photoOf: 'Photo {n}',
 });
 
+/* ---------- admin strings ---------- */
+Object.assign(I18N.zh, {
+  navAdmin: '管理', adminTitle: '管理', aOpen: '待處理舉報', aHandled: '已處理', aBans: '封鎖用戶', aLog: '操作紀錄',
+  aView: '查看帖子', aHide: '隱藏', aUnhide: '取消隱藏', aDelete: '刪除', aBan: '封鎖發佈者', aUnban: '解除封鎖', aMarkHandled: '標記已處理', aReopen: '重新開啟',
+  aPostGone: '帖子已不存在', aPoster: '發佈者', aReporter: '舉報者', aAnon: '未登入用戶', aSelf: '自己', aNoReports: '暫時冇舉報。', aNoBans: '冇被封鎖嘅用戶。', aNoLog: '暫時冇紀錄。',
+  aHiddenTag: '已被管理員隱藏', aDelConfirm: '以管理員身份永久刪除呢個帖子及其相片？', aBanConfirm: '封鎖「{name}」？對方將不能發佈或接單。', aBannedTag: '已封鎖',
+  aAdminBar: '管理員', aReason: '原因', aNote: '補充', aBannedAt: '封鎖於', aAdminNote: '只有管理員看到此頁。所有操作均會記錄。',
+  tHidden: '已隱藏', tUnhidden: '已取消隱藏', tBanned: '你的帳戶已被封鎖，暫時不能發佈或接單。如有疑問請電郵 {mail}。', tBannedOk: '已封鎖', tUnbannedOk: '已解除封鎖', tAdminDeleted: '已刪除', tHandled: '已更新', aCantBanAdmin: '不可以封鎖管理員。',
+  act_hide: '隱藏帖子', act_unhide: '取消隱藏', act_delete: '刪除帖子', act_ban: '封鎖用戶', act_unban: '解除封鎖', act_report_handled: '處理舉報', act_report_reopened: '重開舉報',
+});
+Object.assign(I18N.en, {
+  navAdmin: 'Admin', adminTitle: 'Moderation', aOpen: 'Open reports', aHandled: 'Handled', aBans: 'Banned users', aLog: 'Activity log',
+  aView: 'View post', aHide: 'Hide', aUnhide: 'Unhide', aDelete: 'Delete', aBan: 'Ban poster', aUnban: 'Unban', aMarkHandled: 'Mark handled', aReopen: 'Reopen',
+  aPostGone: 'Post no longer exists', aPoster: 'Poster', aReporter: 'Reporter', aAnon: 'signed-out user', aSelf: 'self', aNoReports: 'No reports.', aNoBans: 'No banned users.', aNoLog: 'Nothing logged yet.',
+  aHiddenTag: 'Hidden by moderator', aDelConfirm: 'Permanently delete this post and its photos as admin?', aBanConfirm: 'Ban “{name}”? They won\u2019t be able to post or take orders.', aBannedTag: 'Banned',
+  aAdminBar: 'Admin', aReason: 'Reason', aNote: 'Note', aBannedAt: 'Banned', aAdminNote: 'Only admins can see this page. Every action is logged.',
+  tHidden: 'Hidden', tUnhidden: 'Unhidden', tBanned: 'Your account is banned from posting and taking orders. Questions? Email {mail}.', tBannedOk: 'User banned', tUnbannedOk: 'User unbanned', tAdminDeleted: 'Deleted', tHandled: 'Updated', aCantBanAdmin: 'Admins can\u2019t be banned.',
+  act_hide: 'Hid post', act_unhide: 'Unhid post', act_delete: 'Deleted post', act_ban: 'Banned user', act_unban: 'Unbanned user', act_report_handled: 'Handled report', act_report_reopened: 'Reopened report',
+});
+
 /* ===== Data layer =====
  * Everything that touches Supabase lives here. UI code only calls Api.* / Auth.*.
  */
 let sb = null;
 const Auth = {
-  user: null, profile: null,
+  user: null, profile: null, isAdmin: false, banned: false,
   get uid() { return this.user?.id || null; },
   async init(onChange) {
     if (!window.supabase) throw new Error('offline');
@@ -335,14 +355,15 @@ const Auth = {
     await this._set(data.session?.user || null);
     sb.auth.onAuthStateChange((evt, session) => {
       const nu = session?.user || null;
-      if (!nu) { this.user = null; this.profile = null; }
+      if (!nu) { this.user = null; this.profile = null; this.isAdmin = false; this.banned = false; }
       if ((nu?.id || null) === this.uid && evt !== 'USER_UPDATED') return;
       setTimeout(async () => { await this._set(nu); onChange && onChange(evt); }, 0);
     });
   },
   async _set(user) {
-    this.user = user; this.profile = null;
+    this.user = user; this.profile = null; this.isAdmin = false; this.banned = false;
     if (user) {
+      const me = await sb.rpc('pm_me'); if (me.data && me.data[0]) { this.isAdmin = !!me.data[0].is_admin; this.banned = !!me.data[0].banned; }
       const { data } = await sb.from('profiles').select('id,display_name').eq('id', user.id).maybeSingle();
       this.profile = data || { id: user.id, display_name: t('student') };
     }
@@ -360,7 +381,7 @@ const Auth = {
   },
   async changePassword(password) { const { error } = await sb.auth.updateUser({ password }); if (error) throw error; },
   // drop the local user first so no query asks for contact columns with an anon token mid-sign-out
-  async signOut() { this.user = null; this.profile = null; await sb.auth.signOut(); },
+  async signOut() { this.user = null; this.profile = null; this.isAdmin = false; this.banned = false; await sb.auth.signOut(); },
   async setName(name) {
     const { data, error } = await sb.from('profiles').update({ display_name: name }).eq('id', this.uid).select('id,display_name').single();
     if (error) throw error; this.profile = data;
@@ -384,13 +405,13 @@ const Api = (() => {
   const OWNER = c => `owner:profiles!${c}_user_id_fkey(display_name)`;
   const TAKER = c => `taker:profiles!${c}_taker_id_fkey(display_name)`;
   const BASE = {
-    listings: 'id,created_at,user_id,title,cat,price,cond,description,spot,images,status',
-    daigou: 'id,created_at,user_id,item,from_region,budget,tip,deadline,note,images,status,taker_id,taken_at',
-    errands: 'id,created_at,user_id,type,pickup,hall,floor,date,time_from,time_to,fee,note,images,status,taker_id,taken_at',
+    listings: 'id,created_at,user_id,title,cat,price,cond,description,spot,images,status,hidden_at',
+    daigou: 'id,created_at,user_id,item,from_region,budget,tip,deadline,note,images,status,taker_id,taken_at,hidden_at',
+    errands: 'id,created_at,user_id,type,pickup,hall,floor,date,time_from,time_to,fee,note,images,status,taker_id,taken_at,hidden_at',
   };
   const cols = c => BASE[c] + (Auth.uid ? ',ctype,contact' : '') + ',' + OWNER(c) + (c === 'listings' ? '' : ',' + TAKER(c));
   const common = r => ({ id: r.id, t: Date.parse(r.created_at), userId: r.user_id, images: r.images || [], status: r.status, ctype: r.ctype, contact: r.contact,
-    owner: r.owner || null, taker: r.taker || null, takerId: r.taker_id || null, mine: !!Auth.uid && r.user_id === Auth.uid, takenByMe: !!Auth.uid && r.taker_id === Auth.uid });
+    owner: r.owner || null, taker: r.taker || null, hidden: !!r.hidden_at, takerId: r.taker_id || null, mine: !!Auth.uid && r.user_id === Auth.uid, takenByMe: !!Auth.uid && r.taker_id === Auth.uid });
   const toUI = {
     listings: r => ({ ...common(r), kind: 'listings', title: r.title, cat: r.cat, price: r.price, cond: r.cond, desc: r.description, spot: r.spot }),
     daigou: r => ({ ...common(r), kind: 'daigou', item: r.item, from: r.from_region, budget: r.budget, tip: r.tip, deadline: r.deadline, note: r.note }),
@@ -417,7 +438,7 @@ const Api = (() => {
   }
   return {
     async board(c) {
-      const { data, error } = await sb.from(c).select(cols(c)).in('status', ACTIVE[c]).order('created_at', { ascending: false }).limit(300);
+      const { data, error } = await sb.from(c).select(cols(c)).in('status', ACTIVE[c]).is('hidden_at', null).order('created_at', { ascending: false }).limit(300);
       if (error) fail(error); return data.map(toUI[c]);
     },
     async mine() {
@@ -470,6 +491,35 @@ const Api = (() => {
       const { data, error } = await sb.rpc('pm_taker_contact', { p_kind: c, p_id: id });
       if (error) fail(error); return data && data[0] || null;
     },
+    /* ---- admin (every call is re-checked in the database) ---- */
+    async adminData() {
+      const [rep, bans, log] = await Promise.all([
+        sb.from('reports').select('id,created_at,reporter_id,target_kind,target_id,target_title,reason,note,handled_at').order('created_at', { ascending: false }).limit(300),
+        sb.from('bans').select('user_id,reason,created_at,user:profiles!bans_user_id_fkey(display_name)').order('created_at', { ascending: false }),
+        sb.from('mod_log').select('id,created_at,admin_id,action,target_kind,target_id,target_user,note').order('id', { ascending: false }).limit(100),
+      ]);
+      [rep, bans, log].forEach(r => r.error && fail(r.error));
+      const posts = {};
+      await Promise.all(['listings', 'daigou', 'errands'].map(async c => {
+        const ids = [...new Set(rep.data.filter(r => r.target_kind === c).map(r => r.target_id))];
+        if (!ids.length) return;
+        const { data, error } = await sb.from(c).select(cols(c)).in('id', ids); if (error) fail(error);
+        data.forEach(r => posts[r.id] = toUI[c](r));
+      }));
+      const uids = [...new Set(log.data.flatMap(l => [l.admin_id, l.target_user]).filter(Boolean))];
+      const names = {};
+      if (uids.length) { const { data } = await sb.from('profiles').select('id,display_name').in('id', uids); (data || []).forEach(p => names[p.id] = p.display_name); }
+      return { reports: rep.data, posts, bans: bans.data, log: log.data, names };
+    },
+    async adminGet(c, id) { const { data, error } = await sb.from(c).select(cols(c)).eq('id', id).maybeSingle(); if (error) fail(error); return data && toUI[c](data); },
+    async adminHide(c, id, hidden) { const { data, error } = await sb.rpc('pm_admin_hide', { p_kind: c, p_id: id, p_hidden: hidden, p_note: '' }); if (error) fail(error); if (!data) throw new Error('not_allowed'); },
+    async adminDelete(c, id) {
+      const { data, error } = await sb.rpc('pm_admin_delete', { p_kind: c, p_id: id, p_note: '' }); if (error) fail(error);
+      if (data === null) throw new Error('not_allowed');
+      if (data.length) { const r = await store().remove(data); if (r.error) console.warn(r.error); }
+    },
+    async adminReport(id, handled) { const { error } = await sb.rpc('pm_admin_report', { p_id: id, p_handled: handled }); if (error) fail(error); },
+    async adminBan(uid, banned, reason = '') { const { data, error } = await sb.rpc('pm_admin_ban', { p_user: uid, p_banned: banned, p_reason: reason }); if (error) fail(error); if (!data) throw new Error('not_allowed'); },
     async report(d) {
       const { error } = await sb.from('reports').insert({ target_kind: d.target_kind, target_id: d.target_id, target_title: (d.target_title || '').slice(0, 120), reason: d.reason, note: d.note || '' });
       if (error) fail(error); return true;
@@ -517,6 +567,10 @@ const who = x => x.mine ? t('me') : (x.owner?.display_name || t('student'));
 const badge = () => '';
 const thumbHtml = x => x.images?.length ? `<img src="${imgUrl(x.images[0])}" alt="" loading="lazy" decoding="async">` : art(x);
 const loggedIn = () => !!Auth.uid;
+const adminBar = x => !Auth.isAdmin ? '' : `<div class="admin-bar"><span>🛡 ${t('aAdminBar')}</span>
+  <button class="link-btn" data-ahide="${KEY[x.kind]}:${x.id}:${x.hidden ? 0 : 1}">${t(x.hidden ? 'aUnhide' : 'aHide')}</button>
+  <button class="link-btn danger" data-adel="${KEY[x.kind]}:${x.id}">${t('aDelete')}</button>
+  ${x.mine ? '' : `<button class="link-btn danger" data-aban="${x.userId}:1:${esc(x.owner?.display_name || '')}">${t('aBan')}</button>`}</div>`;
 function needLogin(then) { if (loggedIn()) return false; pendingAfterLogin = then || null; openLogin(); toast(t('tLogin')); return true; }
 let pendingAfterLogin = null;
 
@@ -537,6 +591,7 @@ function applyLang() {
 }
 function setLang(l) { lang = l; localStorage.setItem(LS_LANG, l); applyLang(); }
 function renderHeader() {
+  $('#adminBtn').hidden = !Auth.isAdmin;
   const b = $('#meBtn');
   if (loggedIn()) { const n = Auth.profile?.display_name || ''; b.innerHTML = `<span class="avatar">${esc([...n][0] || '?').toUpperCase()}</span><span class="me-label">${t('navMe')}</span>`; b.classList.add('in'); }
   else { b.innerHTML = `<span class="me-label">${t('login')}</span>`; b.classList.remove('in'); }
@@ -593,7 +648,7 @@ function openDetail(id) {
     </div>
     ${l.mine ? `<button class="btn btn-ghost btn-block" data-nav="me">${t('navMe')} → ${t('edit')}</button>` : contactBlock(l)}
     ${scamHtml()}
-    <div class="d-actions"><span></span><button class="link-btn" data-report="l:${l.id}">⚑ ${t('report')}</button></div>`;
+    <div class="d-actions"><span></span><button class="link-btn" data-report="l:${l.id}">⚑ ${t('report')}</button></div>${adminBar(l)}`;
   show('#detailModal');
 }
 
@@ -624,7 +679,7 @@ function renderDg() {
         <span class="${left <= 3 ? 'urgent' : ''}">${t('deadline')} ${esc(r.deadline)} · ${dl}</span></div>
       ${r.note ? `<p class="req-note">${esc(r.note)}</p>` : ''}${imgStrip(r)}
       <div class="req-foot"><span class="req-left"><span class="status ${r.status === 'open' ? 'open' : 'taken'}">${t('st_' + r.status)}</span><button class="link-btn" data-report="r:${r.id}">⚑ ${t('report')}</button></span>
-        ${orderActions(r)}</div>
+        ${orderActions(r)}</div>${adminBar(r)}
     </div>`;
   }).join('');
 }
@@ -656,7 +711,7 @@ function renderErrands() {
       ${x.note ? `<p class="req-note">${esc(x.note)}</p>` : ''}${imgStrip(x)}
       <div class="req-foot"><span class="req-left"><span class="status ${x.status === 'open' ? 'open' : 'taken'}">${t('st_' + x.status)}</span>
         <button class="link-btn" data-report="e:${x.id}">⚑ ${t('report')}</button></span>
-        ${orderActions(x)}</div>
+        ${orderActions(x)}</div>${adminBar(x)}
     </div>`).join('');
 }
 
@@ -691,7 +746,7 @@ function meRow(x, taken) {
   }
   return `<div class="me-row" data-kind="${x.kind}" data-id="${x.id}">
     <div class="me-thumb">${thumb}</div>
-    <div class="me-main"><div class="me-top"><span class="tag">${t('kind_' + x.kind)}</span><span class="pill st-${x.status}">${t('st_' + x.status)}</span><span class="muted">${ago(x.t)}</span></div>
+    <div class="me-main"><div class="me-top"><span class="tag">${t('kind_' + x.kind)}</span><span class="pill st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="pill st-hidden">${t('aHiddenTag')}</span>` : ''}<span class="muted">${ago(x.t)}</span></div>
       <div class="me-title">${esc(postTitle(x))}</div><div class="me-sub">${postSub(x)}</div>${extra}
       <div class="me-actions">${actions}</div></div></div>`;
 }
@@ -759,8 +814,10 @@ function resetPhotos(fid, keep = []) { const st = Photos[fid]; if (!st) return; 
 
 /* ---------- forms: create & edit ---------- */
 const FORM = { listings: '#postForm', daigou: '#reqForm', errands: '#errForm' };
+function bannedStop() { if (!Auth.banned) return false; toast(t('tBanned', { mail: SITE_CONFIG.contactEmail })); return true; }
 function openForm(c, x) {
   if (needLogin(() => openForm(c, x))) return;
+  if (!x && bannedStop()) return;
   const f = $(FORM[c]); f.reset(); applyLang();
   f.dataset.edit = x ? x.id : '';
   const title = f.closest('.modal').querySelector('.modal-title'), sub = f.querySelector('button[type=submit]');
@@ -846,19 +903,21 @@ async function afterAuth(fromForm) {
 }
 
 /* ---------- helpers ---------- */
-function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); renderMe(); }
+function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); renderMe(); renderAdmin(); }
 function show(sel) { $$('.modal').forEach(m => m.hidden = true); $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
 function closeModal(m) { if (!m) return; m.hidden = true; if (m.id === 'docModal') curDoc = null; if ($$('.modal').every(x => x.hidden)) document.body.style.overflow = ''; }
 function hideAll() { $$('.modal').forEach(m => m.hidden = true); document.body.style.overflow = ''; }
 let tt; function toast(msg) { const el = $('#toast'); el.textContent = msg; el.hidden = false; clearTimeout(tt); tt = setTimeout(() => el.hidden = true, 2600); }
 function go(view) {
   if (view === 'me' && !loggedIn()) { pendingAfterLogin = () => go('me'); return openLogin(); }
+  if (view === 'admin' && !Auth.isAdmin) view = 'market';
   $$('.view').forEach(v => v.hidden = v.id !== 'view-' + view);
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
-  $('#meBtn').classList.toggle('active', view === 'me');
-  const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr', me: 'post' }[view]; fl.textContent = t(fl.dataset.i18n);
+  $('#meBtn').classList.toggle('active', view === 'me'); $('#adminBtn').classList.toggle('active', view === 'admin');
+  const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr', me: 'post', admin: 'post' }[view]; fl.textContent = t(fl.dataset.i18n);
   history.replaceState(null, '', view === 'market' ? location.pathname : '#' + view); window.scrollTo(0, 0);
   if (view === 'me') loadMe().catch(e => toast(errMsg(e)));
+  else if (view === 'admin') loadAdmin().catch(e => toast(errMsg(e)));
   else if (window.__pmReload) window.__pmReload();
 }
 const errMsg = e => {
@@ -870,6 +929,9 @@ const errMsg = e => {
   if (/weak_password|password should|password is known|at least 8/i.test(m)) return t('tWeakPw');
   if (/email_address_invalid|invalid format|validate email|is invalid/i.test(m)) return t('tBadEmail');
   if (/pw_mismatch/.test(m)) return t('tPwMismatch');
+  if (/\bbanned\b/.test(m)) { Auth.banned = true; return t('tBanned', { mail: SITE_CONFIG.contactEmail }); }
+  if (/cannot_ban_admin/.test(m)) return t('aCantBanAdmin');
+  if (/not_admin/.test(m)) return t('tNotAllowed');
   if (/rate_limited/.test(m)) return t('tRate');
   if (/bad_transition/.test(m)) return t('tBadTransition');
   if (/login_required|JWT/i.test(m)) return t('tLogin');
@@ -881,10 +943,73 @@ const errMsg = e => {
 async function guard(fn) { try { await fn(); } catch (e) { console.warn(e); toast(errMsg(e)); } }
 let pendingTake = null;
 
+/* ---------- 管理 / admin panel (UI only; the database enforces admin rights) ---------- */
+const adminState = { tab: 'open', data: null };
+async function loadAdmin() { if (!Auth.isAdmin) return; adminState.data = await Api.adminData(); renderAdmin(); }
+function postLabel(x) { return x ? postTitle(x) : ''; }
+function renderAdmin() {
+  const box = $('#adminBody'); if (!box) return;
+  if (!Auth.isAdmin) { box.innerHTML = ''; return; }
+  const D = adminState.data; if (!D) { box.innerHTML = `<p class="muted">…</p>`; return; }
+  const banned = new Set(D.bans.map(b => b.user_id));
+  const open = D.reports.filter(r => !r.handled_at), done = D.reports.filter(r => r.handled_at);
+  const tabs = [['open', t('aOpen'), open.length], ['handled', t('aHandled'), done.length], ['bans', t('aBans'), D.bans.length], ['log', t('aLog'), D.log.length]];
+  let body = '';
+  if (adminState.tab === 'open' || adminState.tab === 'handled') {
+    const list = adminState.tab === 'open' ? open : done;
+    body = list.length ? list.map(r => {
+      const x = D.posts[r.target_id], k = KEY[r.target_kind];
+      const poster = x ? `${esc(x.owner?.display_name || t('student'))}${banned.has(x.userId) ? ` <span class="pill st-cancelled">${t('aBannedTag')}</span>` : ''}` : '—';
+      return `<div class="adm-row">
+        <div class="me-top"><span class="tag">${t('kind_' + r.target_kind)}</span><span class="pill st-taken">${t('rr_' + r.reason)}</span>
+          ${x ? `<span class="pill st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="pill st-hidden">${t('aHiddenTag')}</span>` : ''}` : `<span class="pill st-removed">${t('aPostGone')}</span>`}
+          <span class="muted">${ago(Date.parse(r.created_at))}</span></div>
+        <div class="me-title">${esc(x ? postLabel(x) : r.target_title || '')}</div>
+        ${r.note ? `<div class="me-sub">${t('aNote')}：${esc(r.note)}</div>` : ''}
+        <div class="me-sub">${t('aPoster')}：<b>${poster}</b> · ${t('aReporter')}：${r.reporter_id ? esc(r.reporter_id.slice(0, 8)) : t('aAnon')}</div>
+        <div class="me-actions">
+          ${x ? `<button class="btn btn-ghost btn-sm" data-aview="${k}:${x.id}">${t('aView')}</button>
+          <button class="btn btn-ghost btn-sm" data-ahide="${k}:${x.id}:${x.hidden ? 0 : 1}">${t(x.hidden ? 'aUnhide' : 'aHide')}</button>
+          <button class="btn btn-ghost btn-sm danger" data-adel="${k}:${x.id}">${t('aDelete')}</button>
+          ${banned.has(x.userId) ? `<button class="btn btn-ghost btn-sm" data-aban="${x.userId}:0:">${t('aUnban')}</button>` : (x.mine ? '' : `<button class="btn btn-ghost btn-sm danger" data-aban="${x.userId}:1:${esc(x.owner?.display_name || '')}">${t('aBan')}</button>`)}` : ''}
+          <button class="btn btn-primary btn-sm" data-arep="${r.id}:${r.handled_at ? 0 : 1}">${t(r.handled_at ? 'aReopen' : 'aMarkHandled')}</button>
+        </div></div>`;
+    }).join('') : `<p class="muted me-empty">${t('aNoReports')}</p>`;
+  } else if (adminState.tab === 'bans') {
+    body = D.bans.length ? D.bans.map(b => `<div class="adm-row"><div class="me-title">${esc(b.user?.display_name || b.user_id.slice(0, 8))}</div>
+      <div class="me-sub">${t('aBannedAt')} ${ago(Date.parse(b.created_at))}${b.reason ? ` · ${t('aReason')}：${esc(b.reason)}` : ''}</div>
+      <div class="me-actions"><button class="btn btn-ghost btn-sm" data-aban="${b.user_id}:0:">${t('aUnban')}</button></div></div>`).join('') : `<p class="muted me-empty">${t('aNoBans')}</p>`;
+  } else {
+    body = D.log.length ? `<div class="adm-log">${D.log.map(l => `<div><span class="muted">${ago(Date.parse(l.created_at))}</span>
+      <b>${esc(D.names[l.admin_id] || (l.admin_id || '').slice(0, 8))}</b> · ${t('act_' + l.action)}${l.target_kind && l.target_kind !== 'reports' ? ` · ${t('kind_' + l.target_kind)}` : ''}
+      ${l.target_user ? ` · ${esc(D.names[l.target_user] || l.target_user.slice(0, 8))}` : ''}${l.note ? ` · <span class="muted">${esc(l.note)}</span>` : ''}</div>`).join('')}</div>` : `<p class="muted me-empty">${t('aNoLog')}</p>`;
+  }
+  box.innerHTML = `<p class="muted adm-note">🛡 ${t('aAdminNote')}</p>
+    <div class="cats adm-tabs">${tabs.map(([k, l, n]) => `<button class="chip ${adminState.tab === k ? 'active' : ''}" data-atab="${k}">${l} <span class="count">${n}</span></button>`).join('')}</div>
+    <div class="me-list">${body}</div>`;
+}
+function openAdminDetail(x) {
+  const k = KEY[x.kind];
+  const rows = x.kind === 'listings' ? [[t('seller'), esc(who(x))], ['HK$', x.price], [t('spot'), t('spot_' + x.spot)]]
+    : x.kind === 'daigou' ? [[t('aPoster'), esc(who(x))], [t('from'), t('reg_' + x.from)], [t('budget'), 'HK$' + x.budget], [t('deadline'), esc(x.deadline)]]
+    : [[t('aPoster'), esc(who(x))], [t('pickup'), esc(x.pickup)], [t('dropoff'), t('hall_' + x.hall)], [t('window'), `${esc(x.date)} ${esc(x.from)}–${esc(x.to)}`]];
+  $('#detailBody').innerHTML = `${gallery(x)}
+    <h3 class="d-title">${esc(postTitle(x))}</h3>
+    <div class="d-row"><span class="tag">${t('kind_' + x.kind)}</span><span class="tag st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="tag st-hidden">${t('aHiddenTag')}</span>` : ''}</div>
+    <p class="d-desc">${esc(x.desc || x.note || '')}</p>
+    <div class="d-box">${rows.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('')}<div><span>${esc(x.ctype)}</span><b>${esc(x.contact)}</b></div><div><span>${t('posted')}</span><b>${ago(x.t)}</b></div></div>
+    ${adminBar(x)}`;
+  show('#detailModal');
+}
+async function adminAfter(msg) {
+  await Promise.all([refresh('listings', 'daigou', 'errands').catch(() => {}), loadAdmin().catch(() => {})]);
+  renderAll(); toast(msg);
+}
+
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],[data-atab],[data-aview],[data-ahide],[data-adel],[data-aban],[data-arep],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
@@ -919,12 +1044,23 @@ document.addEventListener('click', async e => {
     guard(async () => { await Auth.deleteAccount(); my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tAccDeleted')); });
   }
   else if (d.tab) setLoginTab(d.tab);
+  else if (d.atab) { adminState.tab = d.atab; renderAdmin(); }
+  else if (d.aview) { const [k, id] = d.aview.split(':'); guard(async () => { const x = await Api.adminGet(COL[k], id); x ? openAdminDetail(x) : toast(t('aPostGone')); }); }
+  else if (d.ahide) { const [k, id, h] = d.ahide.split(':'); guard(async () => { await Api.adminHide(COL[k], id, h === '1'); hideAll(); await adminAfter(t(h === '1' ? 'tHidden' : 'tUnhidden')); }); }
+  else if (d.adel) { const [k, id] = d.adel.split(':'); if (!confirm(t('aDelConfirm'))) return; guard(async () => { await Api.adminDelete(COL[k], id); hideAll(); await adminAfter(t('tAdminDeleted')); }); }
+  else if (d.aban) {
+    const [uid, b, ...rest] = d.aban.split(':'); const name = rest.join(':') || uid.slice(0, 8);
+    if (b === '1' && !confirm(t('aBanConfirm', { name }))) return;
+    guard(async () => { await Api.adminBan(uid, b === '1'); hideAll(); await adminAfter(t(b === '1' ? 'tBannedOk' : 'tUnbannedOk')); });
+  }
+  else if (d.arep) { const [id, h] = d.arep.split(':'); guard(async () => { await Api.adminReport(id, h === '1'); await adminAfter(t('tHandled')); }); }
   else if (d.action === 'forgot') { $('#forgotBox').innerHTML = t('forgotText', { mail: `<a href="mailto:${SITE_CONFIG.contactEmail}">${SITE_CONFIG.contactEmail}</a>` }); $('#forgotBox').hidden = !$('#forgotBox').hidden; }
   else if (d.pwtoggle !== undefined) { const inp = $('#' + d.pwtoggle), show = inp.type === 'password'; inp.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', show); el.textContent = t(show ? 'hidePw' : 'showPw'); }
   else if (d.action) openForm({ post: 'listings', req: 'daigou', err: 'errands' }[d.action]);
   else if (d.take) {
     const [k, id] = d.take.split(':'); const x = findPost(k, id); if (!x) return;
     if (needLogin(() => document.querySelector(`[data-take="${d.take}"]`)?.click())) return;
+    if (bannedStop()) return;
     pendingTake = { kind: k, id };
     $('#takeText').textContent = (k === 'r' ? t('takeText', { item: x.item }) : t('erTakeText')) + ' ' + t('takeIntro');
     const last = localStorage.getItem(LS_TAKER); if (last) try { const o = JSON.parse(last); $('#takeForm [name=ctype]').value = o.ctype; $('#takeForm [name=contact]').value = o.contact; } catch (err) {}
@@ -982,7 +1118,7 @@ $('#errForm').addEventListener('submit', e => submitForm('errands', e));
   document.addEventListener('visibilitychange', live);
   setInterval(live, 60000);
   window.__pmReload = live;
-  const fromHash = () => { const h = location.hash.slice(1); if (['market', 'daigou', 'errands', 'me'].includes(h)) go(h); else if (!h) go('market'); };
+  const fromHash = () => { const h = location.hash.slice(1); if (['market', 'daigou', 'errands', 'me', 'admin'].includes(h)) go(h); else if (!h) go('market'); };
   if (location.hash) fromHash();
   window.addEventListener('hashchange', fromHash);
 })();
