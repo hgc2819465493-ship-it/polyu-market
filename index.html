@@ -222,23 +222,23 @@
   <div class="modal-card modal-sm login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
     <button class="modal-x" data-close aria-label="close">&times;</button>
     <div class="login-mark">理</div>
-    <h3 id="loginTitle" data-i18n="loginTitle"></h3>
-    <div id="loginStep1">
-      <p class="muted" data-i18n="loginIntro"></p>
-      <form id="loginForm1" class="form">
-        <label><span data-i18n="email"></span><input id="loginEmail" type="email" required autocomplete="email" inputmode="email" maxlength="254" data-i18n-ph="emailPh"></label>
-        <button class="btn btn-primary btn-block" type="submit" data-i18n="sendCode"></button>
-      </form>
-      <p class="hint" data-i18n="loginHint"></p>
+    <h3 id="loginTitle" class="sr-only" data-i18n="loginTitle"></h3>
+    <div class="login-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="login" data-i18n="tabLogin"></button>
+      <button type="button" role="tab" data-tab="signup" data-i18n="tabSignup"></button>
     </div>
-    <div id="loginStep2" hidden>
-      <p class="muted" id="codeSentText"></p>
-      <form id="loginForm2" class="form">
-        <label><span data-i18n="code"></span><input id="loginCode" class="code-input" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="••••••"></label>
-        <button class="btn btn-primary btn-block" type="submit" data-i18n="verify"></button>
-      </form>
-      <button class="link-btn" type="button" data-action="resend" data-i18n="changeEmail"></button>
-    </div>
+    <form id="loginForm" class="form" novalidate>
+      <label><span data-i18n="email"></span><input id="loginEmail" type="email" required autocomplete="email" inputmode="email" maxlength="254" data-i18n-ph="emailPh"></label>
+      <label><span data-i18n="password"></span>
+        <span class="pw-wrap"><input id="loginPw" type="password" required minlength="8" maxlength="72" autocomplete="current-password" data-i18n-ph="passwordPh"><button type="button" class="pw-toggle" data-pwtoggle="loginPw" aria-pressed="false" data-i18n="showPw"></button></span></label>
+      <label id="loginPw2Wrap" hidden><span data-i18n="password2"></span>
+        <span class="pw-wrap"><input id="loginPw2" type="password" minlength="8" maxlength="72" autocomplete="new-password" data-i18n-ph="password2Ph"><button type="button" class="pw-toggle" data-pwtoggle="loginPw2" aria-pressed="false" data-i18n="showPw"></button></span></label>
+      <p class="hint" id="signupNote" data-i18n="signupNote" hidden></p>
+      <p class="form-err" id="loginErr" role="alert" hidden></p>
+      <button class="btn btn-primary btn-block" id="loginSubmit" type="submit" data-i18n="doLogin"></button>
+    </form>
+    <button class="link-btn" type="button" data-action="forgot" data-i18n="forgotPw"></button>
+    <p class="hint forgot-box" id="forgotBox" hidden></p>
     <p class="hint login-legal"><a href="#" data-doc="terms" data-i18n="docTerms"></a> · <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
   </div>
 </div>

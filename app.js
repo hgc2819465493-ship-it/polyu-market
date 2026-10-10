@@ -120,18 +120,18 @@ const DOCS = {
       '你須確保發佈的內容真實、合法，不涉及<a href="#" data-doc="prohibited">禁售清單</a>所列物品，亦不侵犯他人權利。',
       '代購須遵守香港及內地（或相關地區）海關、進出口及稅務規定，包括攜帶限額及申報要求。',
       '宿舍跑腳只屬同學之間的互助安排：取件碼須私下傳送；跑腳費由雙方自行協定及直接交收，本網站不收取任何費用，亦不處理任何付款或爭議。',
-      '發佈、接單須以電郵登入帳戶；你須妥善保管你的電郵帳戶，並對帳戶下的所有活動負責。每人只應使用一個帳戶，不得冒認他人。',
+      '發佈、接單須以電郵及密碼登入帳戶。本網站不會驗證電郵地址，你只可以使用屬於你本人的電郵地址註冊，不得使用他人電郵或冒認他人。請使用安全的密碼並妥善保管，你須對帳戶下的所有活動負責。每人只應使用一個帳戶。',
       '你上載的相片須為你擁有或有權使用的物品相片，並符合<a href="#" data-doc="prohibited">禁售清單</a>的相片規定。',
       '我們可在毋須通知的情況下移除任何內容、暫停或刪除任何帳戶。',
       '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。']),
     privacy: () => `<h3>私隱政策及收集個人資料聲明</h3>
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
-      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式。請勿提供不必要的個人資料。</p>
+      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式。請勿提供不必要的個人資料。</p>
       <h4>收集目的</h4><p>用作登入及管理你的帳戶與內容、在網站上顯示你的放售或需求、讓買賣或接單雙方聯絡，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
-      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。以 @connect.polyu.hk 電郵登入的帳戶會顯示「理大同學」標記。除法律要求外，我們不會向第三方披露你的資料。</p>
-      <h4>儲存地點</h4><p>資料及相片儲存於 Supabase 雲端服務，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。登入驗證碼電郵經電郵服務供應商發送。</p>
+      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。除法律要求外，我們不會向第三方披露你的資料。</p>
+      <h4>儲存地點</h4><p>資料及相片儲存於 Supabase 雲端服務，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。本網站不會向你發送任何電郵，亦不會驗證你的電郵地址。</p>
       <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；舉報紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
-      <h4>查閱、更正及刪除</h4><p>你可隨時於「我的」頁面修改顯示名稱、編輯或刪除自己的內容（相片會一併刪除），或按「刪除帳戶」永久刪除帳戶及所有內容。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
+      <h4>查閱、更正及刪除</h4><p>你可隨時於「我的」頁面修改顯示名稱、編輯或刪除自己的內容（相片會一併刪除），更改密碼，或按「刪除帳戶」永久刪除帳戶及所有內容。忘記密碼的話，請用你註冊的電郵地址電郵至 ${mail('contactEmail')} 求助。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>免責聲明</h3><p class="muted small">在香港法律容許的最大範圍內適用。</p><ol>
       <li><b>只提供資訊平台。</b>理大二手網（「本網站」）只供使用者發佈及瀏覽二手物品及代購資訊，並非任何交易的一方，不參與、促成、代收或保證任何交易或付款。</li>
       <li><b>不作任何保證。</b>本網站不就任何物品的質素、合法性、真偽、安全性、狀況或描述是否準確，以及任何使用者的身份、資格或可靠程度作出任何明示或隱含的保證或陳述。</li>
@@ -165,18 +165,18 @@ const DOCS = {
       'Your content must be truthful and lawful, must not involve <a href="#" data-doc="prohibited">prohibited items</a>, and must not infringe anyone\u2019s rights.',
       'Purchase-on-behalf requests must comply with Hong Kong and Mainland (or other relevant) customs, import/export and tax rules, including allowances and declarations.',
       'Hall errands are informal favours between students: share pickup codes privately only; runner fees are agreed and paid directly between users — the site charges nothing and does not handle payments or disputes.',
-      'Posting and taking orders require signing in with your email. Keep your email account secure; you are responsible for all activity under your account. One account per person; no impersonation.',
+      'Posting and taking orders require an account (email + password). Email addresses are not verified: you may only register with an email address that belongs to you — never someone else\u2019s — and must not impersonate anyone. Use a strong password and keep it safe; you are responsible for all activity under your account. One account per person.',
       'Photos you upload must be of items you own or have the right to show, and must follow the photo rules in the <a href="#" data-doc="prohibited">Prohibited items</a> list.',
       'We may remove any content, or suspend or delete any account, without notice.',
       'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.']),
     privacy: () => `<h3>Privacy policy & Personal Information Collection Statement</h3>
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
-      <h4>What we collect</h4><p>(1) Account data: the email you sign in with and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order. Please don\u2019t share more personal data than needed.</p>
+      <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order. Please don\u2019t share more personal data than needed.</p>
       <h4>Purpose</h4><p>To sign you in and let you manage your account and posts, show your listings and requests, let the two sides of a deal contact each other, and handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
-      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. Accounts signed in with an @connect.polyu.hk email show a “PolyU student” badge. We do not disclose your data to third parties except as required by law.</p>
-      <h4>Storage location</h4><p>Data and photos are stored with Supabase, with servers in Tokyo, Japan, i.e. transferred outside Hong Kong. Sign-in code emails are sent through an email service provider.</p>
+      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. We do not disclose your data to third parties except as required by law.</p>
+      <h4>Storage location</h4><p>Data and photos are stored with Supabase, with servers in Tokyo, Japan, i.e. transferred outside Hong Kong. The site never sends you emails and does not verify your email address.</p>
       <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; reports are kept for 365 days. Account data is kept until you delete your account.</p>
-      <h4>Access, correction & deletion</h4><p>On the “Me” page you can change your display name, edit or delete your posts (photos are deleted with them), or tap “Delete account” to permanently delete your account and all your content. For access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
+      <h4>Access, correction & deletion</h4><p>On the “Me” page you can change your display name, edit or delete your posts (photos are deleted with them), change your password, or tap “Delete account” to permanently delete your account and all your content. If you forget your password, email ${mail('contactEmail')} from your registered email address for help. For access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>Disclaimer</h3><p class="muted small">Applies to the fullest extent permitted by the laws of Hong Kong.</p><ol>
       <li><b>Information platform only.</b> PolyU Marketplace (the “Site”) only allows users to post and browse second-hand and purchase-on-behalf information. It is not a party to any transaction and does not take part in, arrange, collect payment for or guarantee any transaction.</li>
       <li><b>No warranties.</b> The Site makes no express or implied warranty or representation as to the quality, legality, authenticity, safety, condition or accuracy of description of any item, or the identity, capacity or reliability of any user.</li>
@@ -280,10 +280,15 @@ const ER_ICON = { parcel: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4
 /* ---------- account / status / photo strings ---------- */
 Object.assign(I18N.zh, {
   login: '登入', logout: '登出', navMe: '我的', loginTitle: '登入 / 註冊', loginIntro: '用電郵登入，毋須密碼。首次登入會自動建立帳戶。',
-  email: '電郵地址', emailPh: '例如 you@connect.polyu.hk', sendCode: '發送驗證碼', codeSent: '已寄出到 {email}。請輸入電郵內的 6 位數驗證碼，或直接按電郵中的登入連結。',
-  code: '6 位數驗證碼', verify: '登入', changeEmail: '更改電郵', loginHint: '登入後可以發佈、接單及查看聯絡方法。以 @connect.polyu.hk 登入會顯示「理大同學」標記。',
+  email: '電郵地址', emailPh: '你本人的電郵地址', password: '密碼', passwordPh: '最少 8 個字元', password2: '確認密碼', password2Ph: '再輸入一次密碼',
+  tabLogin: '登入', tabSignup: '註冊', doLogin: '登入', doSignup: '註冊並登入', showPw: '顯示密碼', hidePw: '隱藏密碼', forgotPw: '忘記密碼？',
+  forgotText: '本網站不會發送電郵，所以未能自動重設密碼。請用你註冊時的電郵地址電郵至 {mail} 求助，並註明你的顯示名稱。',
+  signupNote: '請使用你本人的電郵地址。本網站不會驗證電郵，亦不會發送任何電郵。',
+  loginHint: '登入後可以發佈、接單及查看聯絡方法。',
+  changePw: '更改密碼', newPw: '新密碼', newPw2: '確認新密碼', tPwChanged: '密碼已更改', tSignedUp: '註冊成功，已登入',
+  tWrongPw: '電郵或密碼不正確。', tEmailTaken: '呢個電郵已經註冊，請直接登入。', tWeakPw: '密碼太弱：最少 8 個字元，並避免常見密碼。', tPwMismatch: '兩次輸入的密碼不一樣。', tSamePw: '新密碼不可以同舊密碼一樣。', tBadEmail: '電郵地址格式不正確。',
   tLoggedIn: '已登入', tLoggedOut: '已登出', loginToContact: '登入後查看聯絡方法', tLogin: '請先登入',
-  myTitle: '我的', myProfile: '個人資料', displayName: '顯示名稱', save: '儲存', polyuBadge: '理大同學', myPosts: '我的發佈', myTaken: '我接的單',
+  myTitle: '我的', myProfile: '個人資料', displayName: '顯示名稱', save: '儲存', myPosts: '我的發佈', myTaken: '我接的單',
   noPosts: '你仲未發佈任何內容。', noTaken: '你仲未接任何單。', edit: '編輯', deleteAccount: '刪除帳戶',
   delAccConfirm: '確定永久刪除帳戶及所有內容（包括相片）？此操作無法復原。', tAccDeleted: '帳戶已刪除',
   st_available: '在售', st_reserved: '已預約', st_sold: '已售出', st_removed: '已下架', st_open: '待接單', st_taken: '已接單', st_done: '已完成', st_cancelled: '已取消',
@@ -292,15 +297,19 @@ Object.assign(I18N.zh, {
   takerLabel: '接單者', posterLabel: '發佈者', takeIntro: '接單後雙方會見到對方聯絡方法。請留低你嘅聯絡方法（只有發佈者見到）。',
   photos: '相片（最多 4 張）', photosOpt: '相片（選填，最多 4 張）', addPhoto: '＋ 相片', tTooMany: '最多 4 張相片', tNotImage: '只可上載圖片檔案', tTooLarge: '相片太大，請換一張', uploading: '上載中…',
   editTitle: '編輯內容', submitSave: '儲存變更', kind_listings: '放售', kind_daigou: '代購', kind_errands: '跑腳',
-  tEmailNotAuth: '暫時未能寄出驗證碼：網站電郵服務仲未開放畀所有電郵（需要設定自訂 SMTP）。', tEmailRate: '寄出太多驗證碼，請稍後再試。', tBadCode: '驗證碼不正確或已過期。',
   tOffline: '暫時連唔到伺服器，請稍後再試。', tBadTransition: '呢個狀態而家唔可以咁改。', photoOf: '第 {n} 張相片',
 });
 Object.assign(I18N.en, {
   login: 'Sign in', logout: 'Sign out', navMe: 'Me', loginTitle: 'Sign in / Sign up', loginIntro: 'Sign in with your email — no password. An account is created on first sign-in.',
-  email: 'Email', emailPh: 'e.g. you@connect.polyu.hk', sendCode: 'Send code', codeSent: 'Sent to {email}. Enter the 6-digit code from the email, or just tap the sign-in link in it.',
-  code: '6-digit code', verify: 'Sign in', changeEmail: 'Change email', loginHint: 'Sign in to post, take orders and see contact details. Signing in with @connect.polyu.hk shows a “PolyU student” badge.',
+  email: 'Email', emailPh: 'Your own email address', password: 'Password', passwordPh: 'At least 8 characters', password2: 'Confirm password', password2Ph: 'Type it again',
+  tabLogin: 'Sign in', tabSignup: 'Sign up', doLogin: 'Sign in', doSignup: 'Sign up & sign in', showPw: 'Show password', hidePw: 'Hide password', forgotPw: 'Forgot password?',
+  forgotText: 'This site doesn\u2019t send emails, so passwords can\u2019t be reset automatically. Email {mail} from the address you registered with, and include your display name.',
+  signupNote: 'Please use your own email address. The site does not verify emails or send any.',
+  loginHint: 'Sign in to post, take orders and see contact details.',
+  changePw: 'Change password', newPw: 'New password', newPw2: 'Confirm new password', tPwChanged: 'Password changed', tSignedUp: 'Account created — you\u2019re signed in',
+  tWrongPw: 'Wrong email or password.', tEmailTaken: 'This email is already registered — please sign in.', tWeakPw: 'Password too weak: at least 8 characters, avoid common passwords.', tPwMismatch: 'The passwords don\u2019t match.', tSamePw: 'New password must differ from the old one.', tBadEmail: 'That email address doesn\u2019t look right.',
   tLoggedIn: 'Signed in', tLoggedOut: 'Signed out', loginToContact: 'Sign in to see contact', tLogin: 'Please sign in first',
-  myTitle: 'Me', myProfile: 'Profile', displayName: 'Display name', save: 'Save', polyuBadge: 'PolyU student', myPosts: 'My posts', myTaken: 'Orders I took',
+  myTitle: 'Me', myProfile: 'Profile', displayName: 'Display name', save: 'Save', myPosts: 'My posts', myTaken: 'Orders I took',
   noPosts: 'You haven\u2019t posted anything yet.', noTaken: 'You haven\u2019t taken any orders yet.', edit: 'Edit', deleteAccount: 'Delete account',
   delAccConfirm: 'Permanently delete your account and all your content (including photos)? This cannot be undone.', tAccDeleted: 'Account deleted',
   st_available: 'For sale', st_reserved: 'Reserved', st_sold: 'Sold', st_removed: 'Removed', st_open: 'Open', st_taken: 'Taken', st_done: 'Completed', st_cancelled: 'Cancelled',
@@ -309,7 +318,6 @@ Object.assign(I18N.en, {
   takerLabel: 'Taken by', posterLabel: 'Posted by', takeIntro: 'Once you take it, you\u2019ll both see each other\u2019s contact. Leave your contact (only the poster sees it).',
   photos: 'Photos (up to 4)', photosOpt: 'Photos (optional, up to 4)', addPhoto: '＋ Photo', tTooMany: 'Up to 4 photos', tNotImage: 'Images only', tTooLarge: 'Photo too large — try another', uploading: 'Uploading…',
   editTitle: 'Edit post', submitSave: 'Save changes', kind_listings: 'Listing', kind_daigou: 'Request', kind_errands: 'Errand',
-  tEmailNotAuth: 'Can\u2019t send the code yet: the site\u2019s email service isn\u2019t open to all addresses (custom SMTP needed).', tEmailRate: 'Too many codes sent — please try later.', tBadCode: 'Wrong or expired code.',
   tOffline: 'Can\u2019t reach the server — please try again later.', tBadTransition: 'That status change isn\u2019t allowed right now.', photoOf: 'Photo {n}',
 });
 
@@ -322,7 +330,7 @@ const Auth = {
   get uid() { return this.user?.id || null; },
   async init(onChange) {
     if (!window.supabase) throw new Error('offline');
-    sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit' } });
+    sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
     const { data } = await sb.auth.getSession();
     await this._set(data.session?.user || null);
     sb.auth.onAuthStateChange((evt, session) => {
@@ -335,22 +343,26 @@ const Auth = {
   async _set(user) {
     this.user = user; this.profile = null;
     if (user) {
-      const { data } = await sb.from('profiles').select('id,display_name,is_polyu').eq('id', user.id).maybeSingle();
-      this.profile = data || { id: user.id, display_name: t('student'), is_polyu: false };
+      const { data } = await sb.from('profiles').select('id,display_name').eq('id', user.id).maybeSingle();
+      this.profile = data || { id: user.id, display_name: t('student') };
     }
   },
-  async sendCode(email) {
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
+  async signUp(email, password) {
+    const { data, error } = await sb.auth.signUp({ email, password });
     if (error) throw error;
+    // with confirmations off a session comes back; an empty identities list means the email is taken
+    if (!data.session) { const e = new Error(data.user && !data.user.identities?.length ? 'user_already_exists' : 'signup_failed'); throw e; }
+    await this._set(data.user); return data.user;
   },
-  async verify(email, token) {
-    const { data, error } = await sb.auth.verifyOtp({ email, token, type: 'email' });
+  async signIn(email, password) {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) throw error; await this._set(data.user); return data.user;
   },
+  async changePassword(password) { const { error } = await sb.auth.updateUser({ password }); if (error) throw error; },
   // drop the local user first so no query asks for contact columns with an anon token mid-sign-out
   async signOut() { this.user = null; this.profile = null; await sb.auth.signOut(); },
   async setName(name) {
-    const { data, error } = await sb.from('profiles').update({ display_name: name }).eq('id', this.uid).select('id,display_name,is_polyu').single();
+    const { data, error } = await sb.from('profiles').update({ display_name: name }).eq('id', this.uid).select('id,display_name').single();
     if (error) throw error; this.profile = data;
   },
   async deleteAccount() {
@@ -369,8 +381,8 @@ const imgUrl = p => `${SUPABASE_CONFIG.url}/storage/v1/object/public/${SUPABASE_
 
 const Api = (() => {
   const hm = v => (v || '').slice(0, 5);
-  const OWNER = c => `owner:profiles!${c}_user_id_fkey(display_name,is_polyu)`;
-  const TAKER = c => `taker:profiles!${c}_taker_id_fkey(display_name,is_polyu)`;
+  const OWNER = c => `owner:profiles!${c}_user_id_fkey(display_name)`;
+  const TAKER = c => `taker:profiles!${c}_taker_id_fkey(display_name)`;
   const BASE = {
     listings: 'id,created_at,user_id,title,cat,price,cond,description,spot,images,status',
     daigou: 'id,created_at,user_id,item,from_region,budget,tip,deadline,note,images,status,taker_id,taken_at',
@@ -502,7 +514,7 @@ async function refresh(...cols) {
   }));
 }
 const who = x => x.mine ? t('me') : (x.owner?.display_name || t('student'));
-const badge = p => p?.is_polyu ? `<span class="polyu" title="@connect.polyu.hk">✓ ${t('polyuBadge')}</span>` : '';
+const badge = () => '';
 const thumbHtml = x => x.images?.length ? `<img src="${imgUrl(x.images[0])}" alt="" loading="lazy" decoding="async">` : art(x);
 const loggedIn = () => !!Auth.uid;
 function needLogin(then) { if (loggedIn()) return false; pendingAfterLogin = then || null; openLogin(); toast(t('tLogin')); return true; }
@@ -687,19 +699,25 @@ function renderMe() {
   const box = $('#meBody'); if (!box) return;
   if (!loggedIn()) { box.innerHTML = `<div class="empty-card">${EMPTY_ART}<h3>${t('login')}</h3><p>${t('loginHint')}</p><button class="btn btn-primary" data-action="login">${t('login')}</button></div>`; return; }
   const p = Auth.profile || {};
-  const typing = document.activeElement?.closest?.('#nameForm') ? $('#nameForm [name=name]').value : null;
+  // keep whatever the user is typing in the profile forms across re-renders
+  const keep = $$('#meBody form input').map(i => [i.closest('form').id, i.name, i.value, i === document.activeElement]);
+  const dirty = keep.filter(([f, n, v]) => v && (f === 'pwForm' || document.activeElement?.closest?.('#' + f)));
   box.innerHTML = `
     <section class="me-card">
       <div class="me-prof"><span class="avatar lg">${esc([...(p.display_name || '?')][0]).toUpperCase()}</span>
         <div><div class="me-name">${esc(p.display_name || '')} ${badge(p)}</div><div class="muted">${esc(Auth.user.email || '')}</div></div></div>
       <form id="nameForm" class="me-name-form"><label><span>${t('displayName')}</span><input name="name" maxlength="30" minlength="1" required value="${esc(p.display_name || '')}"></label><button class="btn btn-primary btn-sm">${t('save')}</button></form>
+      <form id="pwForm" class="me-pw-form"><b>${t('changePw')}</b>
+        <div class="me-pw-row"><label><span>${t('newPw')}</span><input name="pw" type="password" minlength="8" required autocomplete="new-password" placeholder="${t('passwordPh')}"></label>
+        <label><span>${t('newPw2')}</span><input name="pw2" type="password" minlength="8" required autocomplete="new-password"></label>
+        <button class="btn btn-primary btn-sm">${t('changePw')}</button></div></form>
       <div class="me-acc"><button class="btn btn-ghost btn-sm" data-action="logout">${t('logout')}</button><button class="link-btn danger" data-action="delacc">${t('deleteAccount')}</button></div>
     </section>
     <h2 class="sec-title">${t('myPosts')} <span class="count">${my.posts.length}</span></h2>
     <div class="me-list">${my.posts.length ? my.posts.sort((a, b) => b.t - a.t).map(x => meRow(x, false)).join('') : `<p class="muted me-empty">${t('noPosts')}</p>`}</div>
     <h2 class="sec-title">${t('myTaken')} <span class="count">${my.taken.length}</span></h2>
     <div class="me-list">${my.taken.length ? my.taken.map(x => meRow(x, true)).join('') : `<p class="muted me-empty">${t('noTaken')}</p>`}</div>`;
-  if (typing !== null) { const inp = $('#nameForm [name=name]'); inp.value = typing; inp.focus(); }
+  dirty.forEach(([f, n, v, focused]) => { const inp = $(`#${f} [name=${n}]`); if (inp) { inp.value = v; if (focused) inp.focus(); } });
 }
 async function loadMe() {
   if (!loggedIn()) { my = { posts: [], taken: [] }; return renderMe(); }
@@ -790,34 +808,40 @@ async function submitForm(c, e) {
   renderAll();
 }
 
-/* ---------- login ---------- */
-let loginEmail = '';
-function openLogin() {
-  $('#loginStep1').hidden = false; $('#loginStep2').hidden = true;
-  $('#loginEmail').value = loginEmail; $('#loginCode').value = '';
+/* ---------- login (email + password, no emails sent) ---------- */
+let loginTab = 'login';
+function setLoginTab(tab) {
+  loginTab = tab;
+  $$('#loginModal [data-tab]').forEach(b => { b.classList.toggle('active', b.dataset.tab === tab); b.setAttribute('aria-selected', b.dataset.tab === tab); });
+  $('#loginForm').classList.toggle('is-signup', tab === 'signup');
+  $('#loginPw2').required = tab === 'signup'; $('#loginPw2Wrap').hidden = tab !== 'signup'; $('#signupNote').hidden = tab !== 'signup';
+  $('#loginPw').autocomplete = tab === 'signup' ? 'new-password' : 'current-password';
+  const sub = $('#loginSubmit'); sub.dataset.i18n = tab === 'signup' ? 'doSignup' : 'doLogin'; sub.textContent = t(sub.dataset.i18n);
+  $('#forgotBox').hidden = true; $('#loginErr').hidden = true;
+}
+function openLogin(tab = 'login') {
   $$('.modal').forEach(m => { if (m.id !== 'loginModal') m.hidden = true; });
+  $('#loginForm').reset(); $$('#loginModal [data-pwtoggle]').forEach(b => { $('#' + b.dataset.pwtoggle).type = 'password'; b.setAttribute('aria-pressed', 'false'); b.textContent = t('showPw'); }); setLoginTab(tab);
   $('#loginModal').hidden = false; document.body.style.overflow = 'hidden';
   setTimeout(() => $('#loginEmail').focus(), 50);
 }
-$('#loginForm1').addEventListener('submit', async e => {
-  e.preventDefault(); const btn = e.target.querySelector('button[type=submit]');
-  loginEmail = $('#loginEmail').value.trim().toLowerCase();
+function loginError(msg) { const el = $('#loginErr'); el.textContent = msg; el.hidden = false; }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); const btn = $('#loginSubmit');
+  const email = $('#loginEmail').value.trim().toLowerCase(), pw = $('#loginPw').value;
+  $('#loginErr').hidden = true;
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return loginError(t('tBadEmail'));
+  if (pw.length < 8) return loginError(t('tWeakPw'));
+  if (loginTab === 'signup' && pw !== $('#loginPw2').value) return loginError(t('tPwMismatch'));
   btn.disabled = true;
-  try { await Auth.sendCode(loginEmail); } catch (err) { btn.disabled = false; return toast(errMsg(err)); }
-  btn.disabled = false;
-  $('#codeSentText').textContent = t('codeSent', { email: loginEmail });
-  $('#loginStep1').hidden = true; $('#loginStep2').hidden = false; $('#loginCode').focus();
-});
-$('#loginForm2').addEventListener('submit', async e => {
-  e.preventDefault(); const btn = e.target.querySelector('button[type=submit]');
-  btn.disabled = true;
-  try { await Auth.verify(loginEmail, $('#loginCode').value.replace(/\D/g, '')); } catch (err) { btn.disabled = false; return toast(errMsg(err)); }
-  btn.disabled = false; await afterAuth(true);
+  try { loginTab === 'signup' ? await Auth.signUp(email, pw) : await Auth.signIn(email, pw); }
+  catch (err) { btn.disabled = false; return loginError(errMsg(err)); }
+  btn.disabled = false; await afterAuth(loginTab === 'signup' ? 'signup' : true);
 });
 async function afterAuth(fromForm) {
   closeModal($('#loginModal')); renderHeader();
   await refresh().catch(() => {}); renderAll(); await loadMe().catch(() => {});
-  if (fromForm) toast(t('tLoggedIn'));
+  if (fromForm) toast(t(fromForm === 'signup' ? 'tSignedUp' : 'tLoggedIn'));
   const next = pendingAfterLogin; pendingAfterLogin = null; if (next) next();
 }
 
@@ -839,9 +863,13 @@ function go(view) {
 }
 const errMsg = e => {
   const m = (e?.message || '') + ' ' + (e?.code || '');
-  if (/not authorized/i.test(m)) return t('tEmailNotAuth');
-  if (/over_email_send_rate|rate limit|email rate|security purposes/i.test(m)) return t('tEmailRate');
-  if (/expired|invalid.*(otp|token)|otp_expired|Token has/i.test(m)) return t('tBadCode');
+  if (/over_request_rate|rate limit|too many/i.test(m)) return t('tRate');
+  if (/invalid login credentials|invalid_credentials/i.test(m)) return t('tWrongPw');
+  if (/already registered|user_already_exists|email_exists/i.test(m)) return t('tEmailTaken');
+  if (/same_password|should be different/i.test(m)) return t('tSamePw');
+  if (/weak_password|password should|password is known|at least 8/i.test(m)) return t('tWeakPw');
+  if (/email_address_invalid|invalid format|validate email|is invalid/i.test(m)) return t('tBadEmail');
+  if (/pw_mismatch/.test(m)) return t('tPwMismatch');
   if (/rate_limited/.test(m)) return t('tRate');
   if (/bad_transition/.test(m)) return t('tBadTransition');
   if (/login_required|JWT/i.test(m)) return t('tLogin');
@@ -856,7 +884,7 @@ let pendingTake = null;
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
@@ -890,7 +918,9 @@ document.addEventListener('click', async e => {
     if (!confirm(t('delAccConfirm'))) return;
     guard(async () => { await Auth.deleteAccount(); my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tAccDeleted')); });
   }
-  else if (d.action === 'resend') { $('#loginStep1').hidden = false; $('#loginStep2').hidden = true; }
+  else if (d.tab) setLoginTab(d.tab);
+  else if (d.action === 'forgot') { $('#forgotBox').innerHTML = t('forgotText', { mail: `<a href="mailto:${SITE_CONFIG.contactEmail}">${SITE_CONFIG.contactEmail}</a>` }); $('#forgotBox').hidden = !$('#forgotBox').hidden; }
+  else if (d.pwtoggle !== undefined) { const inp = $('#' + d.pwtoggle), show = inp.type === 'password'; inp.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', show); el.textContent = t(show ? 'hidePw' : 'showPw'); }
   else if (d.action) openForm({ post: 'listings', req: 'daigou', err: 'errands' }[d.action]);
   else if (d.take) {
     const [k, id] = d.take.split(':'); const x = findPost(k, id); if (!x) return;
@@ -912,6 +942,13 @@ $('#reportForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
   try { await Api.report({ target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note }); } catch (err) { return toast(errMsg(err)); }
   e.target.reset(); closeModal($('#reportModal')); toast(t('tReported'));
+});
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'pwForm') return; e.preventDefault();
+  const f = Object.fromEntries(new FormData(e.target));
+  if (f.pw.length < 8) return toast(t('tWeakPw'));
+  if (f.pw !== f.pw2) return toast(t('tPwMismatch'));
+  guard(async () => { await Auth.changePassword(f.pw); e.target.reset(); toast(t('tPwChanged')); });
 });
 document.addEventListener('submit', async e => {
   if (e.target.id !== 'nameForm') return; e.preventDefault();

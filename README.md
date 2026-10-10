@@ -16,19 +16,18 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 - `app.js` → `SUPABASE_CONFIG`：public URL + publishable key（可公開，權限由 RLS 控制 / safe to ship, access enforced by RLS）。
 - **切勿**把 service_role / secret key 或 access token 放入此 repo. Never commit secret keys or tokens.
 
-## 帳戶 / Accounts (Supabase Auth, email OTP)
-- 任何電郵都可登入；@connect.polyu.hk 會顯示「理大同學」標記。Any email works; @connect.polyu.hk gets a “PolyU student” badge.
+## 帳戶 / Accounts (Supabase Auth, email + password)
+- 註冊即登入，不會發送任何電郵（`mailer_autoconfirm = true`），電郵地址**未經驗證**。密碼最少 8 個字元。
+  Sign-up logs you in immediately; no emails are ever sent and email addresses are **not verified**. Passwords ≥ 8 chars.
 - 瀏覽公開；發佈、接單、查看聯絡方法需要登入。Browsing is public; posting, taking orders and seeing contacts need sign-in.
-- Site URL: `https://hgc2819465493-ship-it.github.io/polyu-market/`; redirect allow-list: that URL `/**` and `http://localhost:8765/**`. OTP length 6, expiry 10 min.
-- **電郵限制 / Email limits:** Supabase 內建寄件服務只會寄給 project 團隊成員電郵，約每小時 2 封，亦不能改範本。
-  公開使用前必須設定自訂 SMTP（例如 Resend、Brevo），再把 `supabase/email-template.html` 貼到
-  Auth → Email Templates → Magic Link（範本含 `{{ .Token }}` 6 位數驗證碼）。
-  The built-in sender only delivers to project team members (~2/hour) and templates can’t be edited on the free tier without custom SMTP.
-  Until then users get a sign-in **link** (the UI accepts both link and 6-digit code).
+- 「我的」可更改顯示名稱、更改密碼、刪除帳戶。忘記密碼：用註冊電郵電郵至 SITE_CONFIG.contactEmail，由管理員在 Supabase 後台處理。
+  “Me” page: display name, change password, delete account. Forgot password: users email the contact address; reset manually in the Supabase dashboard.
+- Site URL `https://hgc2819465493-ship-it.github.io/polyu-market/`; redirect allow-list: that URL `/**` and `http://localhost:8765/**`.
+- 如日後設定自訂 SMTP，可改回電郵驗證 / 驗證碼登入（`supabase/email-template.html`）。If custom SMTP is added later, email verification / OTP can be re-enabled.
 
 ## 資料庫 / Database
 - `supabase/schema_v2.sql` (applied): `profiles`, `listings`, `daigou`, `errands`, `reports`;
-  RLS (owner = `auth.uid()`), column privileges (contacts only for signed-in users; taker contact only via RPC),
+  RLS (owner = `auth.uid()`; `profiles.is_polyu` is no longer shown since emails are unverified), column privileges (contacts only for signed-in users; taker contact only via RPC),
   guard trigger (status transitions, image paths, rate limit), RPCs `pm_take`, `pm_release`, `pm_taker_contact`, `pm_delete_account`.
 - 狀態 / statuses — listings: available / reserved / sold / removed; daigou & errands: open / taken / done / cancelled.
 - Storage bucket `post-images` (public, 2 MB, jpeg/webp/png): users write/delete only under `<their uid>/…`.
