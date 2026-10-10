@@ -381,3 +381,9 @@ button:disabled{opacity:.6;cursor:wait}
   .chat-shell{height:calc(100vh - 101px);height:calc(100dvh - 101px)}
 }
 @media (max-width:340px){.logo-text{display:none}}
+/* deal confirmation bar in chat */
+.deal-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 14px 0;padding:8px 12px;border-radius:12px;background:#f6f2ef;font-size:13px}
+.deal-sides{display:flex;gap:12px}.deal-st{color:var(--sub)}.deal-st.ok{color:#1d7a46;font-weight:600}
+.deal-bar.done{display:grid;gap:2px;background:#eef7f1;border:1px solid #cfe8d8;color:#1d5c39}
+.deal-bar.done .muted{font-size:12px}
+.hint.chat-only{margin:0;padding:8px 12px;background:var(--red-l);border-radius:10px;color:var(--red-d)}

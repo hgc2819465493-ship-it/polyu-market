@@ -12,7 +12,8 @@ const SUPABASE_CONFIG = {
   bucket: 'post-images',
 };
 const IMG = { maxSide: 1280, maxBytes: 2 * 1024 * 1024, maxCount: 4 };
-const LS_LANG = 'pm_lang', LS_HALL = 'pm_hall', LS_TAKER = 'pm_taker_contact';
+const LS_LANG = 'pm_lang', LS_HALL = 'pm_hall';
+try { localStorage.removeItem('pm_taker_contact'); } catch (e) {}  // contact details are no longer used
 ['pm_listings_v1', 'pm_requests_v1', 'pm_listings_v2', 'pm_requests_v2', 'pm_errands_v2', 'pm_reports_v2', 'pm_owner'].forEach(k => localStorage.removeItem(k)); // old local-only data
 
 const I18N = {
@@ -27,20 +28,20 @@ const I18N = {
     spot_corea: 'Core A 大堂', spot_lib: '包玉剛圖書館門口', spot_hh: '紅磡站 A1 出口', spot_hall: '學生宿舍大堂', spot_jcit: '賽馬會創新樓門口',
     emptyTitle: '仲未有人放售', emptyText: '做第一個放售嘅理大同學啦！教科書、檯燈、計數機都啱。', emptyBtn: '放售第一件物品',
     noMatchTitle: '搵唔到相關物品', noMatchText: '試下換個關鍵字，或者轉個分類。',
-    seller: '賣家', spot: '交收地點', posted: '上架時間', copyContact: '複製聯絡方法', noDesc: '賣家未有填寫描述。',
+    seller: '賣家', spot: '交收地點', posted: '上架時間', noDesc: '賣家未有填寫描述。',
     safety: '提提你：請喺校園公眾地方面交，驗貨後先俾錢。', me: '我',
     postTitle: '放售物品', fTitle: '物品名稱', fTitlePh: '例如：COMP1011 教科書（第三版）', fCat: '類別', fPrice: '價錢 (HKD)', fCond: '成色',
-    fDesc: '描述', fDescPh: '購買時間、有冇筆記、配件齊唔齊……', fCtype: '聯絡方式', fContact: '帳號 / 電話（選填）', fContactPh: '例如 @polyu_boa', fSpot: '交收地點', submitPost: '確認放售',
+    fDesc: '描述', fDescPh: '購買時間、有冇筆記、配件齊唔齊……', fSpot: '交收地點', submitPost: '確認放售',
     dgKicker: '代購 · 互助', dgTitle: '想要嘅嘢，', dgTag: '搵順路同學幫你帶', dgSub: '寫低要買咩、喺邊度買、預算同限期，有同學順路就可以接單。', postReq: '發佈代購需求',
     reg_all: '全部地區', reg_sz: '深圳', reg_jp: '日本', reg_kr: '韓國', reg_tw: '台灣', reg_mo: '澳門', reg_other: '其他',
     regShort_sz: '深', regShort_jp: '日', regShort_kr: '韓', regShort_tw: '台', regShort_mo: '澳', regShort_other: '其',
     reqTitle: '發佈代購需求', rItem: '想買咩', rItemPh: '例如：山姆瑞士卷 ×2', rFrom: '喺邊度買', rBudget: '預算 (HKD)', rDeadline: '限期', rTip: '願意俾嘅跑腿費 (HKD)', rNote: '補充', rNotePh: '顏色、尺碼、指定門市……', submitReq: '發佈需求',
     from: '來自', budget: '預算', runFee: '跑腿費', deadline: '限期', today: '今日', daysLeft: '尚餘 {n} 日', expired: '已過期',
     open: '等待接單', taken: '已有人接單', take: '接單',
-    takeTitle: '確認接單？', takeText: '接單「{item}」後會顯示對方聯絡方法，請盡快聯絡確認細節。', cancel: '取消', takeOk: '確認接單',
+    takeTitle: '確認接單？', takeText: '接單「{item}」後，請用「聊一聊」同發佈者確認細節。', cancel: '取消', takeOk: '確認接單',
     dgEmptyTitle: '暫時未有代購需求', dgEmptyText: '想要深圳、日本或者其他地方嘅嘢？發佈第一個需求，等順路同學幫你帶。', dgEmptyBtn: '發佈第一個需求',
     dgNoMatch: '呢個地區暫時未有需求。',
-    tPosted: '已成功放售！', tReq: '需求已發佈，等同學接單～', tTaken: '接單成功！請聯絡對方確認細節', tCopied: '已複製：',
+    tPosted: '已成功放售！', tReq: '需求已發佈，等同學接單～', tTaken: '接單成功！請用「聊一聊」確認細節', tCopied: '已複製：',
     ago_m: '{n} 分鐘前', ago_h: '{n} 小時前', ago_d: '{n} 日前', count: '{n} 件',
     foot1: '本網站為學生個人項目，與香港理工大學無關，並非官方網站。', foot2: '完全免費，不收任何佣金。',
   },
@@ -55,20 +56,20 @@ const I18N = {
     spot_corea: 'Core A lobby', spot_lib: 'Pao Yue-kong Library entrance', spot_hh: 'Hung Hom Station Exit A1', spot_hall: 'Student Halls lobby', spot_jcit: 'Jockey Club Innovation Tower entrance',
     emptyTitle: 'Nothing listed yet', emptyText: 'Be the first PolyU student to list something — textbooks, lamps and calculators all welcome.', emptyBtn: 'List the first item',
     noMatchTitle: 'No matching items', noMatchText: 'Try another keyword or category.',
-    seller: 'Seller', spot: 'Meet-up spot', posted: 'Listed', copyContact: 'Copy contact', noDesc: 'No description provided.',
+    seller: 'Seller', spot: 'Meet-up spot', posted: 'Listed', noDesc: 'No description provided.',
     safety: 'Tip: meet in a public spot on campus and check the item before paying.', me: 'Me',
     postTitle: 'List an item', fTitle: 'Item name', fTitlePh: 'e.g. COMP1011 textbook (3rd ed.)', fCat: 'Category', fPrice: 'Price (HKD)', fCond: 'Condition',
-    fDesc: 'Description', fDescPh: 'When bought, notes inside, accessories included…', fCtype: 'Contact via', fContact: 'Handle / number (optional)', fContactPh: 'e.g. @polyu_boa', fSpot: 'Meet-up spot', submitPost: 'List item',
+    fDesc: 'Description', fDescPh: 'When bought, notes inside, accessories included…', fSpot: 'Meet-up spot', submitPost: 'List item',
     dgKicker: 'Purchase on behalf', dgTitle: 'Want something?', dgTag: 'Ask a fellow student to bring it back', dgSub: 'Say what you need, where to buy it, your budget and deadline — anyone heading there can take the request.', postReq: 'Post a request',
     reg_all: 'All regions', reg_sz: 'Shenzhen', reg_jp: 'Japan', reg_kr: 'Korea', reg_tw: 'Taiwan', reg_mo: 'Macau', reg_other: 'Other',
     regShort_sz: 'SZ', regShort_jp: 'JP', regShort_kr: 'KR', regShort_tw: 'TW', regShort_mo: 'MO', regShort_other: '··',
     reqTitle: 'Post a request', rItem: 'What do you need?', rItemPh: 'e.g. Sam\u2019s Club swiss roll ×2', rFrom: 'Buy from', rBudget: 'Budget (HKD)', rDeadline: 'Needed by', rTip: 'Runner fee you\u2019ll pay (HKD)', rNote: 'Notes', rNotePh: 'Colour, size, specific store…', submitReq: 'Post request',
     from: 'From', budget: 'Budget', runFee: 'Runner fee', deadline: 'By', today: 'today', daysLeft: '{n} days left', expired: 'expired',
     open: 'Open', taken: 'Taken', take: 'Take it',
-    takeTitle: 'Take this request?', takeText: 'Once you take “{item}”, the requester\u2019s contact will be shown. Reach out soon to confirm details.', cancel: 'Cancel', takeOk: 'Confirm',
+    takeTitle: 'Take this request?', takeText: 'After taking “{item}”, use Chat to confirm the details with the poster.', cancel: 'Cancel', takeOk: 'Confirm',
     dgEmptyTitle: 'No requests yet', dgEmptyText: 'Need something from Shenzhen, Japan or elsewhere? Post the first request and let a classmate bring it back.', dgEmptyBtn: 'Post the first request',
     dgNoMatch: 'No requests for this region yet.',
-    tPosted: 'Your item is listed!', tReq: 'Request posted — hang tight!', tTaken: 'Request taken! Contact them to confirm.', tCopied: 'Copied: ',
+    tPosted: 'Your item is listed!', tReq: 'Request posted — hang tight!', tTaken: 'Taken! Use Chat to confirm the details.', tCopied: 'Copied: ',
     ago_m: '{n} min ago', ago_h: '{n} h ago', ago_d: '{n} d ago', count: '{n}',
     foot1: 'Independent student project, not affiliated with The Hong Kong Polytechnic University.', foot2: 'Completely free, no commission.',
   },
@@ -77,7 +78,7 @@ const I18N = {
 const SCAMETER = 'https://cyberdefender.hk/en-us/scameter/';
 Object.assign(I18N.zh, {
   docAbout: '關於我們', docProhibited: '禁售清單', docTerms: '使用條款', docPrivacy: '私隱政策', docDisclaimer: '免責聲明',
-  picsShort: '你提交的資料（物品資料及聯絡方式）會公開顯示，只用作讓其他同學聯絡你。', 
+  picsShort: '你提交的物品資料及相片會公開顯示；同學只可以透過站內「聊一聊」聯絡你，毋須留下任何個人聯絡方法。', 
   agreeA: '我確認內容不涉及', agreeB: '所列物品，並已閱讀及同意', agreeAnd: '及', agreeC: '。',
   scamTitle: '防騙小貼士', scamBody: '盡量校園內面交、一手交錢一手交貨；避免預付訂金或全數；交易前可用', scamLink: '防騙視伏器',
   scamTail: '查核對方電話、帳號或連結。',
@@ -89,7 +90,7 @@ Object.assign(I18N.zh, {
 });
 Object.assign(I18N.en, {
   docAbout: 'About', docProhibited: 'Prohibited items', docTerms: 'Terms of use', docPrivacy: 'Privacy policy', docDisclaimer: 'Disclaimer',
-  picsShort: 'What you submit (item details and contact) is shown publicly, solely so other students can reach you.',
+  picsShort: 'Item details and photos are shown publicly; other students can reach you only through on-site Chat — no personal contact details needed.',
   agreeA: 'I confirm this does not involve ', agreeB: ', and I have read and agree to the ', agreeAnd: ' and ', agreeC: '.',
   scamTitle: 'Stay safe', scamBody: 'Meet in person on campus and pay on delivery; avoid deposits or paying in full upfront. Before dealing, check numbers, accounts or links with ', scamLink: 'Scameter',
   scamTail: '.',
@@ -121,17 +122,18 @@ const DOCS = {
       '代購須遵守香港及內地（或相關地區）海關、進出口及稅務規定，包括攜帶限額及申報要求。',
       '宿舍跑腳只屬同學之間的互助安排：取件碼須私下傳送；跑腳費由雙方自行協定及直接交收，本網站不收取任何費用，亦不處理任何付款或爭議。',
       '發佈、接單須以電郵及密碼登入帳戶。本網站不會驗證電郵地址，你只可以使用屬於你本人的電郵地址註冊，不得使用他人電郵或冒認他人。請使用安全的密碼並妥善保管，你須對帳戶下的所有活動負責。每人只應使用一個帳戶。',
-      '站內「聊一聊」只可用於交易相關溝通，不得發送騷擾、詐騙、垃圾或違法內容；被舉報的對話可能會由管理員查閱。',
+      '本網站不提供亦不顯示任何個人聯絡方法，站內「聊一聊」是唯一聯絡途徑，只可用於交易相關溝通，不得發送騷擾、詐騙、垃圾或違法內容；被舉報的對話可能會由管理員查閱。雙方確認交易完成後 48 小時，聊天記錄會自動刪除，如有爭議請於期內舉報。',
       '你上載的相片須為你擁有或有權使用的物品相片，並符合<a href="#" data-doc="prohibited">禁售清單</a>的相片規定。',
       '我們可在毋須通知的情況下移除任何內容、暫停或刪除任何帳戶。',
-      '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。']),
+      '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。',
+      '本網站的法律文件備有繁體中文、簡體中文及英文版本，如各版本之間有任何歧異，概以繁體中文版本為準。']),
     privacy: () => `<h3>私隱政策及收集個人資料聲明</h3>
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
-      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式；（四）你在站內「聊一聊」傳送的訊息及相片。請勿提供不必要的個人資料。</p>
-      <h4>收集目的</h4><p>用作登入及管理你的帳戶與內容、在網站上顯示你的放售或需求、讓買賣或接單雙方聯絡，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
-      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。站內訊息只有對話雙方可以閱讀；訊息相片儲存於私人空間，只以限時連結顯示給對話雙方。網站管理員為處理舉報及維護秩序，可查閱舉報紀錄及所有帖子（包括已隱藏者），並只會在對話被舉報後查閱該對話內容；管理員可隱藏或刪除違規內容及封鎖帳戶，所有管理操作均會記錄。除法律要求外，我們不會向第三方披露你的資料。</p>
+      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）及上載的物品相片；（三）你在站內「聊一聊」傳送的訊息及相片。本網站<b>不會收集</b>電話號碼、WhatsApp、WeChat 或 Instagram 等個人聯絡方法；請勿在帖子或訊息中提供不必要的個人資料。</p>
+      <h4>收集目的</h4><p>用作登入及管理你的帳戶與內容、在網站上顯示你的放售或需求、讓買賣或接單雙方透過站內訊息溝通，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
+      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示。站內訊息只有對話雙方可以閱讀；訊息相片儲存於私人空間，只以限時連結顯示給對話雙方。網站管理員為處理舉報及維護秩序，可查閱舉報紀錄及所有帖子（包括已隱藏者），並只會在對話被舉報後查閱該對話內容；管理員可隱藏或刪除違規內容及封鎖帳戶，所有管理操作均會記錄。除法律要求外，我們不會向第三方披露你的資料。</p>
       <h4>儲存地點</h4><p>資料及相片儲存於 Supabase 雲端服務，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。本網站不會向你發送任何電郵，亦不會驗證你的電郵地址。</p>
-      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；對話於最後一則訊息 180 日後自動刪除；舉報及管理操作紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
+      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；聊天記錄：當交易雙方均已確認交易完成（發佈者將帖子標記為「已售出」/「已完成」，而對方在對話中按「確認交易完成」），會開始 48 小時爭議期，期間任何一方可舉報；爭議期過後，該對話的所有訊息及相片會自動刪除（每小時執行）。如對話有未處理的舉報，會保留至管理員處理完畢後才刪除。其他對話（包括只有一方確認者）於最後一則訊息 180 日後自動刪除；舉報及管理操作紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
       <h4>查閱、更正及刪除</h4><p>你可隨時於「我的」頁面修改顯示名稱、編輯或刪除自己的內容（相片會一併刪除），更改密碼，或按「刪除帳戶」永久刪除帳戶及所有內容。忘記密碼的話，請用你註冊的電郵地址電郵至 ${mail('contactEmail')} 求助。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>免責聲明</h3><p class="muted small">在香港法律容許的最大範圍內適用。</p><ol>
       <li><b>只提供資訊平台。</b>理大二手網（「本網站」）只供使用者發佈及瀏覽二手物品及代購資訊，並非任何交易的一方，不參與、促成、代收或保證任何交易或付款。</li>
@@ -147,7 +149,7 @@ const DOCS = {
       <li><b>可分割性。</b>如本聲明任何條文被裁定無效或不可執行，其餘條文仍然完全有效。</li>
       <li><b>修訂。</b>本網站可隨時修訂本聲明，修訂後的版本於網站發佈時即時生效。</li>
       <li><b>管轄法律。</b>本聲明受香港特別行政區法律管轄，並按其詮釋。</li>
-      <li><b>語言。</b>本聲明備有中文及英文版本，如兩者有任何歧異，概以中文（繁體）版本為準。</li></ol><p class="muted small">查詢、投訴及侵權通知：${mail('complaintsEmail')}</p>`,
+      <li><b>語言。</b>本聲明備有繁體中文、簡體中文及英文版本，如各版本之間有任何歧異，概以繁體中文版本為準。</li></ol><p class="muted small">查詢、投訴及侵權通知：${mail('complaintsEmail')}</p>`,
   },
   en: {
     about: () => `<h3>About</h3>
@@ -167,17 +169,18 @@ const DOCS = {
       'Purchase-on-behalf requests must comply with Hong Kong and Mainland (or other relevant) customs, import/export and tax rules, including allowances and declarations.',
       'Hall errands are informal favours between students: share pickup codes privately only; runner fees are agreed and paid directly between users — the site charges nothing and does not handle payments or disputes.',
       'Posting and taking orders require an account (email + password). Email addresses are not verified: you may only register with an email address that belongs to you — never someone else\u2019s — and must not impersonate anyone. Use a strong password and keep it safe; you are responsible for all activity under your account. One account per person.',
-      'On-site Chat is for deal-related messages only — no harassment, scams, spam or illegal content. Reported conversations may be reviewed by moderators.',
+      'The site neither collects nor shows personal contact details — on-site Chat is the only way to get in touch, and it is for deal-related messages only: no harassment, scams, spam or illegal content. Reported conversations may be reviewed by moderators. Chats are deleted 48 hours after both sides confirm the deal is complete; report any dispute within that window.',
       'Photos you upload must be of items you own or have the right to show, and must follow the photo rules in the <a href="#" data-doc="prohibited">Prohibited items</a> list.',
       'We may remove any content, or suspend or delete any account, without notice.',
-      'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.']),
+      'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.',
+      'The site\u2019s legal documents are available in Traditional Chinese, Simplified Chinese and English; in case of any inconsistency, the Traditional Chinese version prevails.']),
     privacy: () => `<h3>Privacy policy & Personal Information Collection Statement</h3>
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
-      <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order; (4) messages and photos you send through on-site Chat. Please don\u2019t share more personal data than needed.</p>
-      <h4>Purpose</h4><p>To sign you in and let you manage your account and posts, show your listings and requests, let the two sides of a deal contact each other, and handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
-      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. Chat messages can only be read by the two people in the conversation; chat photos are stored privately and shown to them through short-lived links. To handle reports, site moderators can see reports and all posts (including hidden ones), and read a conversation only after it has been reported; they may hide or delete content and ban accounts, and every moderation action is logged. We do not disclose your data to third parties except as required by law.</p>
+      <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), and item photos; (3) messages and photos you send through on-site Chat. We <b>do not collect</b> phone numbers or WhatsApp / WeChat / Instagram handles or any other personal contact details; please don\u2019t share more personal data than needed in posts or messages.</p>
+      <h4>Purpose</h4><p>To sign you in and let you manage your account and posts, show your listings and requests, let the two sides of a deal talk through on-site messages, and handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
+      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public. Chat messages can only be read by the two people in the conversation; chat photos are stored privately and shown to them through short-lived links. To handle reports, site moderators can see reports and all posts (including hidden ones), and read a conversation only after it has been reported; they may hide or delete content and ban accounts, and every moderation action is logged. We do not disclose your data to third parties except as required by law.</p>
       <h4>Storage location</h4><p>Data and photos are stored with Supabase, with servers in Tokyo, Japan, i.e. transferred outside Hong Kong. The site never sends you emails and does not verify your email address.</p>
-      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; conversations are deleted 180 days after their last message; reports and the moderation log are kept for 365 days. Account data is kept until you delete your account.</p>
+      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; chats: once both sides confirm the deal is complete (the poster marks the post Sold / Completed and the other side taps “Confirm deal complete” in the chat), a 48-hour dispute window starts during which either side can report; after it, all messages and photos of that conversation are deleted automatically (hourly job). A conversation with an unhandled report is kept until a moderator has handled it. Other conversations (including ones confirmed by only one side) are deleted 180 days after their last message; reports and the moderation log are kept for 365 days. Account data is kept until you delete your account.</p>
       <h4>Access, correction & deletion</h4><p>On the “Me” page you can change your display name, edit or delete your posts (photos are deleted with them), change your password, or tap “Delete account” to permanently delete your account and all your content. If you forget your password, email ${mail('contactEmail')} from your registered email address for help. For access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>Disclaimer</h3><p class="muted small">Applies to the fullest extent permitted by the laws of Hong Kong.</p><ol>
       <li><b>Information platform only.</b> PolyU Marketplace (the “Site”) only allows users to post and browse second-hand and purchase-on-behalf information. It is not a party to any transaction and does not take part in, arrange, collect payment for or guarantee any transaction.</li>
@@ -193,12 +196,60 @@ const DOCS = {
       <li><b>Severability.</b> If any provision is held invalid or unenforceable, the remaining provisions remain in full force and effect.</li>
       <li><b>Amendments.</b> The Site may amend this Disclaimer at any time; the amended version takes effect when published on the Site.</li>
       <li><b>Governing law.</b> This Disclaimer is governed by and construed in accordance with the laws of the Hong Kong Special Administrative Region.</li>
-      <li><b>Language.</b> This Disclaimer is available in Chinese and English. In case of any inconsistency, the Traditional Chinese version prevails.</li></ol><p class="muted small">Enquiries, complaints & infringement notices: ${mail('complaintsEmail')}</p>`,
+      <li><b>Language.</b> This Disclaimer is available in Traditional Chinese, Simplified Chinese and English. In case of any inconsistency, the Traditional Chinese version prevails.</li></ol><p class="muted small">Enquiries, complaints & infringement notices: ${mail('complaintsEmail')}</p>`,
   },
 };
 let curDoc = null;
+DOCS.hans = {
+  about: () => `<h3>关于我们</h3>
+    <p><b>理大二手网</b>是由学生自发运营的个人项目，让理大同学免费发布闲置物品和代购需求，不收取任何佣金。</p>
+    <p class="note">本网站为学生个人项目，与香港理工大学无关，并非官方网站。本网站没有使用任何大学校徽或官方标志。</p>
+    <p>一般咨询：${mail('contactEmail')}<br>投诉及侵权通知：${mail('complaintsEmail')}</p>`,
+  prohibited: () => `<h3>禁售清单</h3><p>以下物品或服务<b>不得</b>发布出售，也不得通过代购求购：</p>` + ul([
+    '电子烟、加热烟及其配件', '烟草制品及酒类', '药品，包括处方药及管制药物', '假冒或侵犯商标权的商品',
+    '盗版或复印的教材、盗版及破解软件、序列号或账号', '武器、仿真武器、攻击性物品及其他管制物品',
+    '学生证、校园账号、Wi-Fi 账号或任何身份证件的转让或出借', '未经收件人授权代领他人快递', '任何违反香港法律或内地海关规定的物品',
+    '<b>照片：</b>不得上传他人的个人照片或可识别他人的图像、身份证件、色情、暴力或侵犯版权的图片；照片只能用于展示物品']) +
+    `<p class="muted small">违规内容会被移除，相关账户可能会被禁止使用本网站。</p>`,
+  terms: () => `<h3>使用条款</h3>` + ul([
+    '本网站只提供信息发布平台，<b>不参与、撮合或担保任何交易</b>，也不代收或代付任何款项。',
+    '买卖双方及代购双方须自行核实物品、身份和付款安排，并自行承担交易风险。',
+    '你须确保发布的内容真实、合法，不涉及<a href="#" data-doc="prohibited">禁售清单</a>所列物品，也不侵犯他人权利。',
+    '代购须遵守香港及内地（或相关地区）的海关、进出口及税务规定，包括携带限额和申报要求。',
+    '宿舍跑腿只是同学之间的互助安排：取件码须私下发送；跑腿费由双方自行商定并直接结算，本网站不收取任何费用，也不处理任何付款或纠纷。',
+    '发布和接单须使用邮箱及密码登录账户。本网站不会验证邮箱地址，你只能使用属于你本人的邮箱注册，不得使用他人邮箱或冒充他人。请使用安全的密码并妥善保管，你须对账户下的所有活动负责。每人只应使用一个账户。',
+    '本网站不提供也不显示任何个人联系方式，站内「聊一聊」是唯一的联系途径，只能用于与交易相关的沟通，不得发送骚扰、诈骗、垃圾或违法内容；被举报的对话可能会由管理员查看。双方确认交易完成 48 小时后，聊天记录会自动删除，如有争议请在此期间内举报。',
+    '你上传的照片须为你拥有或有权使用的物品照片，并符合<a href="#" data-doc="prohibited">禁售清单</a>中的照片规定。',
+    '我们可在不另行通知的情况下移除任何内容，或暂停、删除任何账户。',
+    '使用本网站即表示你同意本条款、<a href="#" data-doc="privacy">隐私政策</a>和<a href="#" data-doc="disclaimer">免责声明</a>。',
+    '本网站的法律文件备有繁体中文、简体中文及英文版本；简体中文版本仅供参考，如各版本之间有任何歧义，以繁体中文版本为准。']),
+  privacy: () => `<h3>隐私政策及个人资料收集声明</h3>
+    <p class="muted small">依据香港《个人资料（私隐）条例》（第 486 章）</p>
+    <h4>收集哪些信息</h4><p>（一）账户信息：你用于登录的邮箱地址、密码（仅以加密哈希形式存储，我们无法得知你的密码）以及你设置的昵称；（二）你发布的闲置、代购或跑腿信息（只需宿舍及楼栋 / 楼层，无需完整房间号）和上传的物品照片；（三）你在站内「聊一聊」发送的消息和照片。本网站<b>不会收集</b>电话号码、WhatsApp、微信或 Instagram 等个人联系方式；请不要在帖子或消息中提供不必要的个人信息。</p>
+    <h4>收集目的</h4><p>用于登录及管理你的账户和内容、在网站上展示你发布的闲置或需求、让交易双方通过站内消息沟通，以及处理举报和维护网站安全。我们不会将你的信息用于直接营销，也不会出售给第三方。</p>
+    <h4>谁可以看到</h4><p>你的邮箱地址不会公开。昵称、发布的内容和照片会公开显示。站内消息只有对话双方可以阅读；消息中的照片存储在私有空间，只通过限时链接展示给对话双方。为处理举报和维护秩序，网站管理员可以查看举报记录及所有帖子（包括已隐藏的帖子），并且只会在对话被举报后查看该对话内容；管理员可以隐藏或删除违规内容、封禁账户，所有管理操作都会被记录。除法律要求外，我们不会向第三方披露你的信息。</p>
+    <h4>存储地点</h4><p>数据和照片存储在 Supabase 云服务上，服务器位于日本东京，即数据会被转移到香港以外的地方存储。本网站不会向你发送任何邮件，也不会验证你的邮箱地址。</p>
+    <h4>保留期限</h4><p>系统每天自动清理：代购需求在期限过后 30 天、跑腿单在日期过后 30 天、闲置物品在发布 180 天后（已售出 / 已下架的在 60 天后）、已取消的需求在 30 天后自动删除。聊天记录：当交易双方都确认交易完成（发布者将帖子标记为「已售出」/「已完成」，且对方在对话中点击「确认交易完成」）后，会开始 48 小时争议期，期间任何一方都可以举报；争议期结束后，该对话的所有消息和照片会被自动删除（每小时执行一次）。如果对话有未处理的举报，会保留到管理员处理完毕后再删除。其他对话（包括只有一方确认的）在最后一条消息 180 天后自动删除。举报及管理操作记录保留 365 天。账户信息保留至你注销账户为止。</p>
+    <h4>查阅、更正及删除</h4><p>你可以随时在「我的」页面修改昵称、编辑或删除自己的内容（照片会一并删除）、修改密码，或点击「注销账户」永久删除账户及所有内容。如果忘记密码，请用你注册的邮箱发邮件到 ${mail('contactEmail')} 求助。如需查阅或更正个人信息，或有任何隐私相关问题，请发邮件至：${mail('contactEmail')}</p>
+    <p class="muted small">本政策的简体中文版本仅供参考，如与繁体中文版本有任何歧义，以繁体中文版本为准。</p>`,
+  disclaimer: () => `<h3>免责声明</h3><p class="muted small">在香港法律允许的最大范围内适用。</p><ol>
+    <li><b>仅提供信息平台。</b>理大二手网（「本网站」）只供用户发布和浏览二手物品及代购信息，并非任何交易的一方，不参与、撮合、代收或担保任何交易或付款。</li>
+    <li><b>不作任何保证。</b>本网站不就任何物品的质量、合法性、真伪、安全性、状况或描述是否准确，以及任何用户的身份、资格或可靠程度作出任何明示或默示的保证或陈述。</li>
+    <li><b>用户自行负责。</b>用户须对其发布的内容、交易、见面交接、付款安排，以及代购所涉及的海关、进出口、税务及其他法律规定自行承担全部责任和风险。</li>
+    <li><b>责任限制。</b>对于因使用或无法使用本网站，或因任何交易、见面、内容而导致的任何损失或损害，包括但不限于金钱损失、财物损坏、诈骗、人身伤害、数据丢失、服务中断或停止运营，本网站及其运营者概不负责。</li>
+    <li><b>宿舍跑腿。</b>跑腿安排纯属用户之间的私人约定。对于任何快递或外卖的丢失、损坏、延误、错误送达，食物的安全、卫生、过敏原或质量问题，以及用户之间有关跑腿费或其他付款的任何纠纷，本网站概不负责。</li>
+    <li><b>用户内容。</b>网站上的所有闲置及代购内容均由用户提供，不代表本网站的立场，本网站也不作任何认可。</li>
+    <li><b>移除内容。</b>本网站可随时在不另行通知或说明理由的情况下，移除任何内容或禁止任何用户使用本网站。</li>
+    <li><b>赔偿。</b>如因你违反本声明、使用条款或任何法律，或因你的内容或交易而引起任何第三方索赔，你同意就此向本网站运营者作出赔偿，并使其免受损害。</li>
+    <li><b>非官方网站。</b>本网站为学生个人项目，与香港理工大学无关，并非官方网站，也未获其认可或赞助。</li>
+    <li><b>不可排除的责任。</b>本声明的任何内容均不排除或限制依据适用法律不能排除或限制的任何责任。</li>
+    <li><b>可分割性。</b>如本声明的任何条款被认定无效或不可执行，其余条款仍然完全有效。</li>
+    <li><b>修订。</b>本网站可随时修订本声明，修订后的版本在网站发布时立即生效。</li>
+    <li><b>适用法律。</b>本声明受香港特别行政区法律管辖，并按其解释。</li>
+    <li><b>语言。</b>本声明备有繁体中文、简体中文及英文版本，如各版本之间有任何歧义，以繁体中文版本为准；简体中文版本仅供参考。</li></ol><p class="muted small">咨询、投诉及侵权通知：${mail('complaintsEmail')}</p>`,
+};
 function openDoc(k) { curDoc = k; $('#docBody').innerHTML = DOCS[lang][k](); $('#docModal').hidden = false; $('#docModal .modal-card').scrollTop = 0; document.body.style.overflow = 'hidden'; }
-const scamHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('scamTitle')}</b>${lang === 'zh' ? '：' : ': '}${t('scamBody')}<a href="${SCAMETER}" target="_blank" rel="noopener">${t('scamLink')}</a>${t('scamTail')}</p></div>`;
+const scamHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('scamTitle')}</b>${isZh() ? '：' : ': '}${t('scamBody')}<a href="${SCAMETER}" target="_blank" rel="noopener">${t('scamLink')}</a>${t('scamTail')}</p></div>`;
 let reportTarget = null;
 function openReport(kind, id) {
   const it = findPost(kind, id); if (!it) return;
@@ -218,7 +269,19 @@ const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const DAY = 864e5;
-let lang = localStorage.getItem(LS_LANG) === 'en' ? 'en' : 'zh';
+const LANGS = ['zh', 'hans', 'en'];
+function detectLang() {
+  const saved = localStorage.getItem(LS_LANG); if (LANGS.includes(saved)) return saved;
+  for (const l of (navigator.languages || [navigator.language || '']).map(x => String(x).toLowerCase())) {
+    if (/^zh-(cn|sg|my)|^zh-hans/.test(l)) return 'hans';
+    if (/^zh/.test(l)) return 'zh';            // zh-HK / zh-TW / zh-MO / zh-Hant / bare zh
+  }
+  return 'zh';
+}
+let lang = detectLang();
+// the database names new accounts 「同學 XXXX」; show that default in the reader's language
+const dn = n => { const m = /^同學 ([0-9A-F]{4})$/.exec(n || ''); return m ? t('defaultName', { id: m[1] }) : (n || t('student')); };
+const isZh = () => lang !== 'en';
 const t = (k, v = {}) => (I18N[lang][k] ?? I18N.zh[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x]);
 
 const state = { cat: 'all', q: '', sort: 'new', dg: 'all' };
@@ -256,7 +319,7 @@ Object.assign(I18N.zh, {
   hall_hh: '紅磡學生宿舍', hall_hmt: '何文田學生宿舍', openCount: '張待接單', totalCount: '張總數',
   pickup: '取件', dropoff: '送到', window: '時間', fee: '跑腳費', feeNone: '未定 / 面議',
   er_open: '等待接單', er_taken: '已接單', er_done: '已完成', markDone: '標記完成',
-  erTakeText: '接單後會顯示對方聯絡方法。請先私下確認取件碼及交收細節。', tErr: '跑腳單已發佈！', tDone: '已標記完成',
+  erTakeText: '接單後請用「聊一聊」私下確認取件碼及交收細節。', tErr: '跑腳單已發佈！', tDone: '已標記完成',
   erEmptyTitle: '{hall}暫時未有跑腳單', erEmptyText: '住喺{hall}？有快遞或者外賣想人幫手攞上 hall，發佈第一張跑腳單啦。', erEmptyBtn: '發佈第一張跑腳單', erNoMatch: '呢個宿舍暫時未有呢類跑腳單。',
   erSafeTitle: '安全提示', erSafeBody: '交收時當面核對物品；取件碼請私訊傳送，切勿公開張貼；跑腳費由雙方直接交收，網站不收取任何費用。',
 });
@@ -270,13 +333,13 @@ Object.assign(I18N.en, {
   hall_hh: 'Hung Hom Halls', hall_hmt: 'Homantin Halls', openCount: 'open', totalCount: 'total',
   pickup: 'Pick up', dropoff: 'Deliver to', window: 'Time', fee: 'Runner fee', feeNone: 'Not set / negotiable',
   er_open: 'Open', er_taken: 'Taken', er_done: 'Completed', markDone: 'Mark completed',
-  erTakeText: 'Once you take it, the poster\u2019s contact will be shown. Get the pickup code and details privately.', tErr: 'Errand posted!', tDone: 'Marked as completed',
+  erTakeText: 'After taking it, use Chat to get the pickup code and details privately.', tErr: 'Errand posted!', tDone: 'Marked as completed',
   erEmptyTitle: 'No errands at {hall} yet', erEmptyText: 'Live at {hall}? Got a parcel or takeaway you\u2019d like brought up? Post the first errand.', erEmptyBtn: 'Post the first errand', erNoMatch: 'No errands of this type at this hall yet.',
   erSafeTitle: 'Stay safe', erSafeBody: 'Check the item together at hand-over; send pickup codes privately, never post them publicly; runner fees are settled directly between you — the site takes nothing.',
 });
 const erState = { type: 'all', hall: HALLS.includes(localStorage.getItem(LS_HALL)) ? localStorage.getItem(LS_HALL) : 'hh' };
 function setHall(h) { erState.hall = h; localStorage.setItem(LS_HALL, h); renderErrands(); }
-const safetyHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('erSafeTitle')}</b>${lang === 'zh' ? '：' : ': '}${t('erSafeBody')}</p></div>`;
+const safetyHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('erSafeTitle')}</b>${isZh() ? '：' : ': '}${t('erSafeBody')}</p></div>`;
 const ER_ICON = { parcel: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>', food: '<path d="M5 11h14a7 7 0 0 1-14 0z"/><path d="M3 11h18M9 7c0-1.5 1-2 1-3M13 7c0-1.5 1-2 1-3"/>' };
 
 /* ---------- account / status / photo strings ---------- */
@@ -286,17 +349,17 @@ Object.assign(I18N.zh, {
   tabLogin: '登入', tabSignup: '註冊', doLogin: '登入', doSignup: '註冊並登入', showPw: '顯示密碼', hidePw: '隱藏密碼', forgotPw: '忘記密碼？',
   forgotText: '本網站不會發送電郵，所以未能自動重設密碼。請用你註冊時的電郵地址電郵至 {mail} 求助，並註明你的顯示名稱。',
   signupNote: '請使用你本人的電郵地址。本網站不會驗證電郵，亦不會發送任何電郵。',
-  loginHint: '登入後可以發佈、接單及查看聯絡方法。',
+  loginHint: '登入後可以發佈、接單及用「聊一聊」聯絡同學。',
   changePw: '更改密碼', newPw: '新密碼', newPw2: '確認新密碼', tPwChanged: '密碼已更改', tSignedUp: '註冊成功，已登入',
   tWrongPw: '電郵或密碼不正確。', tEmailTaken: '呢個電郵已經註冊，請直接登入。', tWeakPw: '密碼太弱：最少 8 個字元，並避免常見密碼。', tPwMismatch: '兩次輸入的密碼不一樣。', tSamePw: '新密碼不可以同舊密碼一樣。', tBadEmail: '電郵地址格式不正確。',
-  tLoggedIn: '已登入', tLoggedOut: '已登出', loginToContact: '登入後查看聯絡方法', tLogin: '請先登入',
+  tLoggedIn: '已登入', tLoggedOut: '已登出', tLogin: '請先登入',
   myTitle: '我的', myProfile: '個人資料', displayName: '顯示名稱', save: '儲存', myPosts: '我的發佈', myTaken: '我接的單',
   noPosts: '你仲未發佈任何內容。', noTaken: '你仲未接任何單。', edit: '編輯', deleteAccount: '刪除帳戶',
   delAccConfirm: '確定永久刪除帳戶及所有內容（包括相片）？此操作無法復原。', tAccDeleted: '帳戶已刪除',
   st_available: '在售', st_reserved: '已預約', st_sold: '已售出', st_removed: '已下架', st_open: '待接單', st_taken: '已接單', st_done: '已完成', st_cancelled: '已取消',
   markReserved: '標記已預約', markSold: '標記已售出', markRemoved: '下架', markAvailable: '重新上架', cancelPost: '取消', completePost: '標記完成', reopen: '重新開放',
   release: '放棄接單', releaseConfirm: '確定放棄接單？需求會重新開放畀其他人。', tReleased: '已放棄接單', tStatus: '狀態已更新', tSaved: '已儲存',
-  takerLabel: '接單者', posterLabel: '發佈者', takeIntro: '接單後雙方會見到對方聯絡方法。請留低你嘅聯絡方法（只有發佈者見到）。',
+  takerLabel: '接單者', posterLabel: '發佈者', takeIntro: '本網站不會顯示任何個人聯絡方法。',
   photos: '相片（最多 4 張）', photosOpt: '相片（選填，最多 4 張）', addPhoto: '＋ 相片', tTooMany: '最多 4 張相片', tNotImage: '只可上載圖片檔案', tTooLarge: '相片太大，請換一張', uploading: '上載中…',
   editTitle: '編輯內容', submitSave: '儲存變更', kind_listings: '放售', kind_daigou: '代購', kind_errands: '跑腳',
   tOffline: '暫時連唔到伺服器，請稍後再試。', tBadTransition: '呢個狀態而家唔可以咁改。', photoOf: '第 {n} 張相片',
@@ -307,17 +370,17 @@ Object.assign(I18N.en, {
   tabLogin: 'Sign in', tabSignup: 'Sign up', doLogin: 'Sign in', doSignup: 'Sign up & sign in', showPw: 'Show password', hidePw: 'Hide password', forgotPw: 'Forgot password?',
   forgotText: 'This site doesn\u2019t send emails, so passwords can\u2019t be reset automatically. Email {mail} from the address you registered with, and include your display name.',
   signupNote: 'Please use your own email address. The site does not verify emails or send any.',
-  loginHint: 'Sign in to post, take orders and see contact details.',
+  loginHint: 'Sign in to post, take orders and chat with other students.',
   changePw: 'Change password', newPw: 'New password', newPw2: 'Confirm new password', tPwChanged: 'Password changed', tSignedUp: 'Account created — you\u2019re signed in',
   tWrongPw: 'Wrong email or password.', tEmailTaken: 'This email is already registered — please sign in.', tWeakPw: 'Password too weak: at least 8 characters, avoid common passwords.', tPwMismatch: 'The passwords don\u2019t match.', tSamePw: 'New password must differ from the old one.', tBadEmail: 'That email address doesn\u2019t look right.',
-  tLoggedIn: 'Signed in', tLoggedOut: 'Signed out', loginToContact: 'Sign in to see contact', tLogin: 'Please sign in first',
+  tLoggedIn: 'Signed in', tLoggedOut: 'Signed out', tLogin: 'Please sign in first',
   myTitle: 'Me', myProfile: 'Profile', displayName: 'Display name', save: 'Save', myPosts: 'My posts', myTaken: 'Orders I took',
   noPosts: 'You haven\u2019t posted anything yet.', noTaken: 'You haven\u2019t taken any orders yet.', edit: 'Edit', deleteAccount: 'Delete account',
   delAccConfirm: 'Permanently delete your account and all your content (including photos)? This cannot be undone.', tAccDeleted: 'Account deleted',
   st_available: 'For sale', st_reserved: 'Reserved', st_sold: 'Sold', st_removed: 'Removed', st_open: 'Open', st_taken: 'Taken', st_done: 'Completed', st_cancelled: 'Cancelled',
   markReserved: 'Mark reserved', markSold: 'Mark sold', markRemoved: 'Take down', markAvailable: 'Relist', cancelPost: 'Cancel', completePost: 'Mark completed', reopen: 'Reopen',
   release: 'Release', releaseConfirm: 'Release this order? It will reopen for others.', tReleased: 'Order released', tStatus: 'Status updated', tSaved: 'Saved',
-  takerLabel: 'Taken by', posterLabel: 'Posted by', takeIntro: 'Once you take it, you\u2019ll both see each other\u2019s contact. Leave your contact (only the poster sees it).',
+  takerLabel: 'Taken by', posterLabel: 'Posted by', takeIntro: 'No personal contact details are shared on this site.',
   photos: 'Photos (up to 4)', photosOpt: 'Photos (optional, up to 4)', addPhoto: '＋ Photo', tTooMany: 'Up to 4 photos', tNotImage: 'Images only', tTooLarge: 'Photo too large — try another', uploading: 'Uploading…',
   editTitle: 'Edit post', submitSave: 'Save changes', kind_listings: 'Listing', kind_daigou: 'Request', kind_errands: 'Errand',
   tOffline: 'Can\u2019t reach the server — please try again later.', tBadTransition: 'That status change isn\u2019t allowed right now.', photoOf: 'Photo {n}',
@@ -347,19 +410,128 @@ Object.assign(I18N.en, {
 Object.assign(I18N.zh, {
   navMsg: '訊息', chatBtn: '聊一聊', chatTitle: '訊息', chatEmpty: '仲未有對話。喺帖子撳「聊一聊」就可以同對方傾。', chatPick: '揀一個對話開始傾。',
   chatPh: '輸入訊息…', chatSend: '傳送', chatImg: '相片', chatRead: '已讀', chatBack: '返回', chatReport: '舉報對話', chatYou: '你：', chatImgMsg: '[相片]',
-  chatPostGone: '帖子已刪除', chatWith: '與 {name}', chatToday: '今日', chatLoginHint: '登入後可以同對方直接傾。', chatOptHint: '可留空：買家可以用網站內的「聊一聊」聯絡你。',
+  chatPostGone: '帖子已刪除', chatWith: '與 {name}', chatToday: '今日', chatLoginHint: '登入後可以同對方直接傾。',
   chatReportTitle: '舉報此對話', chatReportNote: '管理員只會在對話被舉報後查閱內容。', tChatReported: '已舉報對話，管理員會跟進。', tChatTooLong: '訊息最多 1000 字。',
   tOwnPost: '呢個係你自己嘅帖子。', tPostGone: '帖子已下架或不存在。', kind_chat: '對話', aViewChat: '查看對話', aChatTitle: '被舉報的對話', act_view_chat: '查看被舉報對話', aBanUser: '封鎖 {name}',
-  noContact: '未有留聯絡方法，請用「聊一聊」。', takeOptHint: '聯絡方法可留空，你哋可以用「聊一聊」。',
 });
 Object.assign(I18N.en, {
   navMsg: 'Messages', chatBtn: 'Chat', chatTitle: 'Messages', chatEmpty: 'No conversations yet. Tap “Chat” on a post to message the poster.', chatPick: 'Pick a conversation.',
   chatPh: 'Type a message…', chatSend: 'Send', chatImg: 'Photo', chatRead: 'Read', chatBack: 'Back', chatReport: 'Report chat', chatYou: 'You: ', chatImgMsg: '[Photo]',
-  chatPostGone: 'Post deleted', chatWith: 'with {name}', chatToday: 'Today', chatLoginHint: 'Sign in to chat with the poster.', chatOptHint: 'Optional — buyers can reach you through on-site Chat.',
+  chatPostGone: 'Post deleted', chatWith: 'with {name}', chatToday: 'Today', chatLoginHint: 'Sign in to chat with the poster.',
   chatReportTitle: 'Report this chat', chatReportNote: 'Moderators only read a chat after it has been reported.', tChatReported: 'Chat reported — a moderator will review it.', tChatTooLong: 'Messages are limited to 1000 characters.',
   tOwnPost: 'This is your own post.', tPostGone: 'This post is no longer available.', kind_chat: 'Chat', aViewChat: 'View chat', aChatTitle: 'Reported chat', act_view_chat: 'Viewed reported chat', aBanUser: 'Ban {name}',
-  noContact: 'No contact left — use Chat.', takeOptHint: 'Contact is optional — you can use Chat.',
 });
+Object.assign(I18N.zh, {
+  confirmDealDone: '確認交易完成？\n\n雙方確認後會有 48 小時爭議期，之後相關聊天記錄（包括相片）會自動刪除。',
+  dealConfirm: '確認交易完成', dealConfirmAsk: '確認交易已完成？\n\n雙方確認後 48 小時內如有爭議請舉報，之後聊天記錄會自動刪除。', tDealConfirmed: '已確認交易完成',
+  dealPoster: '發佈者', dealOther: '對方', chatYou2: '你', dealOwnerHow: '喺「我的」標記為已售出 / 已完成即代表確認',
+  dealBothDone: '雙方已確認交易完成', dealWindow: '48 小時內如有爭議請舉報，之後聊天記錄會自動刪除。', dealDeleteAt: '預計 {when} 後刪除',
+  tChatGone: '對話已按交易完成自動刪除',
+  defaultName: '同學 {id}',
+  chatOnlyHint: '💬 同學會透過站內「聊一聊」聯絡你，毋須亦請勿留下電話或其他聯絡方法。',
+});
+Object.assign(I18N.en, {
+  confirmDealDone: 'Mark the deal as complete?\n\nOnce both sides confirm, there is a 48-hour dispute window, after which this post\u2019s chats (including photos) are deleted automatically.',
+  dealConfirm: 'Confirm deal complete', dealConfirmAsk: 'Confirm the deal is complete?\n\nOnce both sides confirm, report any dispute within 48 hours — after that the chat is deleted automatically.', tDealConfirmed: 'Deal confirmed',
+  dealPoster: 'Poster', dealOther: 'Other side', chatYou2: 'You', dealOwnerHow: 'Marking the post Sold / Completed in “Me” confirms it',
+  dealBothDone: 'Both sides confirmed the deal', dealWindow: 'If there is a dispute, report within 48 hours — after that the chat is deleted automatically.', dealDeleteAt: 'Deletion after {when}',
+  tChatGone: 'This chat was deleted after the deal completed',
+  defaultName: 'Student {id}',
+  chatOnlyHint: '💬 Other students reach you through on-site Chat — no phone number or other contact details needed (please don\u2019t add any).',
+});
+/* ---------- 简体中文 (Mainland wording, not a mechanical conversion) ---------- */
+I18N.hans = {
+  brand: '理大二手网', brandSub: 'PolyU Marketplace', navMarket: '二手市场', navDaigou: '代购', post: '发布闲置',
+  heroKicker: '理大同学专属 · 校园内当面交易', heroTag: '闲置好物，留在校园', heroSub: '教材、电子产品、宿舍家具……搬宿舍不用扔，转给下一位学弟学妹。',
+  searchPh: '搜索课程编号或物品，例如 COMP1011、风扇', search: '搜索',
+  pt1: '完全免费・不收佣金', pt2: '校内当面交易，安心可靠', pt3: '一分钟发布',
+  all: '全部', allItems: '全部物品', sortNew: '最新发布', sortLow: '价格：从低到高', sortHigh: '价格：从高到低',
+  cat_book: '教材', cat_tech: '电子产品', cat_furn: '宿舍家具', cat_wear: '服饰', cat_misc: '其他',
+  cond_new: '全新', cond_likenew: '九成新', cond_good: '八成新', cond_used: '有使用痕迹',
+  spot_corea: 'Core A 大堂', spot_lib: '包玉刚图书馆门口', spot_hh: '红磡站 A1 出口', spot_hall: '学生宿舍大堂', spot_jcit: '赛马会创新楼门口',
+  emptyTitle: '还没有人发布闲置', emptyText: '来做第一个发布闲置的理大同学吧！教材、台灯、计算器都可以。', emptyBtn: '发布第一件闲置',
+  noMatchTitle: '没有找到相关物品', noMatchText: '换个关键词，或者换个分类试试。',
+  seller: '卖家', spot: '交易地点', posted: '发布时间', noDesc: '卖家没有填写描述。',
+  safety: '温馨提示：请在校园公共场所当面交易，验货后再付款。', me: '我',
+  postTitle: '发布闲置', fTitle: '物品名称', fTitlePh: '例如：COMP1011 教材（第三版）', fCat: '类别', fPrice: '价格（港币）', fCond: '成色',
+  fDesc: '描述', fDescPh: '购买时间、有没有笔记、配件是否齐全……', fSpot: '交易地点', submitPost: '确认发布',
+  dgKicker: '代购 · 互助', dgTitle: '想买的东西，', dgTag: '找顺路的同学帮你带', dgSub: '写清楚要买什么、在哪里买、预算和期限，有顺路的同学就可以接单。',
+  postReq: '发布代购需求',
+  reg_all: '全部地区', reg_sz: '深圳', reg_jp: '日本', reg_kr: '韩国', reg_tw: '台湾', reg_mo: '澳门', reg_other: '其他',
+  regShort_sz: '深', regShort_jp: '日', regShort_kr: '韩', regShort_tw: '台', regShort_mo: '澳', regShort_other: '其',
+  reqTitle: '发布代购需求', rItem: '想买什么', rItemPh: '例如：山姆瑞士卷 ×2', rFrom: '在哪里买', rBudget: '预算（港币）', rDeadline: '期限',
+  rTip: '愿意付的跑腿费（港币）', rNote: '备注', rNotePh: '颜色、尺码、指定门店……', submitReq: '发布需求',
+  from: '来自', budget: '预算', runFee: '跑腿费', deadline: '期限', today: '今天', daysLeft: '还剩 {n} 天', expired: '已过期',
+  open: '等待接单', taken: '已有人接单', take: '接单', takeTitle: '确认接单？', takeText: '接下「{item}」后，请通过「聊一聊」和发布者确认细节。',
+  cancel: '取消', takeOk: '确认接单',
+  dgEmptyTitle: '暂时还没有代购需求', dgEmptyText: '想要深圳、日本或其他地方的东西？发布第一个需求，等顺路的同学帮你带。', dgEmptyBtn: '发布第一个需求',
+  dgNoMatch: '这个地区暂时还没有需求。',
+  tPosted: '发布成功！', tReq: '需求已发布，等待同学接单～', tTaken: '接单成功！请通过「聊一聊」确认细节', tCopied: '已复制：',
+  ago_m: '{n} 分钟前', ago_h: '{n} 小时前', ago_d: '{n} 天前', count: '{n} 件',
+  foot1: '本网站为学生个人项目，与香港理工大学无关，并非官方网站。', foot2: '完全免费，不收取任何佣金。',
+  docAbout: '关于我们', docProhibited: '禁售清单', docTerms: '使用条款', docPrivacy: '隐私政策', docDisclaimer: '免责声明',
+  picsShort: '你提交的物品信息和照片会公开显示；其他同学只能通过站内「聊一聊」联系你，无需留下任何个人联系方式。',
+  agreeA: '我确认内容不涉及', agreeB: '所列物品，并已阅读及同意', agreeAnd: '和', agreeC: '。',
+  scamTitle: '防骗小贴士', scamBody: '尽量在校内当面交易、一手交钱一手交货；避免预付定金或全款；交易前可以用香港警方的', scamLink: '防骗视伏器', scamTail: '查一查对方的电话、账号或链接。',
+  report: '举报', reportTitle: '举报内容', reportReason: '原因', reportNote: '补充说明（选填）', reportSubmit: '提交举报',
+  rr_prohibited: '禁售物品', rr_scam: '疑似诈骗', rr_fake: '假货 / 侵权', rr_offensive: '不当或冒犯性内容', rr_other: '其他',
+  reportTarget: '举报：「{x}」', reportMail: '投诉及侵权通知邮箱：', tReported: '举报已收到，感谢你帮忙维护社区。',
+  placeholder: '待更新', student: '理大同学',
+  tError: '提交失败，请稍后再试。', tRate: '操作太频繁，请稍后再试。', tNotAllowed: '只能修改自己发布的内容。', tOffline: '暂时连不上服务器，请稍后再试。',
+  del: '删除', delConfirm: '确定删除吗？删除后无法恢复。', tDeleted: '已删除',
+  fabReq: '发布需求', fabErr: '发布跑腿', navErrands: '宿舍跑腿',
+  erKicker: '宿舍跑腿 · 互助', erTitle: '快递外卖，', erTag: '顺路同学帮你带回宿舍',
+  erSub: '顺丰柜、收发室的快递，或者在门口等着的外卖，找顺路的同学帮你带回宿舍。跑腿费由你自己定，双方直接结算，网站不收一分钱。',
+  postErr: '发布跑腿单', errFormTitle: '发布跑腿单', eType: '类型', type_all: '全部类型', type_parcel: '快递', type_food: '外卖',
+  eFee: '跑腿费（港币，选填）', ePickup: '取件地点', ePickupPh: '例如：Core S 顺丰智能柜、校园收发室、正门外卖员',
+  eHall: '送到宿舍', eFloor: '楼栋 / 楼层（选填）', eFloorPh: '例如：B 座 12 楼', eRoomHint: '为保护隐私，无需填写完整房间号，接单后再私下确认。',
+  eDate: '日期', eFrom: '从', eTo: '到', eNotePh: '件数、大概大小、外卖平台……（切勿在此公开取件码）', submitErr: '发布跑腿单',
+  hall_hh: '红磡学生宿舍', hall_hmt: '何文田学生宿舍', openCount: '单待接', totalCount: '单总数',
+  pickup: '取件', dropoff: '送到', window: '时间', fee: '跑腿费', feeNone: '未定 / 面议',
+  er_open: '等待接单', er_taken: '已接单', er_done: '已完成', markDone: '标记完成',
+  erTakeText: '接单后请通过「聊一聊」私下确认取件码和交接细节。', tErr: '跑腿单已发布！', tDone: '已标记完成',
+  erEmptyTitle: '{hall}暂时还没有跑腿单', erEmptyText: '住在{hall}？有快递或外卖想找人帮忙带回宿舍，就来发布第一张跑腿单吧。', erEmptyBtn: '发布第一张跑腿单',
+  erNoMatch: '这个宿舍暂时还没有这类跑腿单。',
+  erSafeTitle: '安全提示', erSafeBody: '交接时当面核对物品；取件码请私信发送，切勿公开张贴；跑腿费由双方直接结算，网站不收取任何费用。',
+  login: '登录', logout: '退出登录', navMe: '我的', loginTitle: '登录 / 注册', loginIntro: '使用邮箱和密码登录。',
+  email: '邮箱地址', emailPh: '你本人的邮箱地址', password: '密码', passwordPh: '至少 8 个字符', password2: '确认密码', password2Ph: '再输入一次密码',
+  tabLogin: '登录', tabSignup: '注册', doLogin: '登录', doSignup: '注册并登录', showPw: '显示密码', hidePw: '隐藏密码', forgotPw: '忘记密码？',
+  forgotText: '本网站不会发送邮件，所以无法自动重置密码。请用你注册时的邮箱发邮件到 {mail} 求助，并注明你的昵称。',
+  signupNote: '请使用你本人的邮箱地址。本网站不会验证邮箱，也不会发送任何邮件。',
+  loginHint: '登录后可以发布、接单，并通过「聊一聊」联系同学。',
+  changePw: '修改密码', newPw: '新密码', newPw2: '确认新密码', tPwChanged: '密码已修改', tSignedUp: '注册成功，已登录',
+  tWrongPw: '邮箱或密码不正确。', tEmailTaken: '这个邮箱已经注册过了，请直接登录。', tWeakPw: '密码太弱：至少 8 个字符，并避免使用常见密码。',
+  tPwMismatch: '两次输入的密码不一致。', tSamePw: '新密码不能和旧密码相同。', tBadEmail: '邮箱地址格式不正确。',
+  tLoggedIn: '已登录', tLoggedOut: '已退出登录', tLogin: '请先登录',
+  myTitle: '我的', myProfile: '个人资料', displayName: '昵称', save: '保存', myPosts: '我的发布', myTaken: '我接的单',
+  noPosts: '你还没有发布任何内容。', noTaken: '你还没有接过单。', edit: '编辑', deleteAccount: '注销账户',
+  delAccConfirm: '确定永久注销账户并删除所有内容（包括照片）吗？此操作无法恢复。', tAccDeleted: '账户已注销',
+  st_available: '在售', st_reserved: '已预订', st_sold: '已售出', st_removed: '已下架', st_open: '待接单', st_taken: '已接单', st_done: '已完成', st_cancelled: '已取消',
+  markReserved: '标记为已预订', markSold: '标记为已售出', markRemoved: '下架', markAvailable: '重新上架', cancelPost: '取消', completePost: '标记完成', reopen: '重新开放',
+  release: '放弃接单', releaseConfirm: '确定放弃接单吗？需求会重新开放给其他人。', tReleased: '已放弃接单', tStatus: '状态已更新', tSaved: '已保存',
+  takerLabel: '接单人', posterLabel: '发布者', takeIntro: '本网站不会显示任何个人联系方式。',
+  photos: '照片（最多 4 张）', photosOpt: '照片（选填，最多 4 张）', addPhoto: '＋ 照片', tTooMany: '最多 4 张照片', tNotImage: '只能上传图片文件', tTooLarge: '照片太大，请换一张',
+  uploading: '上传中…', editTitle: '编辑内容', submitSave: '保存修改', kind_listings: '闲置', kind_daigou: '代购', kind_errands: '跑腿',
+  tBadTransition: '当前状态不能这样修改。', photoOf: '第 {n} 张照片',
+  navAdmin: '管理', adminTitle: '管理', aOpen: '待处理举报', aHandled: '已处理', aBans: '封禁用户', aLog: '操作记录', aView: '查看帖子', aHide: '隐藏', aUnhide: '取消隐藏',
+  aDelete: '删除', aBan: '封禁发布者', aUnban: '解除封禁', aMarkHandled: '标记为已处理', aReopen: '重新打开', aPostGone: '帖子已不存在', aPoster: '发布者', aReporter: '举报人',
+  aAnon: '未登录用户', aSelf: '自己', aNoReports: '暂时没有举报。', aNoBans: '没有被封禁的用户。', aNoLog: '暂时没有记录。', aHiddenTag: '已被管理员隐藏',
+  aDelConfirm: '以管理员身份永久删除这个帖子及其照片吗？', aBanConfirm: '封禁「{name}」吗？对方将无法发布或接单。', aBannedTag: '已封禁', aAdminBar: '管理员',
+  aReason: '原因', aNote: '备注', aBannedAt: '封禁于', aAdminNote: '此页面仅管理员可见，所有操作都会被记录。',
+  tHidden: '已隐藏', tUnhidden: '已取消隐藏', tBanned: '你的账户已被封禁，暂时无法发布或接单。如有疑问请发邮件到 {mail}。', tBannedOk: '已封禁', tUnbannedOk: '已解除封禁',
+  tAdminDeleted: '已删除', tHandled: '已更新', aCantBanAdmin: '不能封禁管理员。',
+  act_hide: '隐藏帖子', act_unhide: '取消隐藏', act_delete: '删除帖子', act_ban: '封禁用户', act_unban: '解除封禁', act_report_handled: '处理举报', act_report_reopened: '重新打开举报',
+  navMsg: '消息', chatBtn: '聊一聊', chatTitle: '消息', chatEmpty: '还没有对话。在帖子里点「聊一聊」就可以和对方聊天。', chatPick: '选择一个对话开始聊天。',
+  chatPh: '输入消息…', chatSend: '发送', chatImg: '照片', chatRead: '已读', chatBack: '返回', chatReport: '举报对话', chatYou: '你：', chatImgMsg: '[照片]',
+  chatPostGone: '帖子已删除', chatWith: '与 {name}', chatToday: '今天', chatLoginHint: '登录后可以直接和对方聊天。',
+  chatReportTitle: '举报此对话', chatReportNote: '管理员只会在对话被举报后查看内容。', tChatReported: '已举报该对话，管理员会跟进处理。', tChatTooLong: '消息最多 1000 字。',
+  tOwnPost: '这是你自己的帖子。', tPostGone: '帖子已下架或不存在。', kind_chat: '对话', aViewChat: '查看对话', aChatTitle: '被举报的对话', act_view_chat: '查看被举报对话', aBanUser: '封禁 {name}',
+  confirmDealDone: '确认交易完成？\n\n双方确认后会有 48 小时争议期，之后相关聊天记录（包括照片）会自动删除。',
+  dealConfirm: '确认交易完成', dealConfirmAsk: '确认交易已经完成？\n\n双方确认后 48 小时内如有争议请举报，之后聊天记录会自动删除。', tDealConfirmed: '已确认交易完成',
+  dealPoster: '发布者', dealOther: '对方', chatYou2: '你', dealOwnerHow: '在「我的」里标记为已售出 / 已完成即视为确认',
+  dealBothDone: '双方已确认交易完成', dealWindow: '48 小时内如有争议请举报，之后聊天记录会自动删除。', dealDeleteAt: '预计 {when} 后删除',
+  tChatGone: '交易已完成，对话已自动删除', defaultName: '同学 {id}', chatOnlyHint: '💬 其他同学会通过站内「聊一聊」联系你，无需也请不要留下电话或其他联系方式。',
+};
 
 /* ===== Data layer =====
  * Everything that touches Supabase lives here. UI code only calls Api.* / Auth.*.
@@ -435,8 +607,8 @@ const Api = (() => {
     daigou: 'id,created_at,user_id,item,from_region,budget,tip,deadline,note,images,status,taker_id,taken_at,hidden_at',
     errands: 'id,created_at,user_id,type,pickup,hall,floor,date,time_from,time_to,fee,note,images,status,taker_id,taken_at,hidden_at',
   };
-  const cols = c => BASE[c] + (Auth.uid ? ',ctype,contact' : '') + ',' + OWNER(c) + (c === 'listings' ? '' : ',' + TAKER(c));
-  const common = r => ({ id: r.id, t: Date.parse(r.created_at), userId: r.user_id, images: r.images || [], status: r.status, ctype: r.ctype, contact: r.contact,
+  const cols = c => BASE[c] + ',' + OWNER(c) + (c === 'listings' ? '' : ',' + TAKER(c));
+  const common = r => ({ id: r.id, t: Date.parse(r.created_at), userId: r.user_id, images: r.images || [], status: r.status,
     owner: r.owner || null, taker: r.taker || null, hidden: !!r.hidden_at, takerId: r.taker_id || null, mine: !!Auth.uid && r.user_id === Auth.uid, takenByMe: !!Auth.uid && r.taker_id === Auth.uid });
   const toUI = {
     listings: r => ({ ...common(r), kind: 'listings', title: r.title, cat: r.cat, price: r.price, cond: r.cond, desc: r.description, spot: r.spot }),
@@ -444,9 +616,9 @@ const Api = (() => {
     errands: r => ({ ...common(r), kind: 'errands', type: r.type, pickup: r.pickup, hall: r.hall, floor: r.floor, date: r.date, from: hm(r.time_from), to: hm(r.time_to), fee: r.fee, note: r.note }),
   };
   const toDB = {
-    listings: d => ({ title: d.title, cat: d.cat, price: d.price, cond: d.cond, description: d.desc || '', ctype: d.ctype, contact: d.contact, spot: d.spot }),
-    daigou: d => ({ item: d.item, from_region: d.from, budget: d.budget, tip: d.tip || 0, deadline: d.deadline, note: d.note || '', ctype: d.ctype, contact: d.contact }),
-    errands: d => ({ type: d.type, pickup: d.pickup, hall: d.hall, floor: d.floor || '', date: d.date, time_from: d.from, time_to: d.to, fee: d.fee || 0, note: d.note || '', ctype: d.ctype, contact: d.contact }),
+    listings: d => ({ title: d.title, cat: d.cat, price: d.price, cond: d.cond, description: d.desc || '', spot: d.spot }),
+    daigou: d => ({ item: d.item, from_region: d.from, budget: d.budget, tip: d.tip || 0, deadline: d.deadline, note: d.note || '' }),
+    errands: d => ({ type: d.type, pickup: d.pickup, hall: d.hall, floor: d.floor || '', date: d.date, time_from: d.from, time_to: d.to, fee: d.fee || 0, note: d.note || '' }),
   };
   const ACTIVE = { listings: ['available', 'reserved'], daigou: ['open', 'taken'], errands: ['open', 'taken'] };
   const fail = e => { const x = new Error(e.message || 'request_failed'); x.code = e.code; throw x; };
@@ -505,17 +677,13 @@ const Api = (() => {
       const imgs = data[0].images || []; if (imgs.length) await store().remove(imgs);
       return true;
     },
-    async take(c, id, ctype, contact) {
-      const { data, error } = await sb.rpc('pm_take', { p_kind: c, p_id: id, p_ctype: ctype, p_contact: contact });
+    async take(c, id) {
+      const { data, error } = await sb.rpc('pm_take', { p_kind: c, p_id: id });
       if (error) fail(error); if (!data) throw new Error('not_allowed'); return true;
     },
     async release(c, id) {
       const { data, error } = await sb.rpc('pm_release', { p_kind: c, p_id: id });
       if (error) fail(error); if (!data) throw new Error('not_allowed'); return true;
-    },
-    async takerContact(c, id) {
-      const { data, error } = await sb.rpc('pm_taker_contact', { p_kind: c, p_id: id });
-      if (error) fail(error); return data && data[0] || null;
     },
     /* ---- admin (every call is re-checked in the database) ---- */
     async adminData() {
@@ -534,7 +702,7 @@ const Api = (() => {
       }));
       const uids = [...new Set(log.data.flatMap(l => [l.admin_id, l.target_user]).filter(Boolean))];
       const names = {};
-      if (uids.length) { const { data } = await sb.from('profiles').select('id,display_name').in('id', uids); (data || []).forEach(p => names[p.id] = p.display_name); }
+      if (uids.length) { const { data } = await sb.from('profiles').select('id,display_name').in('id', uids); (data || []).forEach(p => names[p.id] = dn(p.display_name)); }
       return { reports: rep.data, posts, bans: bans.data, log: log.data, names };
     },
     async adminGet(c, id) { const { data, error } = await sb.from(c).select(cols(c)).eq('id', id).maybeSingle(); if (error) fail(error); return data && toUI[c](data); },
@@ -555,6 +723,10 @@ const Api = (() => {
       return data.map(c => { const me = Auth.uid, iAmOwner = c.owner_id === me, readAt = Date.parse(iAmOwner ? c.owner_read_at : c.other_read_at);
         return { ...c, peer: iAmOwner ? c.other : c.owner, peerId: iAmOwner ? c.other_id : c.owner_id, peerReadAt: Date.parse(iAmOwner ? c.other_read_at : c.owner_read_at),
           unread: !!c.last_message_at && c.last_sender !== me && Date.parse(c.last_message_at) > readAt + 500 }; });
+    },
+    async chatConfirm(conv) {
+      const { error } = await sb.rpc('pm_chat_confirm', { p_conv: conv });
+      if (error) fail(error); return true;
     },
     async chatMessages(conv, afterId = 0) {
       const { data, error } = await sb.from('messages').select('id,conversation_id,sender_id,body,image,created_at').eq('conversation_id', conv).gt('id', afterId).order('id').limit(500);
@@ -621,7 +793,7 @@ async function refresh(...cols) {
     else { const d = await Api.board(c); if (c === 'listings') listings = d; else if (c === 'daigou') requests = d; else errands = d; }
   }));
 }
-const who = x => x.mine ? t('me') : (x.owner?.display_name || t('student'));
+const who = x => x.mine ? t('me') : (dn(x.owner?.display_name));
 const badge = () => '';
 const thumbHtml = x => x.images?.length ? `<img src="${imgUrl(x.images[0])}" alt="" loading="lazy" decoding="async">` : art(x);
 const loggedIn = () => !!Auth.uid;
@@ -634,8 +806,8 @@ let pendingAfterLogin = null;
 
 /* ---------- i18n apply ---------- */
 function applyLang() {
-  document.documentElement.lang = lang === 'zh' ? 'zh-HK' : 'en';
-  document.title = lang === 'zh' ? '理大二手網 · PolyU Marketplace' : 'PolyU Marketplace · 理大二手網';
+  document.documentElement.lang = { zh: 'zh-HK', hans: 'zh-Hans', en: 'en' }[lang];
+  document.title = { zh: '理大二手網 · PolyU Marketplace', hans: '理大二手网 · PolyU Marketplace', en: 'PolyU Marketplace · 理大二手網' }[lang];
   $$('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
   $$('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
   $$('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
@@ -647,11 +819,11 @@ function applyLang() {
   renderHeader(); renderAll();
   if (!$('#docModal').hidden && curDoc) openDoc(curDoc);
 }
-function setLang(l) { lang = l; localStorage.setItem(LS_LANG, l); applyLang(); }
+function setLang(l) { if (!LANGS.includes(l)) return; lang = l; localStorage.setItem(LS_LANG, l); applyLang(); }
 function renderHeader() {
   $('#adminBtn').hidden = !Auth.isAdmin; renderMsgBadge();
   const b = $('#meBtn');
-  if (loggedIn()) { const n = Auth.profile?.display_name || ''; b.innerHTML = `<span class="avatar">${esc([...n][0] || '?').toUpperCase()}</span><span class="me-label">${t('navMe')}</span>`; b.classList.add('in'); }
+  if (loggedIn()) { const n = dn(Auth.profile?.display_name); b.innerHTML = `<span class="avatar">${esc([...n][0] || '?').toUpperCase()}</span><span class="me-label">${t('navMe')}</span>`; b.classList.add('in'); }
   else { b.innerHTML = `<span class="me-label">${t('login')}</span>`; b.classList.remove('in'); }
 }
 
@@ -691,7 +863,7 @@ function gallery(x) {
 const chatBtnHtml = (x, cls = 'btn btn-primary') => x.mine ? '' : `<button class="${cls}" data-chat="${KEY[x.kind]}:${x.id}">💬 ${t('chatBtn')}</button>`;
 function contactBlock(x) {
   if (!loggedIn()) return `<button class="btn btn-primary btn-block" data-chat="${KEY[x.kind]}:${x.id}">💬 ${t('chatBtn')}</button><p class="hint center">🔒 ${t('chatLoginHint')}</p>`;
-  return `<div class="contact-btns">${chatBtnHtml(x, 'btn btn-primary btn-block')}${x.contact ? `<button class="btn btn-ghost btn-block" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)} — ${t('copyContact')}</button>` : ''}</div>`;
+  return `<div class="contact-btns">${chatBtnHtml(x, 'btn btn-primary btn-block')}</div>`;
 }
 function openDetail(id) {
   const l = listings.find(x => x.id === id) || my.posts.find(x => x.id === id); if (!l) return;
@@ -716,7 +888,6 @@ function orderActions(x) {
   const k = KEY[x.kind];
   const chat = chatBtnHtml(x, 'btn btn-ghost');
   if (x.status === 'open' && !x.mine) return `<span class="req-right">${chat}<button class="btn btn-primary" data-take="${k}:${x.id}">${t('take')}</button></span>`;
-  if (x.status === 'taken' && x.takenByMe) return `<span class="req-right">${chat}${x.contact ? `<button class="btn btn-ghost" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button>` : ''}</span>`;
   if (x.status === 'taken' && !x.mine) return `<span class="req-right">${chat}</span>`;
   if (x.mine) return `<button class="btn btn-ghost" data-nav="me">${t('navMe')}</button>`;
   return '';
@@ -750,7 +921,7 @@ function renderErrands() {
   $('#hallSwitch').innerHTML = HALLS.map(h => {
     const all = errands.filter(x => x.hall === h), open = all.filter(x => x.status === 'open').length;
     return `<button class="hall-card ${erState.hall === h ? 'active' : ''}" data-hall="${h}" role="tab" aria-selected="${erState.hall === h}">
-      <span class="hall-name">${t('hall_' + h)}</span><span class="hall-alt">${I18N[lang === 'zh' ? 'en' : 'zh']['hall_' + h]}</span>
+      <span class="hall-name">${t('hall_' + h)}</span><span class="hall-alt">${I18N[isZh() ? 'en' : 'zh']['hall_' + h]}</span>
       <span class="hall-count"><b>${open}</b> ${t('openCount')}${all.length > open ? ` · ${all.length} ${t('totalCount')}` : ''}</span></button>`;
   }).join('');
   const inHall = errands.filter(x => x.hall === erState.hall);
@@ -782,7 +953,6 @@ const NEXT = {
   orders: { open: ['cancelled'], taken: ['done', 'cancelled'], cancelled: ['open'], done: [] },
 };
 const ST_BTN = { reserved: 'markReserved', sold: 'markSold', removed: 'markRemoved', available: 'markAvailable', cancelled: 'cancelPost', done: 'completePost', open: 'reopen' };
-const takerInfo = {};
 function postTitle(x) { return x.kind === 'listings' ? x.title : x.kind === 'daigou' ? x.item : `${t('type_' + x.type)} · ${t('hall_' + x.hall)}`; }
 function postSub(x) {
   if (x.kind === 'listings') return `HK$${x.price} · ${t('cond_' + x.cond)}`;
@@ -793,7 +963,7 @@ function meRow(x, taken) {
   const k = KEY[x.kind], thumb = x.images?.length ? `<img src="${imgUrl(x.images[0])}" alt="" loading="lazy">` : (x.kind === 'listings' ? art(x) : `<span class="me-kind-ic">${x.kind === 'daigou' ? '✈' : '⇪'}</span>`);
   let actions = '', extra = '';
   if (taken) {
-    extra = `<div class="me-contact"><span>${t('posterLabel')}</span><b>${esc(x.owner?.display_name || t('student'))}</b> · ${x.contact ? `<button class="link-btn" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button> · ` : ''}<button class="link-btn" data-chat="${k}:${x.id}">💬 ${t('chatBtn')}</button></div>`;
+    extra = `<div class="me-contact"><span>${t('posterLabel')}</span><b>${esc(dn(x.owner?.display_name))}</b> · <button class="link-btn" data-chat="${k}:${x.id}">💬 ${t('chatBtn')}</button></div>`;
     if (x.status === 'taken') actions = `<button class="btn btn-ghost btn-sm" data-release="${k}:${x.id}">${t('release')}</button>`;
   } else {
     const next = (x.kind === 'listings' ? NEXT.listings : NEXT.orders)[x.status] || [];
@@ -801,8 +971,7 @@ function meRow(x, taken) {
     if (x.kind === 'listings' || x.status === 'open' || x.status === 'cancelled') actions += `<button class="btn btn-ghost btn-sm" data-edit="${k}:${x.id}">${t('edit')}</button>`;
     actions += `<button class="btn btn-ghost btn-sm danger" data-del="${k}:${x.id}">${t('del')}</button>`;
     if (x.kind !== 'listings' && x.status !== 'open' && x.takerId) {
-      const ti = takerInfo[x.id];
-      extra = `<div class="me-contact"><span>${t('takerLabel')}</span><b>${esc(ti?.display_name || x.taker?.display_name || t('student'))}</b> ${badge(x.taker)}${ti?.contact ? ` · <button class="link-btn" data-copy="${esc(ti.contact)}">${esc(ti.ctype)} · ${esc(ti.contact)}</button>` : ''}</div>`;
+      extra = `<div class="me-contact"><span>${t('takerLabel')}</span><b>${esc(dn(x.taker?.display_name))}</b> ${badge(x.taker)} · <button class="link-btn" data-nav="chat">💬 ${t('navMsg')}</button></div>`;
     }
   }
   return `<div class="me-row" data-kind="${x.kind}" data-id="${x.id}">
@@ -820,8 +989,8 @@ function renderMe() {
   const dirty = keep.filter(([f, n, v]) => v && (f === 'pwForm' || document.activeElement?.closest?.('#' + f)));
   box.innerHTML = `
     <section class="me-card">
-      <div class="me-prof"><span class="avatar lg">${esc([...(p.display_name || '?')][0]).toUpperCase()}</span>
-        <div><div class="me-name">${esc(p.display_name || '')} ${badge(p)}</div><div class="muted">${esc(Auth.user.email || '')}</div></div></div>
+      <div class="me-prof"><span class="avatar lg">${esc([...dn(p.display_name)][0]).toUpperCase()}</span>
+        <div><div class="me-name">${esc(dn(p.display_name))} ${badge(p)}</div><div class="muted">${esc(Auth.user.email || '')}</div></div></div>
       <form id="nameForm" class="me-name-form"><label><span>${t('displayName')}</span><input name="name" maxlength="30" minlength="1" required value="${esc(p.display_name || '')}"></label><button class="btn btn-primary btn-sm">${t('save')}</button></form>
       <form id="pwForm" class="me-pw-form"><b>${t('changePw')}</b>
         <div class="me-pw-row"><label><span>${t('newPw')}</span><input name="pw" type="password" minlength="8" required autocomplete="new-password" placeholder="${t('passwordPh')}"></label>
@@ -838,7 +1007,6 @@ function renderMe() {
 async function loadMe() {
   if (!loggedIn()) { my = { posts: [], taken: [] }; return renderMe(); }
   await refresh('mine');
-  await Promise.all(my.posts.filter(x => x.kind !== 'listings' && x.takerId && !takerInfo[x.id]).map(async x => { try { takerInfo[x.id] = await Api.takerContact(x.kind, x.id); } catch (e) {} }));
   renderMe();
 }
 
@@ -890,19 +1058,18 @@ function openForm(c, x) {
     const m = { listings: { title: x.title, cat: x.cat, price: x.price, cond: x.cond, desc: x.desc, spot: x.spot },
       daigou: { item: x.item, from: x.from, budget: x.budget, tip: x.tip, deadline: x.deadline, note: x.note },
       errands: { type: x.type, pickup: x.pickup, hall: x.hall, floor: x.floor, date: x.date, from: x.from, to: x.to, fee: x.fee, note: x.note } }[c];
-    Object.entries({ ...m, ctype: x.ctype, contact: x.contact }).forEach(([k, v]) => set(k, v));
+    Object.entries(m).forEach(([k, v]) => set(k, v));
   } else {
     if (c === 'errands') set('hall', erState.hall);
-    const last = localStorage.getItem(LS_TAKER); if (last) try { const o = JSON.parse(last); set('ctype', o.ctype); set('contact', o.contact); } catch (e) {}
   }
   resetPhotos(f.id, x ? x.images : []);
   show('#' + f.closest('.modal').id);
 }
 function formData(c, f) {
   return {
-    listings: () => ({ title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), ctype: f.ctype, contact: f.contact.trim(), spot: f.spot }),
-    daigou: () => ({ item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim() }),
-    errands: () => ({ type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim() }),
+    listings: () => ({ title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), spot: f.spot }),
+    daigou: () => ({ item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim() }),
+    errands: () => ({ type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim() }),
   }[c]();
 }
 async function submitForm(c, e) {
@@ -910,7 +1077,6 @@ async function submitForm(c, e) {
   if (needLogin()) return;
   const form = e.target, f = Object.fromEntries(new FormData(form)), st = Photos[form.id], btn = form.querySelector('button[type=submit]');
   const d = formData(c, f), editId = form.dataset.edit;
-  localStorage.setItem(LS_TAKER, JSON.stringify({ ctype: d.ctype, contact: d.contact }));
   btn.disabled = true; const label = btn.textContent; if (st.blobs.length) btn.textContent = t('uploading');
   try {
     if (editId) await Api.update(c, editId, d, { keep: st.keep, blobs: st.blobs.map(b => b.blob) });
@@ -1020,7 +1186,12 @@ function renderMsgBadge() {
   const n = unreadCount(); const badge = b.querySelector('.badge');
   badge.textContent = n > 9 ? '9+' : n; badge.hidden = !n;
 }
-async function loadConvs() { if (!loggedIn()) { chat.convs = []; return renderMsgBadge(); } chat.convs = await Api.chatList(); renderMsgBadge(); if (!$('#view-chat').hidden) renderConvList(); }
+async function loadConvs() {
+  if (!loggedIn()) { chat.convs = []; return renderMsgBadge(); }
+  chat.convs = await Api.chatList(); renderMsgBadge();
+  if (chat.open && !chat.convs.some(c => c.id === chat.open)) { chat.open = null; chat.msgs = []; if (!$('#view-chat').hidden) { renderThread(); toast(t('tChatGone')); } }
+  if (!$('#view-chat').hidden) renderConvList();
+}
 function convThumb(c) { return c.post_thumb ? `<img src="${imgUrl(c.post_thumb)}" alt="" loading="lazy">` : `<span>${c.post_kind === 'listings' ? '🏷' : c.post_kind === 'daigou' ? '✈' : '⇪'}</span>`; }
 function renderConvList() {
   const box = $('#convList'); if (!box) return;
@@ -1028,7 +1199,7 @@ function renderConvList() {
     const last = c.last_message_at ? `${c.last_sender === Auth.uid ? t('chatYou') : ''}${c.last_message === '[image]' ? t('chatImgMsg') : esc(c.last_message)}` : '';
     return `<button class="conv ${c.id === chat.open ? 'active' : ''} ${c.unread ? 'unread' : ''}" data-conv="${c.id}">
       <span class="conv-thumb">${convThumb(c)}</span>
-      <span class="conv-main"><span class="conv-top"><b>${esc(c.peer?.display_name || t('student'))}</b><span class="muted">${c.last_message_at ? ago(Date.parse(c.last_message_at)) : ''}</span></span>
+      <span class="conv-main"><span class="conv-top"><b>${esc(dn(c.peer?.display_name))}</b><span class="muted">${c.last_message_at ? ago(Date.parse(c.last_message_at)) : ''}</span></span>
         <span class="conv-post">${t('kind_' + c.post_kind)} · ${esc(c.post_title)}</span>
         <span class="conv-last">${last}</span></span>${c.unread ? '<span class="dot"></span>' : ''}</button>`;
   }).join('') : `<p class="muted chat-empty">${t('chatEmpty')}</p>`);
@@ -1037,6 +1208,17 @@ function msgHtml(m, c) {
   const mine = m.sender_id === Auth.uid;
   const img = m.image ? (chat.urls[m.image] ? `<a href="${chat.urls[m.image]}" target="_blank" rel="noopener"><img src="${chat.urls[m.image]}" alt="${t('chatImg')}" loading="lazy"></a>` : `<span class="img-wait">${t('chatImgMsg')}</span>`) : '';
   return `<div class="msg ${mine ? 'mine' : ''}" data-mid="${m.id}"><div class="bubble">${img}${m.body ? `<span class="txt">${esc(m.body)}</span>` : ''}</div><span class="msg-time">${hhmm(Date.parse(m.created_at))}</span></div>`;
+}
+function dealBar(c) {
+  const iOwner = c.owner_id === Auth.uid, mine = iOwner ? c.owner_confirmed_at : c.other_confirmed_at, theirs = iOwner ? c.other_confirmed_at : c.owner_confirmed_at;
+  if (c.purge_after) {
+    const end = new Date(c.purge_after), when = end.toLocaleString({ zh: 'zh-HK', hans: 'zh-CN', en: 'en-HK' }[lang], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return `<div class="deal-bar done" data-deal="window"><b>✓ ${t('dealBothDone')}</b><span>${t('dealWindow')}</span><span class="muted">${t('dealDeleteAt', { when })}</span></div>`;
+  }
+  const st = (who, ok) => `<span class="deal-st ${ok ? 'ok' : ''}">${ok ? '✓' : '○'} ${who}</span>`;
+  const sides = `${st(t(iOwner ? 'chatYou2' : 'dealPoster'), iOwner ? !!mine : !!theirs)}${st(t(iOwner ? 'dealOther' : 'chatYou2'), iOwner ? !!theirs : !!mine)}`;
+  const action = iOwner ? (mine ? '' : `<span class="muted small">${t('dealOwnerHow')}</span>`) : (mine ? '' : `<button class="btn btn-ghost btn-sm" data-dealconfirm="${c.id}">${t('dealConfirm')}</button>`);
+  return `<div class="deal-bar" data-deal="${mine ? 'me' : 'none'}"><span class="deal-sides">${sides}</span>${action}</div>`;
 }
 function renderThread() {
   const pane = $('#chatPane'); if (!pane) return;
@@ -1050,9 +1232,10 @@ function renderThread() {
   const keep = $('#chatInput')?.value || '';
   pane.innerHTML = `<div class="chat-head">
       <button class="link-btn chat-back" data-chatback>‹ ${t('chatBack')}</button>
-      <div class="chat-peer"><b>${esc(c.peer?.display_name || t('student'))}</b></div>
+      <div class="chat-peer"><b>${esc(dn(c.peer?.display_name))}</b></div>
       <button class="link-btn" data-chatreport="${c.id}">⚑ ${t('chatReport')}</button></div>
     <button class="chat-post" data-chatpost="${c.post_kind}:${c.post_id}"><span class="conv-thumb">${convThumb(c)}</span><span><span class="muted">${t('kind_' + c.post_kind)}</span><b>${esc(c.post_title)}</b></span></button>
+    ${dealBar(c)}
     <div class="chat-msgs" id="chatMsgs">${html}</div>
     <form class="chat-form" id="chatForm">
       <label class="chat-img-btn" title="${t('chatImg')}">📷<input type="file" id="chatFile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*" hidden></label>
@@ -1102,10 +1285,11 @@ function chatSubscribe() {
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => onRealtimeMessage(p.new))
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'conversations' }, p => {
       const c = chat.convs.find(x => x.id === p.new.id);
-      if (c) { const before = c.peerReadAt; loadConvs().then(() => { const n = chat.convs.find(x => x.id === p.new.id); if (n && n.peerReadAt !== before && chat.open === n.id) renderThread(); }).catch(() => {}); }
+      if (c) { const before = JSON.stringify([c.peerReadAt, c.owner_confirmed_at, c.other_confirmed_at, c.purge_after]); loadConvs().then(() => { const n = chat.convs.find(x => x.id === p.new.id); if (n && chat.open === n.id && JSON.stringify([n.peerReadAt, n.owner_confirmed_at, n.other_confirmed_at, n.purge_after]) !== before) renderThread(); }).catch(() => {}); }
       else loadConvs().catch(() => {});
     })
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'conversations' }, () => loadConvs().catch(() => {}))
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'conversations' }, () => loadConvs().catch(() => {}))
     .subscribe(st => { chat.rtOk = st === 'SUBSCRIBED'; document.documentElement.dataset.rt = st; });
 }
 function chatUnsubscribe() { if (chat.channel) { sb.removeChannel(chat.channel); chat.channel = null; chat.rtOk = false; } }
@@ -1140,9 +1324,9 @@ function openChatPost(kind, id) {
 async function openAdminChat(conv) {
   const msgs = await Api.adminChat(conv);
   const urls = msgs.some(m => m.image) ? await Api.chatSigned(msgs.filter(m => m.image).map(m => m.image)) : {};
-  const senders = [...new Map(msgs.map(m => [m.sender_id, m.sender_name])).entries()];
+  const senders = [...new Map(msgs.map(m => [m.sender_id, dn(m.sender_name)])).entries()];
   $('#detailBody').innerHTML = `<h3 class="d-title">🛡 ${t('aChatTitle')}</h3>
-    <div class="adm-chat">${msgs.map(m => `<div class="adm-msg"><span class="muted">${ymd(Date.parse(m.created_at))} ${hhmm(Date.parse(m.created_at))}</span> <b>${esc(m.sender_name || '?')}</b>：${esc(m.body)}${m.image && urls[m.image] ? `<br><img src="${urls[m.image]}" alt="">` : ''}</div>`).join('') || '—'}</div>
+    <div class="adm-chat">${msgs.map(m => `<div class="adm-msg"><span class="muted">${ymd(Date.parse(m.created_at))} ${hhmm(Date.parse(m.created_at))}</span> <b>${esc(dn(m.sender_name))}</b>：${esc(m.body)}${m.image && urls[m.image] ? `<br><img src="${urls[m.image]}" alt="">` : ''}</div>`).join('') || '—'}</div>
     <div class="admin-bar"><span>🛡 ${t('aAdminBar')}</span>${senders.map(([uid, name]) => `<button class="link-btn danger" data-aban="${uid}:1:${esc(name || '')}">${t('aBanUser', { name: esc(name || uid.slice(0, 8)) })}</button>`).join('')}</div>`;
   show('#detailModal');
 }
@@ -1163,7 +1347,7 @@ function renderAdmin() {
     const list = adminState.tab === 'open' ? open : done;
     body = list.length ? list.map(r => {
       const x = D.posts[r.target_id], k = KEY[r.target_kind], isChat = r.target_kind === 'chat';
-      const poster = x ? `${esc(x.owner?.display_name || t('student'))}${banned.has(x.userId) ? ` <span class="pill st-cancelled">${t('aBannedTag')}</span>` : ''}` : '—';
+      const poster = x ? `${esc(dn(x.owner?.display_name))}${banned.has(x.userId) ? ` <span class="pill st-cancelled">${t('aBannedTag')}</span>` : ''}` : '—';
       return `<div class="adm-row">
         <div class="me-top"><span class="tag">${t('kind_' + r.target_kind)}</span><span class="pill st-taken">${t('rr_' + r.reason)}</span>
           ${isChat ? '' : x ? `<span class="pill st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="pill st-hidden">${t('aHiddenTag')}</span>` : ''}` : `<span class="pill st-removed">${t('aPostGone')}</span>`}
@@ -1181,7 +1365,7 @@ function renderAdmin() {
         </div></div>`;
     }).join('') : `<p class="muted me-empty">${t('aNoReports')}</p>`;
   } else if (adminState.tab === 'bans') {
-    body = D.bans.length ? D.bans.map(b => `<div class="adm-row"><div class="me-title">${esc(b.user?.display_name || b.user_id.slice(0, 8))}</div>
+    body = D.bans.length ? D.bans.map(b => `<div class="adm-row"><div class="me-title">${esc(b.user?.display_name ? dn(b.user.display_name) : b.user_id.slice(0, 8))}</div>
       <div class="me-sub">${t('aBannedAt')} ${ago(Date.parse(b.created_at))}${b.reason ? ` · ${t('aReason')}：${esc(b.reason)}` : ''}</div>
       <div class="me-actions"><button class="btn btn-ghost btn-sm" data-aban="${b.user_id}:0:">${t('aUnban')}</button></div></div>`).join('') : `<p class="muted me-empty">${t('aNoBans')}</p>`;
   } else {
@@ -1202,7 +1386,7 @@ function openAdminDetail(x) {
     <h3 class="d-title">${esc(postTitle(x))}</h3>
     <div class="d-row"><span class="tag">${t('kind_' + x.kind)}</span><span class="tag st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="tag st-hidden">${t('aHiddenTag')}</span>` : ''}</div>
     <p class="d-desc">${esc(x.desc || x.note || '')}</p>
-    <div class="d-box">${rows.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('')}<div><span>${esc(x.ctype)}</span><b>${esc(x.contact)}</b></div><div><span>${t('posted')}</span><b>${ago(x.t)}</b></div></div>
+    <div class="d-box">${rows.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('')}<div><span>${t('posted')}</span><b>${ago(x.t)}</b></div></div>
     ${adminBar(x)}`;
   show('#detailModal');
 }
@@ -1214,7 +1398,7 @@ async function adminAfter(msg) {
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],[data-atab],[data-aview],[data-ahide],[data-adel],[data-aban],[data-arep],[data-chat],[data-conv],[data-chatback],[data-chatreport],[data-chatpost],[data-chatunpend],[data-achat],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],[data-atab],[data-aview],[data-ahide],[data-adel],[data-aban],[data-arep],[data-chat],[data-conv],[data-chatback],[data-chatreport],[data-chatpost],[data-chatunpend],[data-achat],[data-dealconfirm],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
@@ -1227,8 +1411,13 @@ document.addEventListener('click', async e => {
   else if (d.doc) { e.preventDefault(); openDoc(d.doc); }
   else if (d.report) { const [k, id] = d.report.split(':'); openReport(k, id); }
   else if (d.gimg) { $('#gMain').src = d.gimg; $$('.g-th').forEach(b => b.classList.toggle('active', b === el)); }
+  else if (d.dealconfirm) {
+    if (!confirm(t('dealConfirmAsk'))) return;
+    guard(async () => { await Api.chatConfirm(d.dealconfirm); await loadConvs(); renderThread(); toast(t('tDealConfirmed')); });
+  }
   else if (d.st) {
     const [k, id, s] = d.st.split(':');
+    if ((s === 'sold' || s === 'done') && !confirm(t('confirmDealDone'))) return;
     guard(async () => { await Api.setStatus(COL[k], id, s); await refresh(COL[k], 'mine'); renderAll(); await loadMe(); toast(t('tStatus')); });
   }
   else if (d.edit) { const [k, id] = d.edit.split(':'); const x = findPost(k, id); if (x) openForm(COL[k], x); }
@@ -1281,7 +1470,6 @@ document.addEventListener('click', async e => {
     if (bannedStop()) return;
     pendingTake = { kind: k, id };
     $('#takeText').textContent = (k === 'r' ? t('takeText', { item: x.item }) : t('erTakeText')) + ' ' + t('takeIntro');
-    const last = localStorage.getItem(LS_TAKER); if (last) try { const o = JSON.parse(last); $('#takeForm [name=ctype]').value = o.ctype; $('#takeForm [name=contact]').value = o.contact; } catch (err) {}
     show('#takeModal');
   }
   else if (el.classList.contains('card')) openDetail(d.id);
@@ -1296,9 +1484,8 @@ document.addEventListener('change', async e => {
 });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && chat.open) { pullNew().catch(() => {}); markRead(chat.open); } });
 $('#takeForm').addEventListener('submit', async e => {
-  e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)), pt = pendingTake || {};
-  localStorage.setItem(LS_TAKER, JSON.stringify({ ctype: f.ctype, contact: f.contact.trim() }));
-  try { await Api.take(COL[pt.kind], pt.id, f.ctype, (f.contact || '').trim()); } catch (err) { await refresh(COL[pt.kind]).catch(() => {}); renderAll(); return toast(errMsg(err)); }
+  e.preventDefault(); const pt = pendingTake || {};
+  try { await Api.take(COL[pt.kind], pt.id); } catch (err) { await refresh(COL[pt.kind]).catch(() => {}); renderAll(); return toast(errMsg(err)); }
   hideAll(); await refresh(COL[pt.kind], 'mine').catch(() => {}); renderAll(); toast(t('tTaken'));
 });
 $('#reportForm').addEventListener('submit', async e => {

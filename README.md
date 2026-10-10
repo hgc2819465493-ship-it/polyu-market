@@ -19,7 +19,7 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 ## 帳戶 / Accounts (Supabase Auth, email + password)
 - 註冊即登入，不會發送任何電郵（`mailer_autoconfirm = true`），電郵地址**未經驗證**。密碼最少 8 個字元。
   Sign-up logs you in immediately; no emails are ever sent and email addresses are **not verified**. Passwords ≥ 8 chars.
-- 瀏覽公開；發佈、接單、查看聯絡方法需要登入。Browsing is public; posting, taking orders and seeing contacts need sign-in.
+- 瀏覽公開；發佈、接單及聊天需要登入。Browsing is public; posting, taking orders and chatting need sign-in.
 - 「我的」可更改顯示名稱、更改密碼、刪除帳戶。忘記密碼：用註冊電郵電郵至 SITE_CONFIG.contactEmail，由管理員在 Supabase 後台處理。
   “Me” page: display name, change password, delete account. Forgot password: users email the contact address; reset manually in the Supabase dashboard.
 - Site URL `https://hgc2819465493-ship-it.github.io/polyu-market/`; redirect allow-list: that URL `/**` and `http://localhost:8765/**`.
@@ -27,8 +27,8 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 
 ## 資料庫 / Database
 - `supabase/schema_v2.sql` (applied): `profiles`, `listings`, `daigou`, `errands`, `reports`;
-  RLS (owner = `auth.uid()`; `profiles.is_polyu` is no longer shown since emails are unverified), column privileges (contacts only for signed-in users; taker contact only via RPC),
-  guard trigger (status transitions, image paths, rate limit), RPCs `pm_take`, `pm_release`, `pm_taker_contact`, `pm_delete_account`.
+  RLS (owner = `auth.uid()`; `profiles.is_polyu` is no longer shown since emails are unverified), column privileges,
+  guard trigger (status transitions, image paths, rate limit), RPCs `pm_take`, `pm_release`, `pm_delete_account` (contact columns and `pm_taker_contact` were removed in v4).
 - 狀態 / statuses — listings: available / reserved / sold / removed; daigou & errands: open / taken / done / cancelled.
 - Storage bucket `post-images` (public, 2 MB, jpeg/webp/png): users write/delete only under `<their uid>/…`.
   Client resizes to ≤1280 px WebP (JPEG fallback) before upload; max 4 photos per post.
@@ -48,6 +48,10 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 ## 部署 / Deploy
 GitHub Pages from `main` (root). Push → Pages rebuilds automatically.
 
+## Languages
+
+- 繁 (zh-HK, default), 简 (Mainland wording, written separately — not machine-converted) and EN; toggle 繁 / 简 / EN, saved in `localStorage.pm_lang`. First visit: zh-CN / zh-SG / zh-Hans → 简, other Chinese → 繁, anything else → 繁. Legal precedence: the Traditional Chinese version prevails.
+
 ## Chat (站內訊息)
 
 - 1:1 chat per post + pair (`public.conversations`, `public.messages`, `supabase/schema_chat.sql`). Only the two participants can read/send (RLS); banned users cannot send; limits 20 msgs/min, 1000/day, 30 new chats/hour.
@@ -55,5 +59,21 @@ GitHub Pages from `main` (root). Push → Pages rebuilds automatically.
 - Realtime (`supabase_realtime` publication) with a 4 s polling fallback when the socket is down, plus a 60 s safety poll.
 - Unread = last message from the other side newer than my `*_read_at`; read receipts use the peer's `*_read_at`.
 - 「舉報對話」 → `pm_chat_report` (participants only). Admins can read a chat only after it is reported, via `pm_admin_chat` (logged as `view_chat`).
-- Retention: `pm_retention` deletes conversations 180 days after the last message (messages cascade). **Caveat:** photos of conversations removed by retention stay in `chat-images` storage (Storage files can only be deleted via the Storage API, not SQL); clean them up periodically from the dashboard. Deleting an account removes the user's own chat photos client-side.
-- Contact field on posts / taking orders is now optional (chat is the default way to talk).
+- Retention: `pm_retention` (daily) deletes conversations 180 days after the last message unless they have an unhandled report.
+
+## No personal contact details (v4, `supabase/schema_v4.sql`)
+
+- The `contact` / `ctype` / `taker_contact` / `taker_ctype` columns and the `pm_taker_contact` RPC are gone; `pm_take(kind, id)` takes no contact. On-site Chat is the only way to get in touch. (The unused `legacy_*_v1` tables still have their old columns and are left untouched.)
+
+## Deal completion → chat deletion (v4)
+
+- **Both sides must confirm**: the poster confirms by marking the post 已售出 (`sold`) / 已完成 (`done`) (a confirm dialog warns that chats will be deleted; reverting the status withdraws it); the buyer / taker taps 「確認交易完成」 in the chat (`pm_chat_confirm`). Columns: `conversations.owner_confirmed_at`, `other_confirmed_at`, `purge_after`.
+- When both have confirmed, a **dispute window** starts (`purge_after = now() + pm_config.chat_dispute_hours`, default **48**), shown in the chat: 「48 小時內如有爭議請舉報，之後聊天記錄會自動刪除」.
+- `pm_chat_purge()` runs **hourly** (pg_cron job `pm_chat_purge`, minute 5) and deletes conversations whose window has passed **and that have no unhandled report**. A reported chat is kept until a moderator marks the report handled; it is then deleted on the next run. Chats confirmed by only one side fall back to the 180-day rule.
+- To change the window: `update public.pm_config set value = '24' where key = 'chat_dispute_hours';` (applies to windows that start afterwards).
+
+## Storage clean-up queue (v4)
+
+- Triggers queue every deleted chat photo (`messages` delete, incl. cascades from conversations / accounts) and every deleted post's photos into `public.storage_trash` (service-role only).
+- The **`pm-sweep` Edge Function** (`supabase/functions/pm-sweep`, `verify_jwt=false`, uses the service role injected by Supabase) removes the queued files via the Storage API and deletes the queue rows; failures are retried (up to 20 attempts). pg_cron job `pm_storage_sweep` calls it hourly (minute 20) through `pg_net`. It is safe to call publicly: it only deletes paths the database queued.
+- Deploy: `supabase functions deploy pm-sweep --no-verify-jwt` (or the Management API).

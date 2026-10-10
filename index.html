@@ -18,7 +18,7 @@
       <button class="nav-btn" data-nav="errands" data-i18n="navErrands"></button>
     </nav>
     <div class="lang" role="group" aria-label="Language">
-      <button data-lang="zh">繁</button><button data-lang="en">EN</button>
+      <button data-lang="zh" lang="zh-HK" title="繁體中文">繁</button><button data-lang="hans" lang="zh-Hans" title="简体中文">简</button><button data-lang="en" lang="en" title="English">EN</button>
     </div>
     <button class="admin-btn" id="adminBtn" type="button" data-nav="admin" hidden>🛡 <span data-i18n="navAdmin"></span></button>
     <button class="msg-btn" id="msgBtn" type="button" hidden aria-label="Messages">💬<span class="msg-label" data-i18n="navMsg"></span><span class="badge" hidden>0</span></button>
@@ -140,11 +140,7 @@
       </div>
       <label><span data-i18n="fCond"></span><select name="cond" id="postCond"></select></label>
       <label><span data-i18n="fDesc"></span><textarea name="desc" rows="3" maxlength="400" data-i18n-ph="fDescPh"></textarea></label>
-      <div class="row">
-        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
-        <label><span data-i18n="fContact"></span><input name="contact" maxlength="60" data-i18n-ph="fContactPh"></label>
-      </div>
-      <p class="hint" data-i18n="chatOptHint"></p>
+      <p class="hint chat-only" data-i18n="chatOnlyHint"></p>
       <label><span data-i18n="fSpot"></span><select name="spot" id="postSpot"></select></label>
       <div class="photos" data-photos><span class="pf-label" data-i18n="photos"></span><div class="pf-grid"></div></div>
       <div class="consent">
@@ -172,11 +168,7 @@
       </div>
       <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="300" data-i18n-ph="rNotePh"></textarea></label>
       <div class="photos" data-photos><span class="pf-label" data-i18n="photosOpt"></span><div class="pf-grid"></div></div>
-      <div class="row">
-        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
-        <label><span data-i18n="fContact"></span><input name="contact" maxlength="60" data-i18n-ph="fContactPh"></label>
-      </div>
-      <p class="hint" data-i18n="chatOptHint"></p>
+      <p class="hint chat-only" data-i18n="chatOnlyHint"></p>
       <div class="consent">
         <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
         <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
@@ -208,11 +200,7 @@
       </div>
       <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="200" data-i18n-ph="eNotePh"></textarea></label>
       <div class="photos" data-photos><span class="pf-label" data-i18n="photosOpt"></span><div class="pf-grid"></div></div>
-      <div class="row">
-        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
-        <label><span data-i18n="fContact"></span><input name="contact" maxlength="60" data-i18n-ph="fContactPh"></label>
-      </div>
-      <p class="hint" data-i18n="chatOptHint"></p>
+      <p class="hint chat-only" data-i18n="chatOnlyHint"></p>
       <div class="consent">
         <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
         <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
@@ -227,12 +215,7 @@
     <button class="modal-x" data-close aria-label="close">&times;</button>
     <h3 data-i18n="takeTitle"></h3>
     <p id="takeText" class="muted"></p>
-    <p class="hint" data-i18n="takeOptHint"></p>
     <form id="takeForm" class="form">
-      <div class="row">
-        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
-        <label><span data-i18n="fContact"></span><input name="contact" maxlength="60" data-i18n-ph="fContactPh"></label>
-      </div>
       <div class="row-btns"><button class="btn btn-ghost" type="button" data-close data-i18n="cancel"></button><button class="btn btn-primary" type="submit" data-i18n="takeOk"></button></div>
     </form>
   </div>
