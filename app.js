@@ -7,19 +7,31 @@ const SITE_CONFIG = {
 };
 /* ==================================================================== */
 
+/* Supabase (public URL + publishable key — safe to ship in the browser; access is enforced by RLS) */
+const SUPABASE_CONFIG = {
+  url: 'https://upmzeccwedqihvfymick.supabase.co',
+  key: 'sb_publishable_mRP8oBbLQX8JgyrsF2o5OA_QgtXDV0r',
+};
+
 /* ===== Data layer =====
- * All persistence goes through Store. UI code never touches localStorage for data.
- * To move to Supabase later, re-implement these four async methods, e.g.
- *   list:   (c) => supabase.from(c).select('*').order('t', { ascending: false }).then(r => r.data)
- *   create: (c, d) => supabase.from(c).insert(d).select().single().then(r => r.data)
- *   update: (c, id, p) => supabase.from(c).update(p).eq('id', id).select().single().then(r => r.data)
- *   remove: (c, id) => supabase.from(c).delete().eq('id', id).then(() => true)
- * Collections: listings, daigou, errands, reports.
+ * All persistence goes through Store: list / create / update / remove per collection
+ * (listings, daigou, errands, reports). UI code never talks to the database directly.
+ * Remote = Supabase (shared by everyone). Local = this browser only, used if Supabase is unreachable.
  */
 const STORE_VER = 'v2';
-const Store = (() => {
+['pm_listings_v1', 'pm_requests_v1'].forEach(k => localStorage.removeItem(k)); // drop old seeded demo data
+
+// Per-browser owner token (lets you delete / complete your own posts without logging in)
+const OWNER = (() => {
+  let tk = localStorage.getItem('pm_owner');
+  if (!tk || tk.length < 32) { const a = new Uint8Array(24); crypto.getRandomValues(a); tk = [...a].map(b => b.toString(16).padStart(2, '0')).join(''); localStorage.setItem('pm_owner', tk); }
+  return tk;
+})();
+let OWNER_HASH = '';
+const sha256hex = async str => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)))].map(b => b.toString(16).padStart(2, '0')).join('');
+
+const LocalStore = (() => {
   const KEYS = { listings: 'pm_listings_', daigou: 'pm_requests_', errands: 'pm_errands_', reports: 'pm_reports_' };
-  ['pm_listings_v1', 'pm_requests_v1'].forEach(k => localStorage.removeItem(k)); // drop old seeded demo data
   const key = c => { if (!KEYS[c]) throw new Error('Unknown collection: ' + c); return KEYS[c] + STORE_VER; };
   const read = c => { try { const v = JSON.parse(localStorage.getItem(key(c))); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
   const write = (c, arr) => localStorage.setItem(key(c), JSON.stringify(arr));
@@ -31,6 +43,75 @@ const Store = (() => {
     async remove(c, id) { write(c, read(c).filter(x => x.id !== id)); return true; },
   };
 })();
+
+const RemoteStore = (() => {
+  let sb = null;
+  const mine = h => h && h === OWNER_HASH;
+  const hm = v => (v || '').slice(0, 5);
+  const MAP = {
+    listings: {
+      cols: 'id,created_at,title,cat,price,cond,description,ctype,contact,spot,owner_hash',
+      toUI: r => ({ id: r.id, t: Date.parse(r.created_at), title: r.title, cat: r.cat, price: r.price, cond: r.cond, desc: r.description, ctype: r.ctype, contact: r.contact, spot: r.spot, seller: mine(r.owner_hash) ? '__me' : '' }),
+      toDB: d => ({ title: d.title, cat: d.cat, price: d.price, cond: d.cond, description: d.desc || '', ctype: d.ctype, contact: d.contact, spot: d.spot, owner_token: OWNER }),
+    },
+    daigou: {
+      cols: 'id,created_at,item,from_region,budget,tip,deadline,note,ctype,contact,status,taker_hash,owner_hash',
+      toUI: r => ({ id: r.id, t: Date.parse(r.created_at), item: r.item, from: r.from_region, budget: r.budget, tip: r.tip, deadline: r.deadline, note: r.note, ctype: r.ctype, contact: r.contact, status: r.status, who: mine(r.owner_hash) ? '__me' : '', takenByMe: mine(r.taker_hash) }),
+      toDB: d => ({ item: d.item, from_region: d.from, budget: d.budget, tip: d.tip || 0, deadline: d.deadline, note: d.note || '', ctype: d.ctype, contact: d.contact, owner_token: OWNER }),
+    },
+    errands: {
+      cols: 'id,created_at,type,pickup,hall,floor,date,time_from,time_to,fee,note,ctype,contact,status,taker_hash,owner_hash',
+      toUI: r => ({ id: r.id, t: Date.parse(r.created_at), type: r.type, pickup: r.pickup, hall: r.hall, floor: r.floor, date: r.date, from: hm(r.time_from), to: hm(r.time_to), fee: r.fee, note: r.note, ctype: r.ctype, contact: r.contact, status: r.status, who: mine(r.owner_hash) ? '__me' : '', takenByMe: mine(r.taker_hash) }),
+      toDB: d => ({ type: d.type, pickup: d.pickup, hall: d.hall, floor: d.floor || '', date: d.date, time_from: d.from, time_to: d.to, fee: d.fee || 0, note: d.note || '', ctype: d.ctype, contact: d.contact, owner_token: OWNER }),
+    },
+    reports: {
+      toDB: d => ({ target_kind: d.target_kind, target_id: d.target_id, target_title: (d.target_title || '').slice(0, 120), reason: d.reason, note: d.note || '' }),
+    },
+  };
+  const fail = error => { const e = new Error(error.message || 'request_failed'); e.code = error.code; throw e; };
+  return {
+    async init() {
+      if (!window.supabase || !SUPABASE_CONFIG.url || !SUPABASE_CONFIG.key) return false;
+      sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key, { auth: { persistSession: false, autoRefreshToken: false } });
+      const { error } = await sb.from('listings').select('id').limit(1);
+      return !error;
+    },
+    async list(c) {
+      const { data, error } = await sb.from(c).select(MAP[c].cols).order('created_at', { ascending: false }).limit(500);
+      if (error) fail(error); return data.map(MAP[c].toUI);
+    },
+    async create(c, d) {
+      if (c === 'reports') { const { error } = await sb.from(c).insert(MAP[c].toDB(d)); if (error) fail(error); return true; }
+      const { data, error } = await sb.from(c).insert(MAP[c].toDB(d)).select(MAP[c].cols).single();
+      if (error) fail(error); return MAP[c].toUI(data);
+    },
+    async update(c, id, patch) {
+      let res;
+      if (patch.status === 'taken') res = await sb.rpc('pm_take_post', { p_kind: c, p_id: id, p_taker_token: OWNER });
+      else if (patch.status === 'done' && c === 'errands') res = await sb.rpc('pm_complete_errand', { p_id: id, p_token: OWNER });
+      else throw new Error('unsupported_update');
+      if (res.error) fail(res.error); if (!res.data) throw new Error('not_allowed'); return true;
+    },
+    async remove(c, id) {
+      const { data, error } = await sb.rpc('pm_delete_post', { p_kind: c, p_id: id, p_token: OWNER });
+      if (error) fail(error); if (!data) throw new Error('not_allowed'); return true;
+    },
+  };
+})();
+
+const Store = {
+  mode: 'local',
+  impl: LocalStore,
+  async init() {
+    try { OWNER_HASH = await sha256hex(OWNER); } catch (e) {}
+    try { if (OWNER_HASH && await RemoteStore.init()) { this.mode = 'remote'; this.impl = RemoteStore; } } catch (e) {}
+    return this.mode;
+  },
+  list(c) { return this.impl.list(c); },
+  create(c, d) { return this.impl.create(c, d); },
+  update(c, id, p) { return this.impl.update(c, id, p); },
+  remove(c, id) { return this.impl.remove(c, id); },
+};
 /* ====================== */
 const LS_LANG = 'pm_lang', LS_HALL = 'pm_hall';
 
@@ -61,7 +142,7 @@ const I18N = {
     dgNoMatch: '呢個地區暫時未有需求。',
     tPosted: '已成功放售！', tReq: '需求已發佈，等同學接單～', tTaken: '接單成功！請聯絡對方確認細節', tCopied: '已複製：',
     ago_m: '{n} 分鐘前', ago_h: '{n} 小時前', ago_d: '{n} 日前', count: '{n} 件',
-    foot1: '本網站為學生個人項目，與香港理工大學無關，並非官方網站。', foot2: '完全免費，不收任何佣金。資料暫時只儲存喺你嘅瀏覽器。',
+    foot1: '本網站為學生個人項目，與香港理工大學無關，並非官方網站。', foot2: '完全免費，不收任何佣金。',
   },
   en: {
     brand: 'PolyU Marketplace', brandSub: '理大二手網', navMarket: 'Market', navDaigou: 'Requests', post: 'Sell',
@@ -89,7 +170,7 @@ const I18N = {
     dgNoMatch: 'No requests for this region yet.',
     tPosted: 'Your item is listed!', tReq: 'Request posted — hang tight!', tTaken: 'Request taken! Contact them to confirm.', tCopied: 'Copied: ',
     ago_m: '{n} min ago', ago_h: '{n} h ago', ago_d: '{n} d ago', count: '{n}',
-    foot1: 'Independent student project, not affiliated with The Hong Kong Polytechnic University.', foot2: 'Completely free, no commission. Data is currently stored only in your browser.',
+    foot1: 'Independent student project, not affiliated with The Hong Kong Polytechnic University.', foot2: 'Completely free, no commission.',
   },
 };
 /* ---------- compliance strings & documents ---------- */
@@ -103,6 +184,7 @@ Object.assign(I18N.zh, {
   report: '舉報', reportTitle: '舉報內容', reportReason: '原因', reportNote: '補充說明（選填）', reportSubmit: '提交舉報',
   rr_prohibited: '禁售物品', rr_scam: '懷疑詐騙', rr_fake: '假貨 / 侵權', rr_offensive: '不當或冒犯內容', rr_other: '其他',
   reportTarget: '舉報：「{x}」', reportMail: '投訴及侵權通知電郵：', tReported: '已收到舉報，多謝你幫手維護社群。', placeholder: '待更新',
+  student: '理大同學', tError: '提交失敗，請稍後再試。', tRate: '操作太頻密，請稍後再試。', tNotAllowed: '只可以修改自己發佈的內容。', tOffline: '暫時連唔到伺服器，資料只會儲存喺呢個瀏覽器。',
   del: '刪除', delConfirm: '確定刪除？刪除後無法復原。', tDeleted: '已刪除',
 });
 Object.assign(I18N.en, {
@@ -114,6 +196,7 @@ Object.assign(I18N.en, {
   report: 'Report', reportTitle: 'Report content', reportReason: 'Reason', reportNote: 'Details (optional)', reportSubmit: 'Submit report',
   rr_prohibited: 'Prohibited item', rr_scam: 'Suspected scam', rr_fake: 'Counterfeit / infringement', rr_offensive: 'Inappropriate content', rr_other: 'Other',
   reportTarget: 'Reporting: “{x}”', reportMail: 'Complaints & infringement notices: ', tReported: 'Report received — thanks for keeping the community safe.', placeholder: 'To be added',
+  student: 'PolyU student', tError: 'Something went wrong — please try again.', tRate: 'Too many actions — please wait a moment.', tNotAllowed: 'You can only change your own posts.', tOffline: 'Can\u2019t reach the server — data will only be saved in this browser.',
   del: 'Delete', delConfirm: 'Delete this? This cannot be undone.', tDeleted: 'Deleted',
 });
 const REPORT_REASONS = ['prohibited', 'scam', 'fake', 'offensive', 'other'];
@@ -140,11 +223,11 @@ const DOCS = {
       '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。']),
     privacy: () => `<h3>私隱政策及收集個人資料聲明</h3>
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
-      <h4>收集的資料</h4><p>物品、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號），以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）。請勿提供不必要的個人資料。</p>
+      <h4>收集的資料</h4><p>物品、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號），以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；另外會在你的瀏覽器產生一個隨機識別碼，只用作讓你管理自己發佈的內容。請勿提供不必要的個人資料。</p>
       <h4>收集目的</h4><p>只用作在網站上公開顯示你的放售或代購資料，讓其他使用者聯絡你，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
       <h4>公開及轉移</h4><p>你的聯絡方式會公開顯示予網站訪客。除法律要求外，我們不會向第三方披露你的資料。</p>
-      <h4>保留期限</h4><p>現階段原型版本的資料只儲存在你自己的瀏覽器內，不會上載至伺服器。日後正式版本中，資料會在物品下架或需求完成後 30 日內刪除。</p>
-      <h4>查閱、更正及刪除</h4><p>你可隨時刪除自己發佈的內容。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
+      <h4>儲存地點</h4><p>資料儲存於 Supabase 雲端資料庫，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。</p><h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後自動刪除；舉報紀錄保留 365 日。你亦可隨時自行刪除自己的內容。</p>
+      <h4>查閱、更正及刪除</h4><p>你可隨時刪除自己發佈的內容（只限用發佈時的同一瀏覽器）。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>免責聲明</h3><p class="muted small">在香港法律容許的最大範圍內適用。</p><ol>
       <li><b>只提供資訊平台。</b>理大二手網（「本網站」）只供使用者發佈及瀏覽二手物品及代購資訊，並非任何交易的一方，不參與、促成、代收或保證任何交易或付款。</li>
       <li><b>不作任何保證。</b>本網站不就任何物品的質素、合法性、真偽、安全性、狀況或描述是否準確，以及任何使用者的身份、資格或可靠程度作出任何明示或隱含的保證或陳述。</li>
@@ -181,11 +264,11 @@ const DOCS = {
       'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.']),
     privacy: () => `<h3>Privacy policy & Personal Information Collection Statement</h3>
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
-      <h4>What we collect</h4><p>Item, request or errand details (hall and block/floor only — no full room number needed), and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone). Please don\u2019t share more personal data than needed.</p>
+      <h4>What we collect</h4><p>Item, request or errand details (hall and block/floor only — no full room number needed), and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); plus a random identifier generated in your browser, used only so you can manage your own posts. Please don\u2019t share more personal data than needed.</p>
       <h4>Purpose</h4><p>Solely to display your listing or request publicly so others can contact you, and to handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
       <h4>Disclosure</h4><p>Your contact is shown publicly to site visitors. We do not disclose your data to third parties except as required by law.</p>
-      <h4>Retention</h4><p>In this prototype, data stays only in your own browser and is never uploaded. In a future live version, data will be deleted within 30 days after an item is removed or a request is completed.</p>
-      <h4>Access, correction & deletion</h4><p>You can delete your own posts at any time. For data access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
+      <h4>Storage location</h4><p>Data is stored in a Supabase cloud database with servers in Tokyo, Japan, i.e. it is transferred outside Hong Kong.</p><h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting; reports are kept for 365 days. You can also delete your own posts at any time.</p>
+      <h4>Access, correction & deletion</h4><p>You can delete your own posts at any time (from the same browser you posted with). For data access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>Disclaimer</h3><p class="muted small">Applies to the fullest extent permitted by the laws of Hong Kong.</p><ol>
       <li><b>Information platform only.</b> PolyU Marketplace (the “Site”) only allows users to post and browse second-hand and purchase-on-behalf information. It is not a party to any transaction and does not take part in, arrange, collect payment for or guarantee any transaction.</li>
       <li><b>No warranties.</b> The Site makes no express or implied warranty or representation as to the quality, legality, authenticity, safety, condition or accuracy of description of any item, or the identity, capacity or reliability of any user.</li>
@@ -318,7 +401,7 @@ function openDetail(id) {
     <div class="d-row"><span class="price"><small>HK$</small>${l.price}</span><span class="tag">${t('cond_' + l.cond)}</span><span class="tag">${t('cat_' + l.cat)}</span></div>
     <p class="d-desc">${esc(l.desc || t('noDesc'))}</p>
     <div class="d-box">
-      <div><span>${t('seller')}</span><b>${esc(l.seller === '__me' ? t('me') : l.seller)}</b></div>
+      <div><span>${t('seller')}</span><b>${esc(l.seller === '__me' ? t('me') : (l.seller || t('student')))}</b></div>
       <div><span>${esc(l.ctype)}</span><b>${esc(l.contact)}</b></div>
       <div><span>${t('spot')}</span><b>${t('spot_' + l.spot)}</b></div>
       <div><span>${t('posted')}</span><b>${ago(l.t)}</b></div>
@@ -344,7 +427,7 @@ function renderDg() {
     const dl = left < 0 ? t('expired') : left === 0 ? t('today') : t('daysLeft', { n: left });
     return `<div class="req ${r.status}">
       <div class="req-top"><div class="flag">${t('regShort_' + r.from)}</div>
-        <div class="req-h"><h4>${esc(r.item)}</h4><div class="req-info"><span>${t('from')} <b>${t('reg_' + r.from)}</b></span><span>${esc(r.who === '__me' ? t('me') : r.who)} · ${ago(r.t)}</span></div></div></div>
+        <div class="req-h"><h4>${esc(r.item)}</h4><div class="req-info"><span>${t('from')} <b>${t('reg_' + r.from)}</b></span><span>${esc(r.who === '__me' ? t('me') : (r.who || t('student')))} · ${ago(r.t)}</span></div></div></div>
       <div class="req-info"><span>${t('budget')} <b>HK$${r.budget}</b></span><span>${t('runFee')} <b>HK$${r.tip || 0}</b></span>
         <span class="${left <= 3 ? 'urgent' : ''}">${t('deadline')} ${esc(r.deadline)} · ${dl}</span></div>
       ${r.note ? `<p class="req-note">${esc(r.note)}</p>` : ''}
@@ -414,7 +497,7 @@ function renderErrands() {
     return `<div class="req ${x.status === 'open' ? 'open' : 'taken'}">
       <div class="req-top"><div class="flag er-${x.type}"><svg viewBox="0 0 24 24" aria-hidden="true">${ER_ICON[x.type]}</svg></div>
         <div class="req-h"><h4>${t('type_' + x.type)}${x.floor ? ` <span class="muted">${esc(x.floor)}</span>` : ''}</h4>
-        <div class="req-info"><span>${esc(x.who === '__me' ? t('me') : x.who)} · ${ago(x.t)}</span></div></div></div>
+        <div class="req-info"><span>${esc(x.who === '__me' ? t('me') : (x.who || t('student')))} · ${ago(x.t)}</span></div></div></div>
       <div class="er-grid">
         <span>${t('pickup')}</span><b>${esc(x.pickup)}</b>
         <span>${t('window')}</span><b>${esc(x.date)} ${esc(x.from)}–${esc(x.to)}</b>
@@ -441,8 +524,11 @@ function go(view) {
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
   const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr' }[view]; fl.textContent = t(fl.dataset.i18n);
   history.replaceState(null, '', view === 'market' ? location.pathname : '#' + view); window.scrollTo(0, 0);
+  if (window.__pmReload) window.__pmReload();
 }
 let pendingTake = null;
+const errMsg = e => /rate_limited/.test(e?.message || '') ? t('tRate') : /not_allowed/.test(e?.message || '') ? t('tNotAllowed') : t('tError');
+async function guard(fn) { try { await fn(); } catch (e) { toast(errMsg(e)); } }
 
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
@@ -456,7 +542,7 @@ document.addEventListener('click', async e => {
   else if (d.ertype) { erState.type = d.ertype; renderErrands(); }
   else if (d.hall) setHall(d.hall);
   else if (d.ertake) { const x = errands.find(y => y.id === d.ertake); if (!x) return; pendingTake = { kind: 'e', id: x.id }; $('#confirmText').textContent = t('erTakeText'); show('#confirmModal'); }
-  else if (d.erdone) { await Store.update('errands', d.erdone, { status: 'done' }); await refresh('errands'); renderErrands(); toast(t('tDone')); }
+  else if (d.erdone) guard(async () => { await Store.update('errands', d.erdone, { status: 'done' }); await refresh('errands'); renderErrands(); toast(t('tDone')); });
   else if (d.nav) { e.preventDefault(); go(d.nav); }
   else if (el.hasAttribute('data-close')) closeModal(el.closest('.modal'));
   else if (d.doc) { e.preventDefault(); openDoc(d.doc); }
@@ -464,7 +550,7 @@ document.addEventListener('click', async e => {
   else if (d.del) {
     const [k, id] = d.del.split(':');
     if (!confirm(t('delConfirm'))) return;
-    await Store.remove(COL[k], id); await refresh(COL[k]); hideAll(); renderAll(); toast(t('tDeleted'));
+    guard(async () => { await Store.remove(COL[k], id); await refresh(COL[k]); hideAll(); renderAll(); toast(t('tDeleted')); });
   }
   else if (d.copy) { navigator.clipboard?.writeText(d.copy).catch(() => {}); toast(t('tCopied') + d.copy); }
   else if (d.action) show({ post: '#postModal', req: '#reqModal', err: '#errModal' }[d.action]);
@@ -476,12 +562,13 @@ document.addEventListener('click', async e => {
 });
 $('#reportForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  await Store.create('reports', { target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note });
+  try { await Store.create('reports', { target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note }); } catch (err) { return toast(errMsg(err)); }
   e.target.reset(); closeModal($('#reportModal')); toast(t('tReported'));
 });
 $('#confirmOk').onclick = async () => {
   const pt = pendingTake || {};
-  if (pt.id && await Store.update(COL[pt.kind], pt.id, { status: 'taken' })) { await refresh(COL[pt.kind]); renderDg(); renderErrands(); toast(t('tTaken')); }
+  await guard(async () => { if (pt.id && await Store.update(COL[pt.kind], pt.id, { status: 'taken' })) toast(t('tTaken')); });
+  await refresh(COL[pt.kind] || 'daigou').catch(() => {}); renderDg(); renderErrands();
   hideAll();
 };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const top = ['#docModal', '#reportModal'].map(x => $(x)).find(m => !m.hidden); top ? closeModal(top) : hideAll(); } if (e.key === 'Enter' && e.target.classList?.contains('card')) openDetail(e.target.dataset.id); });
@@ -492,23 +579,32 @@ $('#openPost').onclick = () => show(!$('#view-daigou').hidden ? '#reqModal' : !$
 $('#openErr').onclick = () => show('#errModal');
 $('#errForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  await Store.create('errands', { type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' });
+  try { await Store.create('errands', { type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' }); } catch (err) { return toast(errMsg(err)); }
   await refresh('errands'); e.target.reset(); applyLang(); hideAll(); erState.type = 'all'; setHall(f.hall); toast(t('tErr'));
 });
 $('#openReq').onclick = () => show('#reqModal');
 $('#postForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  await Store.create('listings', { title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), ctype: f.ctype, contact: f.contact.trim(), spot: f.spot, seller: '__me' });
+  try { await Store.create('listings', { title: f.title.trim(), cat: f.cat, price: +f.price, cond: f.cond, desc: f.desc.trim(), ctype: f.ctype, contact: f.contact.trim(), spot: f.spot, seller: '__me' }); } catch (err) { return toast(errMsg(err)); }
   await refresh('listings'); e.target.reset(); applyLang(); hideAll(); state.cat = 'all'; state.q = ''; $('#q').value = ''; go('market'); renderAll(); toast(t('tPosted'));
 });
 $('#reqForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  await Store.create('daigou', { item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' });
+  try { await Store.create('daigou', { item: f.item.trim(), from: f.from, budget: +f.budget, tip: +f.tip || 0, deadline: f.deadline, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open' }); } catch (err) { return toast(errMsg(err)); }
   await refresh('daigou'); e.target.reset(); applyLang(); hideAll(); state.dg = 'all'; renderDg(); toast(t('tReq'));
 });
 
 (async () => {
-  await refresh();
   applyLang();
+  const mode = await Store.init();
+  document.documentElement.dataset.store = mode;
+  await refresh().catch(() => {});
+  renderAll();
+  if (mode !== 'remote') toast(t('tOffline'));
+  let busy = false;
+  const live = async () => { if (busy || document.hidden) return; busy = true; try { await refresh(); renderAll(); } catch (e) {} busy = false; };
+  document.addEventListener('visibilitychange', live);
+  setInterval(live, 60000);
+  window.__pmReload = live;
   if (['#daigou', '#errands'].includes(location.hash)) go(location.hash.slice(1));
 })();
