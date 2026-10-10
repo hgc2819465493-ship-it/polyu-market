@@ -47,3 +47,13 @@ Live: https://hgc2819465493-ship-it.github.io/polyu-market/
 
 ## 部署 / Deploy
 GitHub Pages from `main` (root). Push → Pages rebuilds automatically.
+
+## Chat (站內訊息)
+
+- 1:1 chat per post + pair (`public.conversations`, `public.messages`, `supabase/schema_chat.sql`). Only the two participants can read/send (RLS); banned users cannot send; limits 20 msgs/min, 1000/day, 30 new chats/hour.
+- Text ≤ 1000 chars, optional photo in the **private** `chat-images` bucket (`<conversation>/<sender>/<file>.webp`), shown via 1-hour signed URLs.
+- Realtime (`supabase_realtime` publication) with a 4 s polling fallback when the socket is down, plus a 60 s safety poll.
+- Unread = last message from the other side newer than my `*_read_at`; read receipts use the peer's `*_read_at`.
+- 「舉報對話」 → `pm_chat_report` (participants only). Admins can read a chat only after it is reported, via `pm_admin_chat` (logged as `view_chat`).
+- Retention: `pm_retention` deletes conversations 180 days after the last message (messages cascade). **Caveat:** photos of conversations removed by retention stay in `chat-images` storage (Storage files can only be deleted via the Storage API, not SQL); clean them up periodically from the dashboard. Deleting an account removes the user's own chat photos client-side.
+- Contact field on posts / taking orders is now optional (chat is the default way to talk).

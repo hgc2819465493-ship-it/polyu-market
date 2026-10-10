@@ -30,7 +30,7 @@ const I18N = {
     seller: '賣家', spot: '交收地點', posted: '上架時間', copyContact: '複製聯絡方法', noDesc: '賣家未有填寫描述。',
     safety: '提提你：請喺校園公眾地方面交，驗貨後先俾錢。', me: '我',
     postTitle: '放售物品', fTitle: '物品名稱', fTitlePh: '例如：COMP1011 教科書（第三版）', fCat: '類別', fPrice: '價錢 (HKD)', fCond: '成色',
-    fDesc: '描述', fDescPh: '購買時間、有冇筆記、配件齊唔齊……', fCtype: '聯絡方式', fContact: '帳號 / 電話', fContactPh: '例如 @polyu_boa', fSpot: '交收地點', submitPost: '確認放售',
+    fDesc: '描述', fDescPh: '購買時間、有冇筆記、配件齊唔齊……', fCtype: '聯絡方式', fContact: '帳號 / 電話（選填）', fContactPh: '例如 @polyu_boa', fSpot: '交收地點', submitPost: '確認放售',
     dgKicker: '代購 · 互助', dgTitle: '想要嘅嘢，', dgTag: '搵順路同學幫你帶', dgSub: '寫低要買咩、喺邊度買、預算同限期，有同學順路就可以接單。', postReq: '發佈代購需求',
     reg_all: '全部地區', reg_sz: '深圳', reg_jp: '日本', reg_kr: '韓國', reg_tw: '台灣', reg_mo: '澳門', reg_other: '其他',
     regShort_sz: '深', regShort_jp: '日', regShort_kr: '韓', regShort_tw: '台', regShort_mo: '澳', regShort_other: '其',
@@ -58,7 +58,7 @@ const I18N = {
     seller: 'Seller', spot: 'Meet-up spot', posted: 'Listed', copyContact: 'Copy contact', noDesc: 'No description provided.',
     safety: 'Tip: meet in a public spot on campus and check the item before paying.', me: 'Me',
     postTitle: 'List an item', fTitle: 'Item name', fTitlePh: 'e.g. COMP1011 textbook (3rd ed.)', fCat: 'Category', fPrice: 'Price (HKD)', fCond: 'Condition',
-    fDesc: 'Description', fDescPh: 'When bought, notes inside, accessories included…', fCtype: 'Contact via', fContact: 'Handle / number', fContactPh: 'e.g. @polyu_boa', fSpot: 'Meet-up spot', submitPost: 'List item',
+    fDesc: 'Description', fDescPh: 'When bought, notes inside, accessories included…', fCtype: 'Contact via', fContact: 'Handle / number (optional)', fContactPh: 'e.g. @polyu_boa', fSpot: 'Meet-up spot', submitPost: 'List item',
     dgKicker: 'Purchase on behalf', dgTitle: 'Want something?', dgTag: 'Ask a fellow student to bring it back', dgSub: 'Say what you need, where to buy it, your budget and deadline — anyone heading there can take the request.', postReq: 'Post a request',
     reg_all: 'All regions', reg_sz: 'Shenzhen', reg_jp: 'Japan', reg_kr: 'Korea', reg_tw: 'Taiwan', reg_mo: 'Macau', reg_other: 'Other',
     regShort_sz: 'SZ', regShort_jp: 'JP', regShort_kr: 'KR', regShort_tw: 'TW', regShort_mo: 'MO', regShort_other: '··',
@@ -121,16 +121,17 @@ const DOCS = {
       '代購須遵守香港及內地（或相關地區）海關、進出口及稅務規定，包括攜帶限額及申報要求。',
       '宿舍跑腳只屬同學之間的互助安排：取件碼須私下傳送；跑腳費由雙方自行協定及直接交收，本網站不收取任何費用，亦不處理任何付款或爭議。',
       '發佈、接單須以電郵及密碼登入帳戶。本網站不會驗證電郵地址，你只可以使用屬於你本人的電郵地址註冊，不得使用他人電郵或冒認他人。請使用安全的密碼並妥善保管，你須對帳戶下的所有活動負責。每人只應使用一個帳戶。',
+      '站內「聊一聊」只可用於交易相關溝通，不得發送騷擾、詐騙、垃圾或違法內容；被舉報的對話可能會由管理員查閱。',
       '你上載的相片須為你擁有或有權使用的物品相片，並符合<a href="#" data-doc="prohibited">禁售清單</a>的相片規定。',
       '我們可在毋須通知的情況下移除任何內容、暫停或刪除任何帳戶。',
       '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。']),
     privacy: () => `<h3>私隱政策及收集個人資料聲明</h3>
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
-      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式。請勿提供不必要的個人資料。</p>
+      <h4>收集的資料</h4><p>（一）帳戶資料：你用作登入的電郵地址、密碼（只以加密雜湊形式儲存，我們無法得知你的密碼）及你設定的顯示名稱；（二）你發佈的放售、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號）、上載的物品相片，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）；（三）接單時你提供的聯絡方式；（四）你在站內「聊一聊」傳送的訊息及相片。請勿提供不必要的個人資料。</p>
       <h4>收集目的</h4><p>用作登入及管理你的帳戶與內容、在網站上顯示你的放售或需求、讓買賣或接單雙方聯絡，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
-      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。網站管理員為處理舉報及維護秩序，可查閱舉報紀錄及所有帖子（包括已隱藏者），並可隱藏或刪除違規內容及封鎖帳戶；所有管理操作均會記錄。除法律要求外，我們不會向第三方披露你的資料。</p>
+      <h4>誰可看到</h4><p>你的電郵地址不會公開。顯示名稱、發佈內容及相片會公開顯示；聯絡方式只向已登入的使用者顯示；接單者的聯絡方式只有發佈者及接單者本人可見。站內訊息只有對話雙方可以閱讀；訊息相片儲存於私人空間，只以限時連結顯示給對話雙方。網站管理員為處理舉報及維護秩序，可查閱舉報紀錄及所有帖子（包括已隱藏者），並只會在對話被舉報後查閱該對話內容；管理員可隱藏或刪除違規內容及封鎖帳戶，所有管理操作均會記錄。除法律要求外，我們不會向第三方披露你的資料。</p>
       <h4>儲存地點</h4><p>資料及相片儲存於 Supabase 雲端服務，伺服器位於日本東京，即資料會轉移至香港以外地方儲存。本網站不會向你發送任何電郵，亦不會驗證你的電郵地址。</p>
-      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；舉報及管理操作紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
+      <h4>保留期限</h4><p>系統每日自動清理：代購需求於限期過後 30 日、跑腳單於日期過後 30 日、放售物品於發佈 180 日後（已售出 / 已下架者於 60 日後）、已取消的需求於 30 日後自動刪除；對話於最後一則訊息 180 日後自動刪除；舉報及管理操作紀錄保留 365 日。帳戶資料保留至你刪除帳戶為止。</p>
       <h4>查閱、更正及刪除</h4><p>你可隨時於「我的」頁面修改顯示名稱、編輯或刪除自己的內容（相片會一併刪除），更改密碼，或按「刪除帳戶」永久刪除帳戶及所有內容。忘記密碼的話，請用你註冊的電郵地址電郵至 ${mail('contactEmail')} 求助。如需查閱或更正資料，或有任何私隱查詢，請電郵：${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>免責聲明</h3><p class="muted small">在香港法律容許的最大範圍內適用。</p><ol>
       <li><b>只提供資訊平台。</b>理大二手網（「本網站」）只供使用者發佈及瀏覽二手物品及代購資訊，並非任何交易的一方，不參與、促成、代收或保證任何交易或付款。</li>
@@ -166,16 +167,17 @@ const DOCS = {
       'Purchase-on-behalf requests must comply with Hong Kong and Mainland (or other relevant) customs, import/export and tax rules, including allowances and declarations.',
       'Hall errands are informal favours between students: share pickup codes privately only; runner fees are agreed and paid directly between users — the site charges nothing and does not handle payments or disputes.',
       'Posting and taking orders require an account (email + password). Email addresses are not verified: you may only register with an email address that belongs to you — never someone else\u2019s — and must not impersonate anyone. Use a strong password and keep it safe; you are responsible for all activity under your account. One account per person.',
+      'On-site Chat is for deal-related messages only — no harassment, scams, spam or illegal content. Reported conversations may be reviewed by moderators.',
       'Photos you upload must be of items you own or have the right to show, and must follow the photo rules in the <a href="#" data-doc="prohibited">Prohibited items</a> list.',
       'We may remove any content, or suspend or delete any account, without notice.',
       'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.']),
     privacy: () => `<h3>Privacy policy & Personal Information Collection Statement</h3>
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
-      <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order. Please don\u2019t share more personal data than needed.</p>
+      <h4>What we collect</h4><p>(1) Account data: the email you sign in with, your password (stored only as a one-way hash — we can\u2019t see it) and the display name you set; (2) what you post — listings, requests or errands (hall and block/floor only, no full room number needed), item photos, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone); (3) the contact you give when taking an order; (4) messages and photos you send through on-site Chat. Please don\u2019t share more personal data than needed.</p>
       <h4>Purpose</h4><p>To sign you in and let you manage your account and posts, show your listings and requests, let the two sides of a deal contact each other, and handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
-      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. To handle reports, site moderators can see reports and all posts (including hidden ones), and may hide or delete content and ban accounts; every moderation action is logged. We do not disclose your data to third parties except as required by law.</p>
+      <h4>Who can see what</h4><p>Your email address is never shown. Display names, posts and photos are public; contact details are shown only to signed-in users; a taker\u2019s contact is visible only to the poster and the taker. Chat messages can only be read by the two people in the conversation; chat photos are stored privately and shown to them through short-lived links. To handle reports, site moderators can see reports and all posts (including hidden ones), and read a conversation only after it has been reported; they may hide or delete content and ban accounts, and every moderation action is logged. We do not disclose your data to third parties except as required by law.</p>
       <h4>Storage location</h4><p>Data and photos are stored with Supabase, with servers in Tokyo, Japan, i.e. transferred outside Hong Kong. The site never sends you emails and does not verify your email address.</p>
-      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; reports and the moderation log are kept for 365 days. Account data is kept until you delete your account.</p>
+      <h4>Retention</h4><p>Automatic daily clean-up: requests 30 days after their deadline, errands 30 days after their date, listings 180 days after posting (sold/removed ones after 60 days), cancelled requests after 30 days; conversations are deleted 180 days after their last message; reports and the moderation log are kept for 365 days. Account data is kept until you delete your account.</p>
       <h4>Access, correction & deletion</h4><p>On the “Me” page you can change your display name, edit or delete your posts (photos are deleted with them), change your password, or tap “Delete account” to permanently delete your account and all your content. If you forget your password, email ${mail('contactEmail')} from your registered email address for help. For access or correction requests, or any privacy enquiry, email: ${mail('contactEmail')}</p>`,
     disclaimer: () => `<h3>Disclaimer</h3><p class="muted small">Applies to the fullest extent permitted by the laws of Hong Kong.</p><ol>
       <li><b>Information platform only.</b> PolyU Marketplace (the “Site”) only allows users to post and browse second-hand and purchase-on-behalf information. It is not a party to any transaction and does not take part in, arrange, collect payment for or guarantee any transaction.</li>
@@ -341,6 +343,24 @@ Object.assign(I18N.en, {
   act_hide: 'Hid post', act_unhide: 'Unhid post', act_delete: 'Deleted post', act_ban: 'Banned user', act_unban: 'Unbanned user', act_report_handled: 'Handled report', act_report_reopened: 'Reopened report',
 });
 
+/* ---------- chat strings ---------- */
+Object.assign(I18N.zh, {
+  navMsg: '訊息', chatBtn: '聊一聊', chatTitle: '訊息', chatEmpty: '仲未有對話。喺帖子撳「聊一聊」就可以同對方傾。', chatPick: '揀一個對話開始傾。',
+  chatPh: '輸入訊息…', chatSend: '傳送', chatImg: '相片', chatRead: '已讀', chatBack: '返回', chatReport: '舉報對話', chatYou: '你：', chatImgMsg: '[相片]',
+  chatPostGone: '帖子已刪除', chatWith: '與 {name}', chatToday: '今日', chatLoginHint: '登入後可以同對方直接傾。', chatOptHint: '可留空：買家可以用網站內的「聊一聊」聯絡你。',
+  chatReportTitle: '舉報此對話', chatReportNote: '管理員只會在對話被舉報後查閱內容。', tChatReported: '已舉報對話，管理員會跟進。', tChatTooLong: '訊息最多 1000 字。',
+  tOwnPost: '呢個係你自己嘅帖子。', tPostGone: '帖子已下架或不存在。', kind_chat: '對話', aViewChat: '查看對話', aChatTitle: '被舉報的對話', act_view_chat: '查看被舉報對話', aBanUser: '封鎖 {name}',
+  noContact: '未有留聯絡方法，請用「聊一聊」。', takeOptHint: '聯絡方法可留空，你哋可以用「聊一聊」。',
+});
+Object.assign(I18N.en, {
+  navMsg: 'Messages', chatBtn: 'Chat', chatTitle: 'Messages', chatEmpty: 'No conversations yet. Tap “Chat” on a post to message the poster.', chatPick: 'Pick a conversation.',
+  chatPh: 'Type a message…', chatSend: 'Send', chatImg: 'Photo', chatRead: 'Read', chatBack: 'Back', chatReport: 'Report chat', chatYou: 'You: ', chatImgMsg: '[Photo]',
+  chatPostGone: 'Post deleted', chatWith: 'with {name}', chatToday: 'Today', chatLoginHint: 'Sign in to chat with the poster.', chatOptHint: 'Optional — buyers can reach you through on-site Chat.',
+  chatReportTitle: 'Report this chat', chatReportNote: 'Moderators only read a chat after it has been reported.', tChatReported: 'Chat reported — a moderator will review it.', tChatTooLong: 'Messages are limited to 1000 characters.',
+  tOwnPost: 'This is your own post.', tPostGone: 'This post is no longer available.', kind_chat: 'Chat', aViewChat: 'View chat', aChatTitle: 'Reported chat', act_view_chat: 'Viewed reported chat', aBanUser: 'Ban {name}',
+  noContact: 'No contact left — use Chat.', takeOptHint: 'Contact is optional — you can use Chat.',
+});
+
 /* ===== Data layer =====
  * Everything that touches Supabase lives here. UI code only calls Api.* / Auth.*.
  */
@@ -391,6 +411,12 @@ const Auth = {
       const { data } = await sb.storage.from(SUPABASE_CONFIG.bucket).list(`${this.uid}/${kind}`, { limit: 1000 });
       const paths = (data || []).filter(f => f.id).map(f => `${this.uid}/${kind}/${f.name}`);
       if (paths.length) await sb.storage.from(SUPABASE_CONFIG.bucket).remove(paths);
+    }
+    const { data: convs } = await sb.from('conversations').select('id');
+    for (const c of convs || []) {
+      const { data } = await sb.storage.from('chat-images').list(`${c.id}/${this.uid}`, { limit: 1000 });
+      const paths = (data || []).filter(f => f.id).map(f => `${c.id}/${this.uid}/${f.name}`);
+      if (paths.length) await sb.storage.from('chat-images').remove(paths);
     }
     const { error } = await sb.rpc('pm_delete_account'); if (error) throw error;
     this.user = null; this.profile = null;
@@ -520,6 +546,38 @@ const Api = (() => {
     },
     async adminReport(id, handled) { const { error } = await sb.rpc('pm_admin_report', { p_id: id, p_handled: handled }); if (error) fail(error); },
     async adminBan(uid, banned, reason = '') { const { data, error } = await sb.rpc('pm_admin_ban', { p_user: uid, p_banned: banned, p_reason: reason }); if (error) fail(error); if (!data) throw new Error('not_allowed'); },
+    /* ---- chat ---- */
+    async chatOpen(c, id) { const { data, error } = await sb.rpc('pm_chat_open', { p_kind: c, p_id: id }); if (error) fail(error); return data; },
+    async chatList() {
+      const { data, error } = await sb.from('conversations').select('*,owner:profiles!conversations_owner_id_fkey(display_name),other:profiles!conversations_other_id_fkey(display_name)')
+        .order('last_message_at', { ascending: false, nullsFirst: false }).limit(200);
+      if (error) fail(error);
+      return data.map(c => { const me = Auth.uid, iAmOwner = c.owner_id === me, readAt = Date.parse(iAmOwner ? c.owner_read_at : c.other_read_at);
+        return { ...c, peer: iAmOwner ? c.other : c.owner, peerId: iAmOwner ? c.other_id : c.owner_id, peerReadAt: Date.parse(iAmOwner ? c.other_read_at : c.owner_read_at),
+          unread: !!c.last_message_at && c.last_sender !== me && Date.parse(c.last_message_at) > readAt + 500 }; });
+    },
+    async chatMessages(conv, afterId = 0) {
+      const { data, error } = await sb.from('messages').select('id,conversation_id,sender_id,body,image,created_at').eq('conversation_id', conv).gt('id', afterId).order('id').limit(500);
+      if (error) fail(error); return data;
+    },
+    async chatSend(conv, body, blob) {
+      let path = null;
+      if (blob) {
+        path = `${conv}/${Auth.uid}/${crypto.randomUUID()}.${blob.type === 'image/webp' ? 'webp' : blob.type === 'image/png' ? 'png' : 'jpg'}`;
+        const up = await sb.storage.from('chat-images').upload(path, blob, { contentType: blob.type, upsert: false }); if (up.error) fail(up.error);
+      }
+      const { data, error } = await sb.from('messages').insert({ conversation_id: conv, body: body || '', image: path }).select('id,conversation_id,sender_id,body,image,created_at').single();
+      if (error) { if (path) await sb.storage.from('chat-images').remove([path]); fail(error); }
+      return data;
+    },
+    async chatRead(conv) { await sb.rpc('pm_chat_read', { p_conv: conv }); },
+    async chatReport(conv, reason, note) { const { error } = await sb.rpc('pm_chat_report', { p_conv: conv, p_reason: reason, p_note: note || '' }); if (error) fail(error); },
+    async chatSigned(paths) {
+      if (!paths.length) return {};
+      const { data, error } = await sb.storage.from('chat-images').createSignedUrls(paths, 3600); if (error) fail(error);
+      const o = {}; (data || []).forEach(d => { if (d.signedUrl) o[d.path] = d.signedUrl; }); return o;
+    },
+    async adminChat(conv) { const { data, error } = await sb.rpc('pm_admin_chat', { p_conv: conv }); if (error) fail(error); return data; },
     async report(d) {
       const { error } = await sb.from('reports').insert({ target_kind: d.target_kind, target_id: d.target_id, target_title: (d.target_title || '').slice(0, 120), reason: d.reason, note: d.note || '' });
       if (error) fail(error); return true;
@@ -551,8 +609,8 @@ async function compressImage(file) {
 
 /* ===================== UI ===================== */
 let listings = [], requests = [], errands = [], my = { posts: [], taken: [] };
-const COL = { l: 'listings', r: 'daigou', e: 'errands' };
-const KEY = { listings: 'l', daigou: 'r', errands: 'e' };
+const COL = { l: 'listings', r: 'daigou', e: 'errands', c: 'chat' };
+const KEY = { listings: 'l', daigou: 'r', errands: 'e', chat: 'c' };
 const findPost = (k, id) => { const c = COL[k] || k; return [...({ listings, daigou: requests, errands }[c] || []), ...my.posts, ...my.taken].find(x => x.id === id && x.kind === c); };
 let online = false;
 async function refresh(...cols) {
@@ -591,7 +649,7 @@ function applyLang() {
 }
 function setLang(l) { lang = l; localStorage.setItem(LS_LANG, l); applyLang(); }
 function renderHeader() {
-  $('#adminBtn').hidden = !Auth.isAdmin;
+  $('#adminBtn').hidden = !Auth.isAdmin; renderMsgBadge();
   const b = $('#meBtn');
   if (loggedIn()) { const n = Auth.profile?.display_name || ''; b.innerHTML = `<span class="avatar">${esc([...n][0] || '?').toUpperCase()}</span><span class="me-label">${t('navMe')}</span>`; b.classList.add('in'); }
   else { b.innerHTML = `<span class="me-label">${t('login')}</span>`; b.classList.remove('in'); }
@@ -630,9 +688,10 @@ function gallery(x) {
   return `<div class="gallery"><div class="g-main"><img id="gMain" src="${imgUrl(x.images[0])}" alt="${esc(t('photoOf', { n: 1 }))}"></div>
     ${x.images.length > 1 ? `<div class="g-thumbs">${x.images.map((p, i) => `<button class="g-th ${i ? '' : 'active'}" data-gimg="${imgUrl(p)}" aria-label="${esc(t('photoOf', { n: i + 1 }))}"><img src="${imgUrl(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}</div>`;
 }
+const chatBtnHtml = (x, cls = 'btn btn-primary') => x.mine ? '' : `<button class="${cls}" data-chat="${KEY[x.kind]}:${x.id}">💬 ${t('chatBtn')}</button>`;
 function contactBlock(x) {
-  if (!loggedIn()) return `<button class="btn btn-primary btn-block" data-action="login">🔒 ${t('loginToContact')}</button>`;
-  return `<button class="btn btn-primary btn-block" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)} — ${t('copyContact')}</button>`;
+  if (!loggedIn()) return `<button class="btn btn-primary btn-block" data-chat="${KEY[x.kind]}:${x.id}">💬 ${t('chatBtn')}</button><p class="hint center">🔒 ${t('chatLoginHint')}</p>`;
+  return `<div class="contact-btns">${chatBtnHtml(x, 'btn btn-primary btn-block')}${x.contact ? `<button class="btn btn-ghost btn-block" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)} — ${t('copyContact')}</button>` : ''}</div>`;
 }
 function openDetail(id) {
   const l = listings.find(x => x.id === id) || my.posts.find(x => x.id === id); if (!l) return;
@@ -655,8 +714,10 @@ function openDetail(id) {
 /* ---------- daigou / errands cards ---------- */
 function orderActions(x) {
   const k = KEY[x.kind];
-  if (x.status === 'open' && !x.mine) return `<button class="btn btn-primary" data-take="${k}:${x.id}">${t('take')}</button>`;
-  if (x.status === 'taken' && x.takenByMe) return `<span class="req-right"><button class="btn btn-ghost" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button></span>`;
+  const chat = chatBtnHtml(x, 'btn btn-ghost');
+  if (x.status === 'open' && !x.mine) return `<span class="req-right">${chat}<button class="btn btn-primary" data-take="${k}:${x.id}">${t('take')}</button></span>`;
+  if (x.status === 'taken' && x.takenByMe) return `<span class="req-right">${chat}${x.contact ? `<button class="btn btn-ghost" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button>` : ''}</span>`;
+  if (x.status === 'taken' && !x.mine) return `<span class="req-right">${chat}</span>`;
   if (x.mine) return `<button class="btn btn-ghost" data-nav="me">${t('navMe')}</button>`;
   return '';
 }
@@ -732,7 +793,7 @@ function meRow(x, taken) {
   const k = KEY[x.kind], thumb = x.images?.length ? `<img src="${imgUrl(x.images[0])}" alt="" loading="lazy">` : (x.kind === 'listings' ? art(x) : `<span class="me-kind-ic">${x.kind === 'daigou' ? '✈' : '⇪'}</span>`);
   let actions = '', extra = '';
   if (taken) {
-    extra = `<div class="me-contact"><span>${t('posterLabel')}</span><b>${esc(x.owner?.display_name || t('student'))}</b> ${badge(x.owner)} · <button class="link-btn" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button></div>`;
+    extra = `<div class="me-contact"><span>${t('posterLabel')}</span><b>${esc(x.owner?.display_name || t('student'))}</b> · ${x.contact ? `<button class="link-btn" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button> · ` : ''}<button class="link-btn" data-chat="${k}:${x.id}">💬 ${t('chatBtn')}</button></div>`;
     if (x.status === 'taken') actions = `<button class="btn btn-ghost btn-sm" data-release="${k}:${x.id}">${t('release')}</button>`;
   } else {
     const next = (x.kind === 'listings' ? NEXT.listings : NEXT.orders)[x.status] || [];
@@ -896,14 +957,14 @@ $('#loginForm').addEventListener('submit', async e => {
   btn.disabled = false; await afterAuth(loginTab === 'signup' ? 'signup' : true);
 });
 async function afterAuth(fromForm) {
-  closeModal($('#loginModal')); renderHeader();
+  closeModal($('#loginModal')); renderHeader(); chatSubscribe(); loadConvs().catch(() => {});
   await refresh().catch(() => {}); renderAll(); await loadMe().catch(() => {});
   if (fromForm) toast(t(fromForm === 'signup' ? 'tSignedUp' : 'tLoggedIn'));
   const next = pendingAfterLogin; pendingAfterLogin = null; if (next) next();
 }
 
 /* ---------- helpers ---------- */
-function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); renderMe(); renderAdmin(); }
+function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); renderMe(); renderAdmin(); if (!$('#view-chat').hidden) { renderConvList(); renderThread(); } }
 function show(sel) { $$('.modal').forEach(m => m.hidden = true); $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
 function closeModal(m) { if (!m) return; m.hidden = true; if (m.id === 'docModal') curDoc = null; if ($$('.modal').every(x => x.hidden)) document.body.style.overflow = ''; }
 function hideAll() { $$('.modal').forEach(m => m.hidden = true); document.body.style.overflow = ''; }
@@ -911,13 +972,16 @@ let tt; function toast(msg) { const el = $('#toast'); el.textContent = msg; el.h
 function go(view) {
   if (view === 'me' && !loggedIn()) { pendingAfterLogin = () => go('me'); return openLogin(); }
   if (view === 'admin' && !Auth.isAdmin) view = 'market';
+  if (view === 'chat' && !loggedIn()) { pendingAfterLogin = () => go('chat'); return openLogin(); }
   $$('.view').forEach(v => v.hidden = v.id !== 'view-' + view);
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
-  $('#meBtn').classList.toggle('active', view === 'me'); $('#adminBtn').classList.toggle('active', view === 'admin');
-  const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr', me: 'post', admin: 'post' }[view]; fl.textContent = t(fl.dataset.i18n);
+  $('#meBtn').classList.toggle('active', view === 'me'); $('#adminBtn').classList.toggle('active', view === 'admin'); $('#msgBtn').classList.toggle('active', view === 'chat'); document.body.classList.toggle('in-chat', view === 'chat');
+  const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr', me: 'post', admin: 'post', chat: 'post' }[view]; fl.textContent = t(fl.dataset.i18n);
   history.replaceState(null, '', view === 'market' ? location.pathname : '#' + view); window.scrollTo(0, 0);
   if (view === 'me') loadMe().catch(e => toast(errMsg(e)));
   else if (view === 'admin') loadAdmin().catch(e => toast(errMsg(e)));
+  else if (view === 'chat') { renderConvList(); renderThread(); loadConvs().catch(e => toast(errMsg(e))); }
+  if (view !== 'chat') chat.open = null;
   else if (window.__pmReload) window.__pmReload();
 }
 const errMsg = e => {
@@ -931,6 +995,8 @@ const errMsg = e => {
   if (/pw_mismatch/.test(m)) return t('tPwMismatch');
   if (/\bbanned\b/.test(m)) { Auth.banned = true; return t('tBanned', { mail: SITE_CONFIG.contactEmail }); }
   if (/cannot_ban_admin/.test(m)) return t('aCantBanAdmin');
+  if (/own_post/.test(m)) return t('tOwnPost');
+  if (/post_unavailable/.test(m)) return t('tPostGone');
   if (/not_admin/.test(m)) return t('tNotAllowed');
   if (/rate_limited/.test(m)) return t('tRate');
   if (/bad_transition/.test(m)) return t('tBadTransition');
@@ -942,6 +1008,144 @@ const errMsg = e => {
 };
 async function guard(fn) { try { await fn(); } catch (e) { console.warn(e); toast(errMsg(e)); } }
 let pendingTake = null;
+
+/* ---------- 訊息 / chat ---------- */
+const chat = { convs: [], open: null, msgs: [], urls: {}, channel: null, rtOk: false, pending: null, loading: false };
+const hhmm = ts => { const d = new Date(ts); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+const dayLabel = ts => { const d = ymd(ts); return d === ymd(Date.now()) ? t('chatToday') : d; };
+function unreadCount() { return chat.convs.filter(c => c.unread).length; }
+function renderMsgBadge() {
+  const b = $('#msgBtn'); if (!b) return;
+  b.hidden = !loggedIn();
+  const n = unreadCount(); const badge = b.querySelector('.badge');
+  badge.textContent = n > 9 ? '9+' : n; badge.hidden = !n;
+}
+async function loadConvs() { if (!loggedIn()) { chat.convs = []; return renderMsgBadge(); } chat.convs = await Api.chatList(); renderMsgBadge(); if (!$('#view-chat').hidden) renderConvList(); }
+function convThumb(c) { return c.post_thumb ? `<img src="${imgUrl(c.post_thumb)}" alt="" loading="lazy">` : `<span>${c.post_kind === 'listings' ? '🏷' : c.post_kind === 'daigou' ? '✈' : '⇪'}</span>`; }
+function renderConvList() {
+  const box = $('#convList'); if (!box) return;
+  box.innerHTML = `<h2 class="chat-h">${t('chatTitle')}</h2>` + (chat.convs.length ? chat.convs.map(c => {
+    const last = c.last_message_at ? `${c.last_sender === Auth.uid ? t('chatYou') : ''}${c.last_message === '[image]' ? t('chatImgMsg') : esc(c.last_message)}` : '';
+    return `<button class="conv ${c.id === chat.open ? 'active' : ''} ${c.unread ? 'unread' : ''}" data-conv="${c.id}">
+      <span class="conv-thumb">${convThumb(c)}</span>
+      <span class="conv-main"><span class="conv-top"><b>${esc(c.peer?.display_name || t('student'))}</b><span class="muted">${c.last_message_at ? ago(Date.parse(c.last_message_at)) : ''}</span></span>
+        <span class="conv-post">${t('kind_' + c.post_kind)} · ${esc(c.post_title)}</span>
+        <span class="conv-last">${last}</span></span>${c.unread ? '<span class="dot"></span>' : ''}</button>`;
+  }).join('') : `<p class="muted chat-empty">${t('chatEmpty')}</p>`);
+}
+function msgHtml(m, c) {
+  const mine = m.sender_id === Auth.uid;
+  const img = m.image ? (chat.urls[m.image] ? `<a href="${chat.urls[m.image]}" target="_blank" rel="noopener"><img src="${chat.urls[m.image]}" alt="${t('chatImg')}" loading="lazy"></a>` : `<span class="img-wait">${t('chatImgMsg')}</span>`) : '';
+  return `<div class="msg ${mine ? 'mine' : ''}" data-mid="${m.id}"><div class="bubble">${img}${m.body ? `<span class="txt">${esc(m.body)}</span>` : ''}</div><span class="msg-time">${hhmm(Date.parse(m.created_at))}</span></div>`;
+}
+function renderThread() {
+  const pane = $('#chatPane'); if (!pane) return;
+  const c = chat.convs.find(x => x.id === chat.open);
+  $('#chatShell').classList.toggle('has-open', !!c);
+  if (!c) { pane.innerHTML = `<div class="chat-pick muted">${t('chatPick')}</div>`; return; }
+  let html = '', lastDay = '';
+  chat.msgs.forEach(m => { const d = dayLabel(Date.parse(m.created_at)); if (d !== lastDay) { html += `<div class="day-sep"><span>${d}</span></div>`; lastDay = d; } html += msgHtml(m, c); });
+  const myLast = [...chat.msgs].reverse().find(m => m.sender_id === Auth.uid);
+  if (myLast && c.peerReadAt >= Date.parse(myLast.created_at)) html += `<div class="read-receipt">${t('chatRead')} ✓</div>`;
+  const keep = $('#chatInput')?.value || '';
+  pane.innerHTML = `<div class="chat-head">
+      <button class="link-btn chat-back" data-chatback>‹ ${t('chatBack')}</button>
+      <div class="chat-peer"><b>${esc(c.peer?.display_name || t('student'))}</b></div>
+      <button class="link-btn" data-chatreport="${c.id}">⚑ ${t('chatReport')}</button></div>
+    <button class="chat-post" data-chatpost="${c.post_kind}:${c.post_id}"><span class="conv-thumb">${convThumb(c)}</span><span><span class="muted">${t('kind_' + c.post_kind)}</span><b>${esc(c.post_title)}</b></span></button>
+    <div class="chat-msgs" id="chatMsgs">${html}</div>
+    <form class="chat-form" id="chatForm">
+      <label class="chat-img-btn" title="${t('chatImg')}">📷<input type="file" id="chatFile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*" hidden></label>
+      <div class="chat-input-wrap">${chat.pending ? `<div class="chat-preview"><img src="${chat.pending.url}" alt=""><button type="button" class="pf-rm" data-chatunpend>×</button></div>` : ''}
+        <textarea id="chatInput" rows="1" maxlength="1000" placeholder="${t('chatPh')}"></textarea></div>
+      <button class="btn btn-primary" id="chatSendBtn" type="submit">${t('chatSend')}</button></form>`;
+  $('#chatInput').value = keep;
+  const box = $('#chatMsgs'); box.scrollTop = box.scrollHeight;
+  box.querySelectorAll('img').forEach(i => i.addEventListener('load', () => { box.scrollTop = box.scrollHeight; }, { once: true }));
+}
+async function signImages(msgs) {
+  const need = msgs.filter(m => m.image && !chat.urls[m.image]).map(m => m.image);
+  if (need.length) Object.assign(chat.urls, await Api.chatSigned(need));
+}
+async function openConv(id) {
+  chat.open = id; chat.msgs = []; renderConvList(); renderThread();
+  const msgs = await Api.chatMessages(id); await signImages(msgs);
+  if (chat.open !== id) return;
+  chat.msgs = msgs; renderThread(); markRead(id);
+}
+let readTimer = null;
+function markRead(id) {
+  clearTimeout(readTimer);
+  readTimer = setTimeout(async () => {
+    if (document.hidden || chat.open !== id || $('#view-chat').hidden) return;
+    const c = chat.convs.find(x => x.id === id); if (c && c.unread) { c.unread = false; renderMsgBadge(); renderConvList(); }
+    await Api.chatRead(id).catch(() => {});
+  }, 300);
+}
+async function pullNew() {  // polling fallback + catch-up
+  if (!chat.open) return;
+  const after = chat.msgs.length ? chat.msgs[chat.msgs.length - 1].id : 0;
+  const fresh = await Api.chatMessages(chat.open, after); if (!fresh.length) return;
+  await signImages(fresh); fresh.forEach(m => { if (!chat.msgs.some(x => x.id === m.id)) chat.msgs.push(m); });
+  renderThread(); markRead(chat.open);
+}
+async function onRealtimeMessage(m) {
+  if (m.conversation_id === chat.open && !$('#view-chat').hidden) {
+    if (!chat.msgs.some(x => x.id === m.id)) { await signImages([m]); chat.msgs.push(m); chat.msgs.sort((a, b) => a.id - b.id); renderThread(); }
+    markRead(m.conversation_id);
+  }
+  loadConvs().catch(() => {});
+}
+function chatSubscribe() {
+  chatUnsubscribe(); if (!loggedIn()) return;
+  chat.channel = sb.channel('pm-chat-' + Auth.uid)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => onRealtimeMessage(p.new))
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'conversations' }, p => {
+      const c = chat.convs.find(x => x.id === p.new.id);
+      if (c) { const before = c.peerReadAt; loadConvs().then(() => { const n = chat.convs.find(x => x.id === p.new.id); if (n && n.peerReadAt !== before && chat.open === n.id) renderThread(); }).catch(() => {}); }
+      else loadConvs().catch(() => {});
+    })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'conversations' }, () => loadConvs().catch(() => {}))
+    .subscribe(st => { chat.rtOk = st === 'SUBSCRIBED'; document.documentElement.dataset.rt = st; });
+}
+function chatUnsubscribe() { if (chat.channel) { sb.removeChannel(chat.channel); chat.channel = null; chat.rtOk = false; } }
+async function startChat(k, id) {
+  if (needLogin(() => startChat(k, id))) return;
+  if (bannedStop()) return;
+  const x = findPost(k, id); if (x?.mine) return toast(t('tOwnPost'));
+  const conv = await Api.chatOpen(COL[k], id);
+  hideAll(); go('chat'); await loadConvs(); await openConv(conv);
+  setTimeout(() => $('#chatInput')?.focus(), 50);
+}
+async function sendChat() {
+  const input = $('#chatInput'), body = input.value.trim(), pend = chat.pending, id = chat.open;
+  if (!id || (!body && !pend) || chat.loading) return;
+  if (body.length > 1000) return toast(t('tChatTooLong'));
+  chat.loading = true; $('#chatSendBtn').disabled = true;
+  try {
+    const m = await Api.chatSend(id, body, pend?.blob);
+    input.value = ''; if (pend) { URL.revokeObjectURL(pend.url); chat.pending = null; }
+    await signImages([m]); if (!chat.msgs.some(x => x.id === m.id)) chat.msgs.push(m);
+    renderThread(); loadConvs().catch(() => {});
+  } catch (e) { toast(errMsg(e)); }
+  chat.loading = false; const b = $('#chatSendBtn'); if (b) b.disabled = false; $('#chatInput')?.focus();
+}
+function openChatPost(kind, id) {
+  const k = KEY[kind], x = findPost(k, id);
+  if (kind === 'listings' && x) return openDetail(id);
+  if (!x) return toast(t('tPostGone'));
+  go(kind === 'daigou' ? 'daigou' : 'errands');
+  setTimeout(() => { const el = document.querySelector(`[data-report="${k}:${id}"]`)?.closest('.req'); if (el) { el.scrollIntoView({ block: 'center' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600); } }, 300);
+}
+async function openAdminChat(conv) {
+  const msgs = await Api.adminChat(conv);
+  const urls = msgs.some(m => m.image) ? await Api.chatSigned(msgs.filter(m => m.image).map(m => m.image)) : {};
+  const senders = [...new Map(msgs.map(m => [m.sender_id, m.sender_name])).entries()];
+  $('#detailBody').innerHTML = `<h3 class="d-title">🛡 ${t('aChatTitle')}</h3>
+    <div class="adm-chat">${msgs.map(m => `<div class="adm-msg"><span class="muted">${ymd(Date.parse(m.created_at))} ${hhmm(Date.parse(m.created_at))}</span> <b>${esc(m.sender_name || '?')}</b>：${esc(m.body)}${m.image && urls[m.image] ? `<br><img src="${urls[m.image]}" alt="">` : ''}</div>`).join('') || '—'}</div>
+    <div class="admin-bar"><span>🛡 ${t('aAdminBar')}</span>${senders.map(([uid, name]) => `<button class="link-btn danger" data-aban="${uid}:1:${esc(name || '')}">${t('aBanUser', { name: esc(name || uid.slice(0, 8)) })}</button>`).join('')}</div>`;
+  show('#detailModal');
+}
 
 /* ---------- 管理 / admin panel (UI only; the database enforces admin rights) ---------- */
 const adminState = { tab: 'open', data: null };
@@ -958,16 +1162,17 @@ function renderAdmin() {
   if (adminState.tab === 'open' || adminState.tab === 'handled') {
     const list = adminState.tab === 'open' ? open : done;
     body = list.length ? list.map(r => {
-      const x = D.posts[r.target_id], k = KEY[r.target_kind];
+      const x = D.posts[r.target_id], k = KEY[r.target_kind], isChat = r.target_kind === 'chat';
       const poster = x ? `${esc(x.owner?.display_name || t('student'))}${banned.has(x.userId) ? ` <span class="pill st-cancelled">${t('aBannedTag')}</span>` : ''}` : '—';
       return `<div class="adm-row">
         <div class="me-top"><span class="tag">${t('kind_' + r.target_kind)}</span><span class="pill st-taken">${t('rr_' + r.reason)}</span>
-          ${x ? `<span class="pill st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="pill st-hidden">${t('aHiddenTag')}</span>` : ''}` : `<span class="pill st-removed">${t('aPostGone')}</span>`}
+          ${isChat ? '' : x ? `<span class="pill st-${x.status}">${t('st_' + x.status)}</span>${x.hidden ? `<span class="pill st-hidden">${t('aHiddenTag')}</span>` : ''}` : `<span class="pill st-removed">${t('aPostGone')}</span>`}
           <span class="muted">${ago(Date.parse(r.created_at))}</span></div>
         <div class="me-title">${esc(x ? postLabel(x) : r.target_title || '')}</div>
         ${r.note ? `<div class="me-sub">${t('aNote')}：${esc(r.note)}</div>` : ''}
-        <div class="me-sub">${t('aPoster')}：<b>${poster}</b> · ${t('aReporter')}：${r.reporter_id ? esc(r.reporter_id.slice(0, 8)) : t('aAnon')}</div>
+        <div class="me-sub">${isChat ? '' : `${t('aPoster')}：<b>${poster}</b> · `}${t('aReporter')}：${r.reporter_id ? esc(r.reporter_id.slice(0, 8)) : t('aAnon')}</div>
         <div class="me-actions">
+          ${isChat ? `<button class="btn btn-ghost btn-sm" data-achat="${r.target_id}">💬 ${t('aViewChat')}</button>` : ''}
           ${x ? `<button class="btn btn-ghost btn-sm" data-aview="${k}:${x.id}">${t('aView')}</button>
           <button class="btn btn-ghost btn-sm" data-ahide="${k}:${x.id}:${x.hidden ? 0 : 1}">${t(x.hidden ? 'aUnhide' : 'aHide')}</button>
           <button class="btn btn-ghost btn-sm danger" data-adel="${k}:${x.id}">${t('aDelete')}</button>
@@ -1009,7 +1214,7 @@ async function adminAfter(msg) {
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],[data-atab],[data-aview],[data-ahide],[data-adel],[data-aban],[data-arep],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-hall],[data-st],[data-edit],[data-release],[data-gimg],[data-tab],[data-pwtoggle],[data-atab],[data-aview],[data-ahide],[data-adel],[data-aban],[data-arep],[data-chat],[data-conv],[data-chatback],[data-chatreport],[data-chatpost],[data-chatunpend],[data-achat],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
@@ -1038,13 +1243,26 @@ document.addEventListener('click', async e => {
   }
   else if (d.copy) { navigator.clipboard?.writeText(d.copy).catch(() => {}); toast(t('tCopied') + d.copy); }
   else if (d.action === 'login') openLogin();
-  else if (d.action === 'logout') guard(async () => { await Auth.signOut(); my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tLoggedOut')); });
+  else if (d.action === 'logout') guard(async () => { chatUnsubscribe(); chat.convs = []; chat.open = null; await Auth.signOut(); my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tLoggedOut')); });
   else if (d.action === 'delacc') {
     if (!confirm(t('delAccConfirm'))) return;
-    guard(async () => { await Auth.deleteAccount(); my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tAccDeleted')); });
+    guard(async () => { chatUnsubscribe(); await Auth.deleteAccount(); chat.convs = []; chat.open = null; my = { posts: [], taken: [] }; go('market'); await refresh(); renderHeader(); renderAll(); toast(t('tAccDeleted')); });
   }
   else if (d.tab) setLoginTab(d.tab);
   else if (d.atab) { adminState.tab = d.atab; renderAdmin(); }
+  else if (d.chat) { const [k, id] = d.chat.split(':'); guard(() => startChat(k, id)); }
+  else if (d.conv) guard(() => openConv(d.conv));
+  else if (el.hasAttribute('data-chatback')) { chat.open = null; renderConvList(); renderThread(); }
+  else if (d.chatpost) { const [kind, id] = d.chatpost.split(':'); openChatPost(kind, id); }
+  else if (el.hasAttribute('data-chatunpend')) { URL.revokeObjectURL(chat.pending.url); chat.pending = null; renderThread(); }
+  else if (d.chatreport) {
+    const c = chat.convs.find(x => x.id === d.chatreport); if (!c) return;
+    reportTarget = { kind: 'c', id: c.id, title: c.post_title };
+    $('#reportReason').innerHTML = REPORT_REASONS.map(r => `<option value="${r}">${t('rr_' + r)}</option>`).join('');
+    $('#reportTarget').textContent = t('chatReportTitle') + ' — ' + t('chatReportNote');
+    show('#reportModal');
+  }
+  else if (d.achat) guard(() => openAdminChat(d.achat));
   else if (d.aview) { const [k, id] = d.aview.split(':'); guard(async () => { const x = await Api.adminGet(COL[k], id); x ? openAdminDetail(x) : toast(t('aPostGone')); }); }
   else if (d.ahide) { const [k, id, h] = d.ahide.split(':'); guard(async () => { await Api.adminHide(COL[k], id, h === '1'); hideAll(); await adminAfter(t(h === '1' ? 'tHidden' : 'tUnhidden')); }); }
   else if (d.adel) { const [k, id] = d.adel.split(':'); if (!confirm(t('aDelConfirm'))) return; guard(async () => { await Api.adminDelete(COL[k], id); hideAll(); await adminAfter(t('tAdminDeleted')); }); }
@@ -1068,16 +1286,25 @@ document.addEventListener('click', async e => {
   }
   else if (el.classList.contains('card')) openDetail(d.id);
 });
+document.addEventListener('submit', e => { if (e.target.id === 'chatForm') { e.preventDefault(); sendChat(); } });
+document.addEventListener('keydown', e => { if (e.target.id === 'chatInput' && e.key === 'Enter' && !e.shiftKey && !e.isComposing && matchMedia('(min-width: 720px)').matches) { e.preventDefault(); sendChat(); } });
+document.addEventListener('change', async e => {
+  if (e.target.id !== 'chatFile') return; const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  if (!/^image\//.test(f.type)) return toast(t('tNotImage'));
+  try { const blob = await compressImage(f); if (chat.pending) URL.revokeObjectURL(chat.pending.url); chat.pending = { blob, url: URL.createObjectURL(blob) }; renderThread(); }
+  catch (err) { toast(t(err.message === 'too_large' ? 'tTooLarge' : 'tNotImage')); }
+});
+document.addEventListener('visibilitychange', () => { if (!document.hidden && chat.open) { pullNew().catch(() => {}); markRead(chat.open); } });
 $('#takeForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)), pt = pendingTake || {};
   localStorage.setItem(LS_TAKER, JSON.stringify({ ctype: f.ctype, contact: f.contact.trim() }));
-  try { await Api.take(COL[pt.kind], pt.id, f.ctype, f.contact.trim()); } catch (err) { await refresh(COL[pt.kind]).catch(() => {}); renderAll(); return toast(errMsg(err)); }
+  try { await Api.take(COL[pt.kind], pt.id, f.ctype, (f.contact || '').trim()); } catch (err) { await refresh(COL[pt.kind]).catch(() => {}); renderAll(); return toast(errMsg(err)); }
   hideAll(); await refresh(COL[pt.kind], 'mine').catch(() => {}); renderAll(); toast(t('tTaken'));
 });
 $('#reportForm').addEventListener('submit', async e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
-  try { await Api.report({ target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note }); } catch (err) { return toast(errMsg(err)); }
-  e.target.reset(); closeModal($('#reportModal')); toast(t('tReported'));
+  try { reportTarget.kind === 'c' ? await Api.chatReport(reportTarget.id, f.reason, f.note) : await Api.report({ target_kind: COL[reportTarget.kind], target_id: reportTarget.id, target_title: reportTarget.title, reason: f.reason, note: f.note }); } catch (err) { return toast(errMsg(err)); }
+  const wasChat = reportTarget.kind === 'c'; e.target.reset(); closeModal($('#reportModal')); toast(t(wasChat ? 'tChatReported' : 'tReported'));
 });
 document.addEventListener('submit', async e => {
   if (e.target.id !== 'pwForm') return; e.preventDefault();
@@ -1096,6 +1323,7 @@ $('#searchForm').addEventListener('submit', e => { e.preventDefault(); state.q =
 $('#q').addEventListener('input', e => { state.q = e.target.value; renderGrid(); });
 $('#sort').addEventListener('change', e => { state.sort = e.target.value; renderGrid(); });
 $('#meBtn').onclick = () => go('me');
+$('#msgBtn').onclick = () => go('chat');
 $('#openPost').onclick = () => openForm(!$('#view-daigou').hidden ? 'daigou' : !$('#view-errands').hidden ? 'errands' : 'listings');
 $('#openErr').onclick = () => openForm('errands');
 $('#openReq').onclick = () => openForm('daigou');
@@ -1118,7 +1346,11 @@ $('#errForm').addEventListener('submit', e => submitForm('errands', e));
   document.addEventListener('visibilitychange', live);
   setInterval(live, 60000);
   window.__pmReload = live;
-  const fromHash = () => { const h = location.hash.slice(1); if (['market', 'daigou', 'errands', 'me', 'admin'].includes(h)) go(h); else if (!h) go('market'); };
+  if (loggedIn()) { chatSubscribe(); loadConvs().catch(() => {}); }
+  // fallback polling when Realtime isn't connected (and a slow safety net when it is)
+  setInterval(() => { if (loggedIn() && !document.hidden && !chat.rtOk) { pullNew().catch(() => {}); loadConvs().catch(() => {}); } }, 4000);
+  setInterval(() => { if (loggedIn() && !document.hidden) { loadConvs().catch(() => {}); if (chat.open) pullNew().catch(() => {}); } }, 60000);
+  const fromHash = () => { const h = location.hash.slice(1); if (['market', 'daigou', 'errands', 'me', 'admin', 'chat'].includes(h)) go(h); else if (!h) go('market'); };
   if (location.hash) fromHash();
   window.addEventListener('hashchange', fromHash);
 })();

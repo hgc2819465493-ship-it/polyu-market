@@ -8,4 +8,5 @@ select cron.schedule('pm_retention', '30 19 * * *', $$
   delete from public.listings where created_at < now() - interval '180 days' or (status in ('sold','removed') and updated_at < now() - interval '60 days');
   delete from public.reports  where created_at < now() - interval '365 days';
   delete from public.mod_log  where created_at < now() - interval '365 days';
+  delete from public.conversations where coalesce(last_message_at, created_at) < now() - interval '180 days';
 $$);
