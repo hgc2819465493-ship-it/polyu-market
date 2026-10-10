@@ -105,18 +105,19 @@ const DOCS = {
     prohibited: () => `<h3>禁售清單</h3><p>以下物品或服務<b>不得</b>放售，亦不得透過代購要求：</p>` + ul([
       '電子煙、加熱煙及其配件', '煙草產品及酒類', '藥物，包括處方藥物及受管制藥物', '假冒或侵犯商標的貨品',
       '盜版或影印教科書、翻版及破解軟件、序號或帳號', '武器、仿製武器、攻擊性物品及其他受管制物品',
-      '學生證、校園帳戶、Wi-Fi 帳戶或任何身份證明文件的轉讓或借用', '任何違反香港法律或內地海關規定的物品']) +
+      '學生證、校園帳戶、Wi-Fi 帳戶或任何身份證明文件的轉讓或借用', '未經收件人授權代領他人包裹', '任何違反香港法律或內地海關規定的物品']) +
       `<p class="muted small">違規內容會被移除，有關帳戶可被禁止使用本網站。</p>`,
     terms: () => `<h3>使用條款</h3>` + ul([
       '本網站只提供資訊發佈平台，<b>並不參與、促成或保證任何交易</b>，亦不代收或代付任何款項。',
       '買賣雙方及代購雙方須自行核實物品、身份及付款安排，並自行承擔交易風險。',
       '你須確保發佈的內容真實、合法，不涉及<a href="#" data-doc="prohibited">禁售清單</a>所列物品，亦不侵犯他人權利。',
       '代購須遵守香港及內地（或相關地區）海關、進出口及稅務規定，包括攜帶限額及申報要求。',
+      '宿舍跑腳只屬同學之間的互助安排：取件碼須私下傳送；跑腳費由雙方自行協定及直接交收，本網站不收取任何費用，亦不處理任何付款或爭議。',
       '我們可在毋須通知的情況下移除任何內容或暫停任何使用者。',
       '使用本網站即表示你同意本條款、<a href="#" data-doc="privacy">私隱政策</a>及<a href="#" data-doc="disclaimer">免責聲明</a>。']),
     privacy: () => `<h3>私隱政策及收集個人資料聲明</h3>
       <p class="muted small">根據《個人資料（私隱）條例》（第 486 章）</p>
-      <h4>收集的資料</h4><p>物品或代購資料，以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）。請勿提供不必要的個人資料。</p>
+      <h4>收集的資料</h4><p>物品、代購或跑腳資料（只需宿舍及座數 / 樓層，毋須完整房號），以及你自願提供的聯絡方式（WhatsApp / WeChat / Instagram 帳號或電話）。請勿提供不必要的個人資料。</p>
       <h4>收集目的</h4><p>只用作在網站上公開顯示你的放售或代購資料，讓其他使用者聯絡你，以及處理舉報及維護網站安全。我們不會將資料作直接促銷或出售予第三方。</p>
       <h4>公開及轉移</h4><p>你的聯絡方式會公開顯示予網站訪客。除法律要求外，我們不會向第三方披露你的資料。</p>
       <h4>保留期限</h4><p>現階段原型版本的資料只儲存在你自己的瀏覽器內，不會上載至伺服器。日後正式版本中，資料會在物品下架或需求完成後 30 日內刪除。</p>
@@ -126,6 +127,7 @@ const DOCS = {
       <li><b>不作任何保證。</b>本網站不就任何物品的質素、合法性、真偽、安全性、狀況或描述是否準確，以及任何使用者的身份、資格或可靠程度作出任何明示或隱含的保證或陳述。</li>
       <li><b>使用者自行負責。</b>使用者須就其發佈的內容、交易、會面交收、付款安排，以及代購涉及的海關、進出口、稅務及其他法律規定，自行負上全部責任並承擔所有風險。</li>
       <li><b>責任限制。</b>對於因使用或無法使用本網站，或因任何交易、會面、內容而引致的任何損失或損害，包括但不限於金錢損失、財物損毀、詐騙、人身傷害、資料遺失、服務中斷或停止運作，本網站及其營運者概不負責。</li>
+      <li><b>宿舍跑腳。</b>跑腳安排純屬使用者之間的私人協議。對於任何包裹或外賣的遺失、損毀、延誤、錯誤交付，食物的安全、衛生、致敏原或品質問題，以及使用者之間有關跑腳費或其他付款的任何爭議，本網站概不負責。</li>
       <li><b>使用者內容。</b>網站上的所有放售及代購內容均由使用者提供，並不代表本網站的立場，本網站亦不作任何認可。</li>
       <li><b>移除內容。</b>本網站可隨時在毋須通知或給予理由的情況下，移除任何內容或禁止任何使用者使用本網站。</li>
       <li><b>彌償。</b>如因你違反本聲明、使用條款或任何法律，或因你的內容或交易而引致任何第三方索償，你同意就此向本網站營運者作出彌償，並使其免受損害。</li>
@@ -144,18 +146,19 @@ const DOCS = {
     prohibited: () => `<h3>Prohibited items</h3><p>The following may <b>not</b> be listed or requested:</p>` + ul([
       'E-cigarettes, heated tobacco products and their accessories', 'Tobacco products and alcohol', 'Medicines, including prescription and controlled drugs', 'Counterfeit or trademark-infringing goods',
       'Pirated or photocopied textbooks, cracked software, licence keys or accounts', 'Weapons, imitation weapons, offensive or other controlled items',
-      'Transfer or lending of student IDs, campus / Wi-Fi accounts or any identity documents', 'Anything that breaches Hong Kong law or Mainland customs rules']) +
+      'Transfer or lending of student IDs, campus / Wi-Fi accounts or any identity documents', 'Collecting someone else\u2019s parcel without the recipient\u2019s authorisation', 'Anything that breaches Hong Kong law or Mainland customs rules']) +
       `<p class="muted small">Violating content will be removed and the user may be barred from the site.</p>`,
     terms: () => `<h3>Terms of use</h3>` + ul([
       'This site only hosts information. It <b>does not take part in, arrange or guarantee any transaction</b>, and never handles payments.',
       'Buyers, sellers and requesters must verify items, identities and payment arrangements themselves and bear all transaction risks.',
       'Your content must be truthful and lawful, must not involve <a href="#" data-doc="prohibited">prohibited items</a>, and must not infringe anyone\u2019s rights.',
       'Purchase-on-behalf requests must comply with Hong Kong and Mainland (or other relevant) customs, import/export and tax rules, including allowances and declarations.',
+      'Hall errands are informal favours between students: share pickup codes privately only; runner fees are agreed and paid directly between users — the site charges nothing and does not handle payments or disputes.',
       'We may remove any content or suspend any user without notice.',
       'By using the site you agree to these terms, the <a href="#" data-doc="privacy">Privacy policy</a> and the <a href="#" data-doc="disclaimer">Disclaimer</a>.']),
     privacy: () => `<h3>Privacy policy & Personal Information Collection Statement</h3>
       <p class="muted small">Under the Personal Data (Privacy) Ordinance (Cap. 486)</p>
-      <h4>What we collect</h4><p>Item or request details, and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone). Please don\u2019t share more personal data than needed.</p>
+      <h4>What we collect</h4><p>Item, request or errand details (hall and block/floor only — no full room number needed), and the contact you choose to provide (WhatsApp / WeChat / Instagram handle or phone). Please don\u2019t share more personal data than needed.</p>
       <h4>Purpose</h4><p>Solely to display your listing or request publicly so others can contact you, and to handle reports and keep the site safe. We never use it for direct marketing or sell it to third parties.</p>
       <h4>Disclosure</h4><p>Your contact is shown publicly to site visitors. We do not disclose your data to third parties except as required by law.</p>
       <h4>Retention</h4><p>In this prototype, data stays only in your own browser and is never uploaded. In a future live version, data will be deleted within 30 days after an item is removed or a request is completed.</p>
@@ -165,6 +168,7 @@ const DOCS = {
       <li><b>No warranties.</b> The Site makes no express or implied warranty or representation as to the quality, legality, authenticity, safety, condition or accuracy of description of any item, or the identity, capacity or reliability of any user.</li>
       <li><b>User responsibility.</b> Users are solely responsible for, and bear all risks of, their content, transactions, meet-ups, payment arrangements and compliance with customs, import/export, tax and other legal requirements for purchase-on-behalf.</li>
       <li><b>Limitation of liability.</b> The Site and its operator shall not be liable for any loss or damage arising from the use of or inability to use the Site, or from any transaction, meeting or content, including without limitation financial loss, property damage, fraud, personal injury, data loss, downtime or discontinuation of service.</li>
+      <li><b>Hall errands.</b> Errand arrangements are private agreements between users. The Site is not responsible for any lost, damaged, delayed or misdelivered parcel or food order, for food safety, hygiene, allergen or quality issues, or for any dispute between users over runner fees or other payments.</li>
       <li><b>User-generated content.</b> All listings and requests are provided by users and are not endorsed by, nor do they represent the views of, the Site.</li>
       <li><b>Removal.</b> The Site may remove any content or bar any user at any time, without notice or reason.</li>
       <li><b>Indemnity.</b> You agree to indemnify and hold harmless the Site\u2019s operator against any third-party claim arising from your breach of this Disclaimer, the Terms of use or any law, or from your content or transactions.</li>
@@ -181,8 +185,8 @@ function openDoc(k) { curDoc = k; $('#docBody').innerHTML = DOCS[lang][k](); $('
 const scamHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('scamTitle')}</b>${lang === 'zh' ? '：' : ': '}${t('scamBody')}<a href="${SCAMETER}" target="_blank" rel="noopener">${t('scamLink')}</a>${t('scamTail')}</p></div>`;
 let reportTarget = null;
 function openReport(kind, id) {
-  const it = kind === 'l' ? listings.find(x => x.id === id) : requests.find(x => x.id === id); if (!it) return;
-  reportTarget = { kind, id, title: it.title || it.item };
+  const it = (kind === 'l' ? listings : kind === 'e' ? errands : requests).find(x => x.id === id); if (!it) return;
+  reportTarget = { kind, id, title: it.title || it.item || (t('type_' + it.type) + ' · ' + it.pickup) };
   $('#reportReason').innerHTML = REPORT_REASONS.map(r => `<option value="${r}">${t('rr_' + r)}</option>`).join('');
   $('#reportTarget').textContent = t('reportTarget', { x: reportTarget.title });
   $('#reportContact').innerHTML = t('reportMail') + mail('complaintsEmail');
@@ -241,6 +245,11 @@ function applyLang() {
   $('#reqFrom').innerHTML = REGIONS.map(r => `<option value="${r}">${t('reg_' + r)}</option>`).join('');
   if (cat) $('#postCat').value = cat; $('#postCond').value = cond; if (spot) $('#postSpot').value = spot; if (from) $('#reqFrom').value = from;
   $('#reqForm [name=deadline]').min = ymd(Date.now());
+  const et = $('#errType').value, eh = $('#errHall').value;
+  $('#errType').innerHTML = ER_TYPES.map(x => `<option value="${x}">${t('type_' + x)}</option>`).join('');
+  $('#errHall').innerHTML = HALLS.map(h => `<option value="${h}">${t('hall_' + h)}</option>`).join('');
+  if (et) $('#errType').value = et; if (eh) $('#errHall').value = eh;
+  $('#errForm [name=date]').min = ymd(Date.now());
   renderAll();
   if (!$('#docModal').hidden && curDoc) openDoc(curDoc);
 }
@@ -318,8 +327,80 @@ function renderDg() {
   }).join('');
 }
 
+/* ---------- hall errands ---------- */
+const LS_E = 'pm_errands_' + STORE_VER;
+const ER_TYPES = ['parcel', 'food'];
+const HALLS = ['hh', 'hmt', 'other'];
+Object.assign(I18N.zh, {
+  fabReq: '發佈需求', fabErr: '發佈跑腳', navErrands: '宿舍跑腳', erKicker: '宿舍跑腳 · 互助', erTitle: '快遞外賣，', erTag: '順路同學幫你攞上 hall',
+  erSub: '順豐櫃、郵件室嘅包裹，或者喺門口等緊嘅外賣，搵順路同學幫你帶上宿舍。跑腳費由你自訂，雙方直接交收，網站分文不收。',
+  postErr: '發佈跑腳單', errFormTitle: '發佈跑腳單', eType: '類型', type_all: '全部類型', type_parcel: '快遞', type_food: '外賣',
+  eFee: '跑腳費 (HKD，選填)', ePickup: '取件地點', ePickupPh: '例如：Core S 順豐智能櫃、校園郵件室、正門外賣員',
+  eHall: '送到宿舍', eFloor: '座數 / 樓層（選填）', eFloorPh: '例如：B 座 12 樓', eRoomHint: '為保障私隱，毋須填寫完整房號，接單後再私下確認。',
+  eDate: '日期', eFrom: '由', eTo: '至', eNotePh: '件數、大概大小、外賣平台……（切勿在此公開取件碼）', submitErr: '發佈跑腳單',
+  hall_all: '全部宿舍', hall_hh: '紅磡學生宿舍', hall_hmt: '何文田學生宿舍', hall_other: '其他 / 校外宿舍',
+  pickup: '取件', dropoff: '送到', window: '時間', fee: '跑腳費', feeNone: '未定 / 面議',
+  er_open: '等待接單', er_taken: '已接單', er_done: '已完成', markDone: '標記完成',
+  erTakeText: '接單後會顯示對方聯絡方法。請先私下確認取件碼及交收細節。', tErr: '跑腳單已發佈！', tDone: '已標記完成',
+  erEmptyTitle: '暫時未有跑腳單', erEmptyText: '有快遞或者外賣想人幫手攞上 hall？發佈第一張跑腳單啦。', erEmptyBtn: '發佈第一張跑腳單', erNoMatch: '呢個篩選暫時未有跑腳單。',
+  erSafeTitle: '安全提示', erSafeBody: '交收時當面核對物品；取件碼請私訊傳送，切勿公開張貼；跑腳費由雙方直接交收，網站不收取任何費用。',
+});
+Object.assign(I18N.en, {
+  fabReq: 'Post request', fabErr: 'Post errand', navErrands: 'Errands', erKicker: 'Hall Errands', erTitle: 'Parcel or takeaway?', erTag: 'Get a hallmate to bring it up',
+  erSub: 'A parcel at the SF locker or mailroom, or a delivery rider waiting at the gate — ask someone heading back to bring it to your hall. You set the runner fee and pay each other directly; the site takes nothing.',
+  postErr: 'Post an errand', errFormTitle: 'Post an errand', eType: 'Type', type_all: 'All types', type_parcel: 'Parcel', type_food: 'Food delivery',
+  eFee: 'Runner fee (HKD, optional)', ePickup: 'Pick-up location', ePickupPh: 'e.g. SF locker at Core S, campus mailroom, rider at main gate',
+  eHall: 'Deliver to hall', eFloor: 'Block / floor (optional)', eFloorPh: 'e.g. Block B, 12/F', eRoomHint: 'For privacy, no full room number needed — confirm it privately once someone takes the errand.',
+  eDate: 'Date', eFrom: 'From', eTo: 'To', eNotePh: 'Number of items, size, delivery app… (never post pickup codes here)', submitErr: 'Post errand',
+  hall_all: 'All halls', hall_hh: 'Hung Hom Halls', hall_hmt: 'Homantin Halls', hall_other: 'Other / off-campus',
+  pickup: 'Pick up', dropoff: 'Deliver to', window: 'Time', fee: 'Runner fee', feeNone: 'Not set / negotiable',
+  er_open: 'Open', er_taken: 'Taken', er_done: 'Completed', markDone: 'Mark completed',
+  erTakeText: 'Once you take it, the poster\u2019s contact will be shown. Get the pickup code and details privately.', tErr: 'Errand posted!', tDone: 'Marked as completed',
+  erEmptyTitle: 'No errands yet', erEmptyText: 'Got a parcel or takeaway you\u2019d like brought up to your hall? Post the first errand.', erEmptyBtn: 'Post the first errand', erNoMatch: 'No errands match this filter yet.',
+  erSafeTitle: 'Stay safe', erSafeBody: 'Check the item together at hand-over; send pickup codes privately, never post them publicly; runner fees are settled directly between you — the site takes nothing.',
+});
+let errands = [];
+try { const v = JSON.parse(localStorage.getItem(LS_E)); if (Array.isArray(v)) errands = v; } catch (e) {}
+const saveE = () => localStorage.setItem(LS_E, JSON.stringify(errands));
+const erState = { type: 'all', hall: 'all' };
+const safetyHtml = () => `<div class="scam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><p><b>${t('erSafeTitle')}</b>${lang === 'zh' ? '：' : ': '}${t('erSafeBody')}</p></div>`;
+const ER_ICON = { parcel: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>', food: '<path d="M5 11h14a7 7 0 0 1-14 0z"/><path d="M3 11h18M9 7c0-1.5 1-2 1-3M13 7c0-1.5 1-2 1-3"/>' };
+function renderErrands() {
+  $('#erSafety').innerHTML = safetyHtml();
+  $('#erTypes').innerHTML = ['all', ...ER_TYPES].map(x => `<button class="chip ${erState.type === x ? 'active' : ''}" data-ertype="${x}">${t('type_' + x)}</button>`).join('');
+  $('#erHallFilter').innerHTML = ['all', ...HALLS].map(h => `<option value="${h}">${t('hall_' + h)}</option>`).join(''); $('#erHallFilter').value = erState.hall;
+  const order = { open: 0, taken: 1, done: 2 };
+  const arr = errands.filter(x => (erState.type === 'all' || x.type === erState.type) && (erState.hall === 'all' || x.hall === erState.hall))
+    .sort((a, b) => order[a.status] - order[b.status] || b.t - a.t);
+  if (!arr.length) {
+    $('#errList').innerHTML = errands.length ? `<div class="empty-card">${EMPTY_ART}<p>${t('erNoMatch')}</p></div>` : emptyBlock(t('erEmptyTitle'), t('erEmptyText'), t('erEmptyBtn'), 'err');
+    return;
+  }
+  $('#errList').innerHTML = arr.map(x => {
+    const mine = x.who === '__me';
+    const right = x.status === 'open' ? `<button class="btn btn-primary" data-ertake="${x.id}">${t('take')}</button>`
+      : `<button class="btn btn-ghost" data-copy="${esc(x.contact)}">${esc(x.ctype)} · ${esc(x.contact)}</button>`;
+    return `<div class="req ${x.status === 'open' ? 'open' : 'taken'}">
+      <div class="req-top"><div class="flag er-${x.type}"><svg viewBox="0 0 24 24" aria-hidden="true">${ER_ICON[x.type]}</svg></div>
+        <div class="req-h"><h4>${t('type_' + x.type)} · ${t('hall_' + x.hall)}${x.floor ? ` <span class="muted">${esc(x.floor)}</span>` : ''}</h4>
+        <div class="req-info"><span>${esc(x.who === '__me' ? t('me') : x.who)} · ${ago(x.t)}</span></div></div></div>
+      <div class="er-grid">
+        <span>${t('pickup')}</span><b>${esc(x.pickup)}</b>
+        <span>${t('window')}</span><b>${esc(x.date)} ${esc(x.from)}–${esc(x.to)}</b>
+        <span>${t('fee')}</span><b>${x.fee ? 'HK$' + x.fee : t('feeNone')}</b>
+      </div>
+      ${x.note ? `<p class="req-note">${esc(x.note)}</p>` : ''}
+      <div class="req-foot"><span class="req-left"><span class="status ${x.status === 'open' ? 'open' : 'taken'}">${t('er_' + x.status)}</span>
+        <button class="link-btn" data-report="e:${x.id}">⚑ ${t('report')}</button>
+        ${mine && x.status !== 'done' ? `<button class="link-btn" data-erdone="${x.id}">✓ ${t('markDone')}</button>` : ''}
+        ${mine ? `<button class="link-btn" data-del="e:${x.id}">${t('del')}</button>` : ''}</span>
+        ${x.status === 'done' ? '' : right}</div>
+    </div>`;
+  }).join('');
+}
+
 /* ---------- helpers ---------- */
-function renderAll() { renderCats(); renderGrid(); renderDg(); }
+function renderAll() { renderCats(); renderGrid(); renderDg(); renderErrands(); }
 function show(sel) { $$('.modal').forEach(m => m.hidden = true); $(sel).hidden = false; document.body.style.overflow = 'hidden'; }
 function closeModal(m) { if (!m) return; m.hidden = true; if (m.id === 'docModal') curDoc = null; if ($$('.modal').every(x => x.hidden)) document.body.style.overflow = ''; }
 function hideAll() { $$('.modal').forEach(m => m.hidden = true); document.body.style.overflow = ''; }
@@ -327,19 +408,23 @@ let tt; function toast(msg) { const el = $('#toast'); el.textContent = msg; el.h
 function go(view) {
   $$('.view').forEach(v => v.hidden = v.id !== 'view-' + view);
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
-  history.replaceState(null, '', view === 'daigou' ? '#daigou' : location.pathname); window.scrollTo(0, 0);
+  const fl = $('#openPost [data-i18n]'); fl.dataset.i18n = { market: 'post', daigou: 'fabReq', errands: 'fabErr' }[view]; fl.textContent = t(fl.dataset.i18n);
+  history.replaceState(null, '', view === 'market' ? location.pathname : '#' + view); window.scrollTo(0, 0);
 }
 let pendingTake = null;
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
   if (e.target.classList.contains('modal')) return closeModal(e.target);
-  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],.card');
+  const el = e.target.closest('[data-cat],[data-dg],[data-nav],[data-close],[data-copy],[data-take],[data-lang],[data-action],[data-doc],[data-report],[data-del],[data-ertype],[data-ertake],[data-erdone],.card');
   if (!el) return;
   const d = el.dataset;
   if (d.lang) setLang(d.lang);
   else if (d.cat) { state.cat = d.cat; renderCats(); renderGrid(); }
   else if (d.dg) { state.dg = d.dg; renderDg(); }
+  else if (d.ertype) { erState.type = d.ertype; renderErrands(); }
+  else if (d.ertake) { const x = errands.find(y => y.id === d.ertake); if (!x) return; pendingTake = { kind: 'e', id: x.id }; $('#confirmText').textContent = t('erTakeText'); show('#confirmModal'); }
+  else if (d.erdone) { const x = errands.find(y => y.id === d.erdone); if (x) { x.status = 'done'; saveE(); renderErrands(); toast(t('tDone')); } }
   else if (d.nav) { e.preventDefault(); go(d.nav); }
   else if (el.hasAttribute('data-close')) closeModal(el.closest('.modal'));
   else if (d.doc) { e.preventDefault(); openDoc(d.doc); }
@@ -347,14 +432,14 @@ document.addEventListener('click', e => {
   else if (d.del) {
     const [k, id] = d.del.split(':');
     if (!confirm(t('delConfirm'))) return;
-    if (k === 'l') listings = listings.filter(x => x.id !== id); else requests = requests.filter(x => x.id !== id);
-    save(); hideAll(); renderAll(); toast(t('tDeleted'));
+    if (k === 'l') listings = listings.filter(x => x.id !== id); else if (k === 'e') errands = errands.filter(x => x.id !== id); else requests = requests.filter(x => x.id !== id);
+    save(); saveE(); hideAll(); renderAll(); toast(t('tDeleted'));
   }
   else if (d.copy) { navigator.clipboard?.writeText(d.copy).catch(() => {}); toast(t('tCopied') + d.copy); }
-  else if (d.action) show(d.action === 'post' ? '#postModal' : '#reqModal');
+  else if (d.action) show({ post: '#postModal', req: '#reqModal', err: '#errModal' }[d.action]);
   else if (d.take) {
     const r = requests.find(x => x.id === d.take); if (!r) return;
-    pendingTake = r.id; $('#confirmText').textContent = t('takeText', { item: r.item }); show('#confirmModal');
+    pendingTake = { kind: 'r', id: r.id }; $('#confirmText').textContent = t('takeText', { item: r.item }); show('#confirmModal');
   }
   else if (el.classList.contains('card')) openDetail(d.id);
 });
@@ -366,15 +451,23 @@ $('#reportForm').addEventListener('submit', e => {
   e.target.reset(); closeModal($('#reportModal')); toast(t('tReported'));
 });
 $('#confirmOk').onclick = () => {
-  const r = requests.find(x => x.id === pendingTake);
-  if (r) { r.status = 'taken'; save(); renderDg(); toast(t('tTaken')); }
+  const pt = pendingTake || {};
+  const r = (pt.kind === 'e' ? errands : requests).find(x => x.id === pt.id);
+  if (r) { r.status = 'taken'; save(); saveE(); renderDg(); renderErrands(); toast(t('tTaken')); }
   hideAll();
 };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const top = ['#docModal', '#reportModal'].map(x => $(x)).find(m => !m.hidden); top ? closeModal(top) : hideAll(); } if (e.key === 'Enter' && e.target.classList?.contains('card')) openDetail(e.target.dataset.id); });
 $('#searchForm').addEventListener('submit', e => { e.preventDefault(); state.q = $('#q').value; renderGrid(); $('#cats').scrollIntoView({ behavior: 'smooth' }); });
 $('#q').addEventListener('input', e => { state.q = e.target.value; renderGrid(); });
 $('#sort').addEventListener('change', e => { state.sort = e.target.value; renderGrid(); });
-$('#openPost').onclick = () => show($('#view-daigou').hidden ? '#postModal' : '#reqModal');
+$('#openPost').onclick = () => show(!$('#view-daigou').hidden ? '#reqModal' : !$('#view-errands').hidden ? '#errModal' : '#postModal');
+$('#openErr').onclick = () => show('#errModal');
+$('#erHallFilter').addEventListener('change', e => { erState.hall = e.target.value; renderErrands(); });
+$('#errForm').addEventListener('submit', e => {
+  e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+  errands.unshift({ id: 'e' + Date.now(), type: f.type, pickup: f.pickup.trim(), hall: f.hall, floor: f.floor.trim(), date: f.date, from: f.from, to: f.to, fee: +f.fee || 0, note: f.note.trim(), ctype: f.ctype, contact: f.contact.trim(), who: '__me', status: 'open', t: Date.now() });
+  saveE(); e.target.reset(); applyLang(); hideAll(); erState.type = 'all'; erState.hall = 'all'; renderErrands(); toast(t('tErr'));
+});
 $('#openReq').onclick = () => show('#reqModal');
 $('#postForm').addEventListener('submit', e => {
   e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
@@ -388,4 +481,4 @@ $('#reqForm').addEventListener('submit', e => {
 });
 
 applyLang();
-if (location.hash === '#daigou') go('daigou');
+if (['#daigou', '#errands'].includes(location.hash)) go(location.hash.slice(1));

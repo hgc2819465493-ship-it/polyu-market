@@ -167,3 +167,24 @@ a{color:var(--red)}
 .doc ul,.doc ol{padding-left:20px;margin:6px 0 12px}
 .doc li{margin-bottom:7px}
 .doc .note{background:var(--red-l);color:var(--red-d);border-radius:10px;padding:10px 12px;font-size:13.5px}
+/* hall errands */
+.hero-er{background:radial-gradient(900px 420px at 90% -10%,rgba(201,164,92,.35),transparent 60%),linear-gradient(140deg,#6b1a2a,#2e0a12)}
+.er-filters{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.er-filters .cats{flex:1;min-width:0}
+.er-filters select{border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:#fff;font-size:14px;margin-top:16px}
+.flag svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.flag.er-food{background:#fdf1e4;color:#b45309}
+.er-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.er-grid span{color:var(--sub)}
+.er-grid b{font-weight:600}
+.form .row3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px}
+.form .hint{margin:-6px 0 0;font-size:12px;color:var(--sub)}
+@media (max-width:560px){
+  .logo-text{display:none}
+  .nav{margin-left:auto}
+  .nav-btn{padding:6px 9px}
+}
+@media (max-width:560px){
+  .er-filters{display:block}
+  .er-filters select{width:100%;margin-top:6px}
+}

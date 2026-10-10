@@ -1,7 +1,7 @@
 # 理大二手網 · PolyU Marketplace (prototype)
 
-純靜態網站（HTML / CSS / JS），資料儲存在瀏覽器 localStorage，暫時毋須後端。
-Static site (HTML / CSS / JS). Data is stored in the browser's localStorage; no backend yet.
+二手市場、代購、宿舍跑腳。純靜態網站（HTML / CSS / JS），資料儲存在瀏覽器 localStorage，暫時毋須後端。
+Market, purchase-on-behalf requests and hall errands. Static site (HTML / CSS / JS). Data is stored in the browser's localStorage; no backend yet.
 
 ## 本地運行 / Run locally
     cd polyu-market

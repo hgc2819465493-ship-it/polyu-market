@@ -15,6 +15,7 @@
     <nav class="nav">
       <button class="nav-btn active" data-nav="market" data-i18n="navMarket"></button>
       <button class="nav-btn" data-nav="daigou" data-i18n="navDaigou"></button>
+      <button class="nav-btn" data-nav="errands" data-i18n="navErrands"></button>
     </nav>
     <div class="lang" role="group" aria-label="Language">
       <button data-lang="zh">繁</button><button data-lang="en">EN</button>
@@ -69,6 +70,24 @@
     <div class="scam-tip" id="dgScam"></div>
     <div class="cats" id="dgFilters"></div>
     <div class="req-list" id="reqList"></div>
+  </div>
+</section>
+<section id="view-errands" class="view" hidden>
+  <div class="hero hero-er">
+    <div class="wrap hero-in">
+      <p class="hero-kicker" data-i18n="erKicker"></p>
+      <h1><span data-i18n="erTitle"></span><em data-i18n="erTag"></em></h1>
+      <p class="hero-sub" data-i18n="erSub"></p>
+      <button class="btn btn-light" id="openErr"><span class="plus">＋</span><span data-i18n="postErr"></span></button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="scam-tip" id="erSafety"></div>
+    <div class="er-filters">
+      <div class="cats" id="erTypes"></div>
+      <select id="erHallFilter" aria-label="hall"></select>
+    </div>
+    <div class="req-list" id="errList"></div>
   </div>
 </section>
 </main>
@@ -138,6 +157,40 @@
         <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
       </div>
       <button class="btn btn-primary btn-block" type="submit" data-i18n="submitReq"></button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="errModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="close">&times;</button>
+    <h3 data-i18n="errFormTitle"></h3>
+    <form id="errForm" class="form">
+      <div class="row">
+        <label><span data-i18n="eType"></span><select name="type" id="errType"></select></label>
+        <label><span data-i18n="eFee"></span><input name="fee" type="number" min="0" placeholder="20"></label>
+      </div>
+      <label><span data-i18n="ePickup"></span><input name="pickup" required maxlength="60" data-i18n-ph="ePickupPh"></label>
+      <div class="row">
+        <label><span data-i18n="eHall"></span><select name="hall" id="errHall"></select></label>
+        <label><span data-i18n="eFloor"></span><input name="floor" maxlength="20" data-i18n-ph="eFloorPh"></label>
+      </div>
+      <p class="hint" data-i18n="eRoomHint"></p>
+      <div class="row3">
+        <label><span data-i18n="eDate"></span><input name="date" type="date" required></label>
+        <label><span data-i18n="eFrom"></span><input name="from" type="time" required></label>
+        <label><span data-i18n="eTo"></span><input name="to" type="time" required></label>
+      </div>
+      <label><span data-i18n="rNote"></span><textarea name="note" rows="2" maxlength="200" data-i18n-ph="eNotePh"></textarea></label>
+      <div class="row">
+        <label><span data-i18n="fCtype"></span><select name="ctype"><option>WhatsApp</option><option>WeChat</option><option>Instagram</option></select></label>
+        <label><span data-i18n="fContact"></span><input name="contact" required data-i18n-ph="fContactPh"></label>
+      </div>
+      <div class="consent">
+        <p class="pics"><span data-i18n="picsShort"></span> <a href="#" data-doc="privacy" data-i18n="docPrivacy"></a></p>
+        <label class="check"><input type="checkbox" name="agree" required> <span><span data-i18n="agreeA"></span><a href="#" data-doc="prohibited" data-i18n="docProhibited"></a><span data-i18n="agreeB"></span><a href="#" data-doc="terms" data-i18n="docTerms"></a><span data-i18n="agreeAnd"></span><a href="#" data-doc="disclaimer" data-i18n="docDisclaimer"></a><span data-i18n="agreeC"></span></span></label>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" data-i18n="submitErr"></button>
     </form>
   </div>
 </div>
